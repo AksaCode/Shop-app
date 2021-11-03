@@ -4,3 +4,4 @@ export default {
     backgroundDefaultColor: 'white'
 
 };
+
