@@ -5,19 +5,19 @@ import { Provider } from 'react-redux';
 
 import productsReducer from './store/reducer/products';
 
-const rootReducer = combineReducers(
-{
+const rootReducer = combineReducers({
   products: productsReducer,
 });
 
 const store = createStore(rootReducer);
 
+import ProductsNavigator from './navigation/ProductsNavigator';
+
 export default function App() {
   return (
-      <Provider store={store}>
-      <Text>Store</Text>
-      </Provider>
-    
+    <Provider store={store}>
+      <ProductsNavigator />
+    </Provider>
   );
 }
 
@@ -28,6 +28,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
 });
-
