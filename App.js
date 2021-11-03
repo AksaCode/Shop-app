@@ -1,11 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+
+import productsReducer from './store/reducer/products';
+
+const rootReducer = combineReducers(
+{
+  products: productsReducer,
+});
+
+const store = createStore(rootReducer);
 
 import ProductsNavigator from './navigation/ProductsNavigator';
 
 export default function App() {
-  return <ProductsNavigator />;
+
+ 
+  return (
+      <Provider store={store}>
+      <ProductsNavigator />
+      </Provider>
+    
+  );
+
 }
 
 const styles = StyleSheet.create({
@@ -15,4 +33,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
+
