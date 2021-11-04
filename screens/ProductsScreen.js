@@ -7,7 +7,7 @@ import CardWrapper from '../components/CardWrapper';
 const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
   const renderProductsItem = (itemData) => (
-    <View style={styles.positionAll}>
+    <View>
       <CardWrapper image={itemData.item.imageUrl} title={itemData.item.title} price={itemData.item.price} />
     </View>
   );
@@ -15,7 +15,3 @@ const ProductsList = (props) => {
 };
 
 export default ProductsList;
-
-const styles = StyleSheet.create({
-  position: {},
-});
