@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import productsReducer from './store/reducer/products';
+import cartReducer from './store/reducer/cardReducer';
 import ProductsNavigator from './navigation/ProductsNavigator';
 
 const fontFetch = () => {
@@ -19,6 +20,7 @@ const fontFetch = () => {
 
 const rootReducer = combineReducers({
   products: productsReducer,
+  cart: cartReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools());
@@ -28,6 +30,7 @@ export default function App() {
   if (!fonts) {
     return <AppLoading startAsync={fontFetch} onFinish={() => setFonts(true)} onError={(err) => console.log(err)} />;
   }
+
   return (
     <Provider store={store}>
       <ProductsNavigator />
