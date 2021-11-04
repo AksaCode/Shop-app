@@ -1,9 +1,20 @@
-import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import productsReducer from './store/reducer/products';
+import ProductsNavigator from './navigation/ProductsNavigator';
+
+const fontFetch = () => {
+  return Font.loadAsync({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+  });
+};
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -11,9 +22,11 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer);
 
-import ProductsNavigator from './navigation/ProductsNavigator';
-
 export default function App() {
+  const [fonts, setFonts] = useState(false);
+  if (!fonts) {
+    return <AppLoading startAsync={fontFetch} onFinish={() => setFonts(true)} onError={(err) => console.log(err)} />;
+  }
   return (
     <Provider store={store}>
       <ProductsNavigator />
