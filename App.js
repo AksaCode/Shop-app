@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import productsReducer from './store/reducer/products';
-import cartReducer from './store/reducer/cardReducer';
+import cartReducer from './store/reducer/cartReducer';
 import ProductsNavigator from './navigation/ProductsNavigator';
 
 const fontFetch = () => {

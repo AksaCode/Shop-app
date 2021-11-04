@@ -11,12 +11,9 @@ const ProductsList = (props) => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
-  const onAddToCart = useCallback(
-    (product) => {
-      dispatch(addProduct(product));
-    },
-    [dispatch],
-  );
+  const onAddToCart = (product) => {
+    dispatch(addProduct(product));
+  };
 
   const renderProductsItem = (itemData) => (
     <View>
