@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, Button } from 'react-native';
 
 const CustomButton = ({ title, action }) => {
   return <Button title={title} onPress={action} color="red" />;

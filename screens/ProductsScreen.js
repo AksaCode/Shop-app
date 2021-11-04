@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +8,6 @@ import { addProduct } from '../store/action/cart';
 
 const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
-  const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
   const onAddToCart = (product) => {
