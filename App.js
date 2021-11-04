@@ -5,6 +5,7 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import productsReducer from './store/reducer/products';
 import ProductsNavigator from './navigation/ProductsNavigator';
@@ -20,7 +21,7 @@ const rootReducer = combineReducers({
   products: productsReducer,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default function App() {
   const [fonts, setFonts] = useState(false);
