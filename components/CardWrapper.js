@@ -7,17 +7,15 @@ import CardDetail from './CardDetail';
 const CardWrapper = ({ image, title, price, onViewDetail, onAddToCart }) => {
   return (
     <TouchableOpacity onPress={onViewDetail}>
-    <View style={styles.align}>
-      
-      <View style={styles.wrap}>
-        <View style={styles.imageWrap}>
-          <Image source={{ uri: image }} style={styles.image} />
+      <View style={styles.align}>
+        <View style={styles.wrap}>
+          <View style={styles.imageWrap}>
+            <Image source={{ uri: image }} style={styles.image} />
+          </View>
+          <CardDetail title={title} price={price} />
+          <RowButtons onViewDetail={onViewDetail} onAddToCart={onAddToCart} />
         </View>
-        <CardDetail title={title} price={price} />
-        <RowButtons onViewDetail={onViewDetail} onAddToCart={onAddToCart} />
       </View>
-      
-    </View>
     </TouchableOpacity>
   );
 };
