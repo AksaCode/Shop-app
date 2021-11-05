@@ -6,17 +6,15 @@ import CardDetail from './CardDetail';
 
 const CardWrapper = ({ image, title, price, onViewDetail, onAddToCart }) => {
   return (
-    <TouchableOpacity onPress={onViewDetail}>
-      <View style={styles.align}>
-        <View style={styles.wrap}>
-          <View style={styles.imageWrap}>
-            <Image source={{ uri: image }} style={styles.image} />
-          </View>
-          <CardDetail title={title} price={price} />
-          <RowButtons onViewDetail={onViewDetail} onAddToCart={onAddToCart} />
+    <View style={styles.align}>
+      <TouchableOpacity onPress={onViewDetail} style={styles.wrap}>
+        <View style={styles.imageWrap}>
+          <Image source={{ uri: image }} style={styles.image} />
         </View>
-      </View>
-    </TouchableOpacity>
+        <CardDetail title={title} price={price} />
+        <RowButtons onViewDetail={onViewDetail} onAddToCart={onAddToCart} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -27,7 +25,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 5,
-    alignItems: 'center',
   },
   wrap: {
     width: '90%',
