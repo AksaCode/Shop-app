@@ -10,20 +10,25 @@ const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
   const dispatch = useDispatch();
 
+  const renderProductsItem = (itemData) => (
+    <CardWrapper
+      image={itemData.item.imageUrl}
+      title={itemData.item.title}
+      price={itemData.item.price}
+      onAddToCart={() => onAddToCart(itemData.item)}
+      onViewDetail={() => {
+        props.navigation.navigate({
+          routeName: 'Details',
+          params: {
+            productId: itemData.item.id,
+          },
+        });
+      }}
+    />
+  );
   const onAddToCart = (product) => {
     dispatch(addProduct(product));
   };
-
-  const renderProductsItem = (itemData) => (
-    <View>
-      <CardWrapper
-        image={itemData.item.imageUrl}
-        title={itemData.item.title}
-        price={itemData.item.price}
-        onAddToCart={() => onAddToCart(itemData.item)}
-      />
-    </View>
-  );
 
   return <FlatList data={products} renderItem={renderProductsItem} numColumns={1} />;
 };
