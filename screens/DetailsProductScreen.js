@@ -1,13 +1,19 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import CustomButton from '../components/CustomButton';
-import { PRODUCTS } from '../data/dummy-data';
 
 const DetailsProductScreen = (props) => {
+  const availableProducts = useSelector((state) => state.products.products);
   const productId = props.navigation.getParam('productId');
-  const selectedProduct = PRODUCTS.find((product) => product.id === productId);
+  const selectedProduct = availableProducts.find((product) => product.id === productId);
+
+  useEffect(() => {
+    props.navigation.setParams({ productTitle: selectedProduct.title });
+  }, [selectedProduct]);
+
   return (
     <ScrollView>
       <Image source={{ uri: selectedProduct.imageUrl }} style={styles.image} />
@@ -22,9 +28,10 @@ const DetailsProductScreen = (props) => {
 
 DetailsProductScreen.navigationOptions = (navigationData) => {
   const productId = navigationData.navigation.getParam('productId');
-  const selectedProduct = PRODUCTS.find((product) => product.id === productId);
+  const productTitle = navigationData.navigation.getParam('productTitle');
+
   return {
-    headerTitle: selectedProduct.title,
+    headerTitle: productTitle,
   };
 };
 
