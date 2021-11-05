@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -26,6 +26,7 @@ const ProductsList = (props) => {
       }}
     />
   );
+
   const onAddToCart = (product) => {
     dispatch(addProduct(product));
   };

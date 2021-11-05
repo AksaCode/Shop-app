@@ -5,7 +5,7 @@ import { PRODUCTS } from '../data/dummy-data';
 
 const DetailsProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
-  const  selectedProduct = PRODUCTS.find(product => product.id === productId);
+  const selectedProduct = PRODUCTS.find((product) => product.id === productId);
   return (
     <View style={styles.screen}>
       <Text>{selectedProduct.title}</Text>
@@ -13,13 +13,13 @@ const DetailsProductScreen = (props) => {
   );
 };
 
-DetailsProductScreen.navigationOptions = navigationData => {
+DetailsProductScreen.navigationOptions = (navigationData) => {
   const productId = navigationData.navigation.getParam('productId');
-  const  selectedProduct = PRODUCTS.find(product => product.id === productId);
+  const selectedProduct = PRODUCTS.find((product) => product.id === productId);
   return {
-    headerTitle: selectedProduct.title
+    headerTitle: selectedProduct.title,
   };
-}; 
+};
 
 const styles = StyleSheet.create({
   screen: {
