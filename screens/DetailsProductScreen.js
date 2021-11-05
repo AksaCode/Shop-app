@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import CustomButton from '../components/CustomButton';
 
+import CustomButton from '../components/CustomButton';
 import { PRODUCTS } from '../data/dummy-data';
 
 const DetailsProductScreen = (props) => {
