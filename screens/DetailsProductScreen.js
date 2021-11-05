@@ -1,11 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { PRODUCTS } from '../data/dummy-data';
+import { useSelector } from 'react-redux';
 
 const DetailsProductScreen = (props) => {
+  const availableProducts = useSelector(state => state.products.products);
   const productId = props.navigation.getParam('productId');
-  const  selectedProduct = PRODUCTS.find(product => product.id === productId);
+  const selectedProduct = availableProducts.find(product => product.id === productId);
+
+  useEffect(() => {
+    props.navigation.setParams({productTitle: selectedProduct.title});
+  }, [selectedProduct]); 
+
   return (
     <View style={styles.screen}>
       <Text>{selectedProduct.title}</Text>
@@ -15,9 +21,10 @@ const DetailsProductScreen = (props) => {
 
 DetailsProductScreen.navigationOptions = navigationData => {
   const productId = navigationData.navigation.getParam('productId');
-  const  selectedProduct = PRODUCTS.find(product => product.id === productId);
+  const productTitle = navigationData.navigation.getParam('productTitle');
+
   return {
-    headerTitle: selectedProduct.title
+    headerTitle: productTitle
   };
 }; 
 
