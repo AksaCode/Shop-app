@@ -7,7 +7,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CardWrapper from '../components/CardWrapper';
 import { addProduct } from '../store/action/cart';
 import DetailsProductScreen from './DetailsProductScreen';
-import HeaderButton from "../components/HeaderButton";
+import HeaderButton from '../components/HeaderButton';
 
 const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
@@ -39,11 +39,19 @@ const ProductsList = (props) => {
 
 ProductsList.navigationOptions = (navData) => {
   return {
-    headerTitle: "Products",
-    headerRight:() => <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item title="Cart" iconName="md-cart" onPress={()=>{navData.navigation.navigate({routeName: 'Cart'})}} />
-    </HeaderButtons>
+    headerTitle: 'Products',
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Cart"
+          iconName="md-cart"
+          onPress={() => {
+            navData.navigation.navigate({ routeName: 'Cart' });
+          }}
+        />
+      </HeaderButtons>
+    ),
   };
-}; 
+};
 
 export default ProductsList;
