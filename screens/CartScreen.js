@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
 
+
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
@@ -13,15 +14,14 @@ const CartScreen = (props) => {
       <View style={styles.pos}>
         <View style={styles.shadow}>
           <View style={styles.container}>
-            <Text>Total: {total}</Text>
-
+            <Text>Total: {total} $</Text>
             <View>
               <CustomButton title="Order now" />
             </View>
           </View>
         </View>
       </View>
-      <CartList />
+      <CartList navigation={props.navigation}/>
     </>
   );
 };
