@@ -40,7 +40,7 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
           title="Cart"
           iconName="md-cart"
           onPress={() => {
-            navData.navigation.navigate({ routeName: 'Cart' });
+            navigationData.navigation.navigate({ routeName: 'Cart' });
           }}
         />
       </HeaderButtons>
