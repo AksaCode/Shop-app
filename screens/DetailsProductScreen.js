@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomButton from '../components/CustomButton';
-import HeaderButton from "../components/HeaderButton";
 
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
@@ -34,9 +32,6 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
 
   return {
     headerTitle: productTitle,
-    headerRight:() => <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item title="Cart" iconName="md-cart" onPress={()=>{navData.navigation.navigate({routeName: 'Cart'})}} />
-    </HeaderButtons>
   };
 };
 
