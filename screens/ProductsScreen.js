@@ -37,9 +37,14 @@ const ProductsList = (props) => {
   return <FlatList data={products} renderItem={renderProductsItem} numColumns={1} />;
 };
 
-ProductsList.navigationOptions = (navData) => {
-  return {
+  ProductsList.navigationOptions = (navData) => {
+    return {
     headerTitle: 'Products',
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item title="Menu" iconName="ios-menu" onPress={() => {}} />
+      </HeaderButtons>
+    ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
