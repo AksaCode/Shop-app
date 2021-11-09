@@ -1,7 +1,9 @@
 import { ADD_PRODUCT } from '../action/cart';
 
 const initState = {
-  items: [],
+  items: [].sort(function (a, b) {
+    return ('' + a.title).localeCompare(b.title);
+  }),
   total: 0,
 };
 
@@ -11,7 +13,10 @@ const cartReducer = (state = initState, action) => {
       if (action.type === ADD_PRODUCT) {
         const newItems = [...state.items, action.product];
         const totalCost = state.total + action.product.price;
-        return { items: newItems, total: totalCost };
+        return {
+          items: newItems,
+          total: totalCost,
+        };
       }
     default:
       return state;
