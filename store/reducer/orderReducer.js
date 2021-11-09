@@ -8,7 +8,7 @@ const orderReducer = (state = initState, action) => {
     case CREATOR:
       if (action.type === CREATOR) {
         const order = new Order(Math.random(), action.cartItems, action.totalAmount, new Date());
-        return { orders: [...state.orders, order, action.totalAmount] };
+        return { orders: [...state.orders, order] };
       }
   }
   return state;
