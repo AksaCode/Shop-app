@@ -1,9 +1,7 @@
 import { ADD_PRODUCT } from '../action/cart';
 
 const initState = {
-  items: [].sort(function (a, b) {
-    return ('' + a.title).localeCompare(b.title);
-  }),
+  items: [],
   total: 0,
 };
 
@@ -14,8 +12,10 @@ const cartReducer = (state = initState, action) => {
         const newItems = [...state.items, action.product];
         const totalCost = state.total + action.product.price;
         return {
-          items: newItems,
-          total: totalCost,
+          items: newItems.sort(function (a, b) {
+            return ('' + a.title).localeCompare(b.title);
+          }),
+          total: parseFloat(totalCost.toFixed(2)),
         };
       }
     default:
