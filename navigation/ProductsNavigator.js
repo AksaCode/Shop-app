@@ -6,11 +6,9 @@ import ProductsScreen from '../screens/ProductsScreen';
 import CartScreen from '../screens/CartScreen';
 
 const ProductsNavigator = createStackNavigator({
-  Cart: CartScreen,
   Products: ProductsScreen,
   Details: DetailsProductsScreen,
-  
+  Cart: CartScreen,
 });
 
 export default createAppContainer(ProductsNavigator);
-
