@@ -1,28 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
+import { addOrder } from '../store/action/order';
 
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
+
+  const dispatch = useDispatch();
+  const executeOrder = (cart, total) => {
+    dispatch(addOrder(cart, total));
+  };
+
   return (
-    <>
+    <View>
       <View style={styles.pos}>
         <View style={styles.shadow}>
           <View style={styles.container}>
             <Text>Total: {total}</Text>
-
             <View>
-              <CustomButton title="Order now" />
+              <CustomButton title="Order now" action={() => executeOrder(cart, total)} />
             </View>
           </View>
         </View>
       </View>
       <CartList />
-    </>
+    </View>
   );
 };
 

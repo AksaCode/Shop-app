@@ -11,7 +11,12 @@ const cartReducer = (state = initState, action) => {
       if (action.type === ADD_PRODUCT) {
         const newItems = [...state.items, action.product];
         const totalCost = state.total + action.product.price;
-        return { items: newItems, total: totalCost };
+        return {
+          items: newItems.sort(function (a, b) {
+            return ('' + a.title).localeCompare(b.title);
+          }),
+          total: parseFloat(totalCost.toFixed(2)),
+        };
       }
     default:
       return state;
