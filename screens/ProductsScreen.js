@@ -1,5 +1,5 @@
 import React from 'react';
-import {  FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -42,9 +42,13 @@ ProductsList.navigationOptions = (navData) => {
     headerTitle: 'Products',
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item title="Menu" iconName="ios-menu" onPress={() => {
-          navData.navigation.toggleDrawer()
-        }} />
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
       </HeaderButtons>
     ),
     headerRight: () => (

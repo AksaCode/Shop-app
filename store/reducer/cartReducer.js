@@ -1,5 +1,6 @@
 import { ADD_PRODUCT } from '../action/cart';
 import { DELETE_PRODUCT } from '../action/cart';
+import { DELETE_LIST } from '../action/cart';
 import CartProduct from '../../model/cart';
 
 const initState = {
@@ -39,7 +40,11 @@ const cartReducer = (state = initState, action) => {
       if (existingProduct >= 0) {
         const updateProducts = [...state.items];
         updateProducts.splice(existingProduct, 1);
-        return { items: updateProducts };
+        return { ...state, items: updateProducts };
+      }
+    case DELETE_LIST:
+      if (action.type === DELETE_LIST) {
+        return { items: [], total: 0 };
       }
     default:
       return state;
