@@ -34,6 +34,13 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
 
   return {
     headerTitle: productTitle,
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item title="Menu" iconName="ios-menu" onPress={() => {
+          navigationData.navigation.toggleDrawer()
+        }} />
+      </HeaderButtons>
+    ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -47,6 +54,8 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
     ),
   };
 };
+
+
 
 const styles = StyleSheet.create({
   screen: {
