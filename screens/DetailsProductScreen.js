@@ -38,9 +38,9 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Menu"
-          iconName="ios-menu"
+          iconName="md-arrow-back"
           onPress={() => {
-            navigationData.navigation.toggleDrawer();
+            navigationData.navigation.goBack();
           }}
         />
       </HeaderButtons>
