@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ProductsScreen from '../screens/ProductsScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderScreen from '../screens/OrderScreen';
+import DetailsProductScreen from '../screens/DetailsProductScreen';
 import Colors from '../constants/Colors';
 
 const defaultStackOptions = {
@@ -19,7 +20,7 @@ const defaultStackOptions = {
 const ProductsNavigator = createStackNavigator(
   {
     Products: ProductsScreen,
-    Details: DetailsProductsScreen,
+    Details: DetailsProductScreen,
     Cart: CartScreen,
   },
   { defaultNavigationOptions: defaultStackOptions },
