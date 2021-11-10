@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { deleteProduct } from '../store/action/cart';
 
-const CartProduct = ({ productName, productPrice, id }) => {
+const CartProduct = ({ productName, productPrice, id, count }) => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const deleteItem = (id) => {
@@ -15,7 +15,10 @@ const CartProduct = ({ productName, productPrice, id }) => {
   return (
     <View style={styles.pos}>
       <View style={styles.wrap}>
-        <Text>{productName}</Text>
+        <View style={styles.left}>
+          <Text style={{ marginRight: 5, fontStyle: 'italic' }}>{count}</Text>
+          <Text>{productName}</Text>
+        </View>
         <View style={styles.right}>
           <Text style={{ marginRight: 10 }}>${productPrice}</Text>
           <Ionicons
@@ -45,6 +48,11 @@ const styles = StyleSheet.create({
     width: '80%',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  left: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   right: {
     flexDirection: 'row',
