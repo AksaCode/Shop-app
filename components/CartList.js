@@ -7,7 +7,12 @@ import CartProduct from './CartProduct';
 const CartList = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const renderCart = (itemData) => (
-    <CartProduct productName={itemData.item.title} productPrice={itemData.item.price} id={itemData.item.id} />
+    <CartProduct
+      productName={itemData.item.title}
+      productPrice={itemData.item.price}
+      id={itemData.item.id}
+      count={itemData.item.count}
+    />
   );
 
   return <FlatList data={cart} renderItem={renderCart} numColumn={1} />;
