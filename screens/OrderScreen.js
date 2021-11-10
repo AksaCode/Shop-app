@@ -10,5 +10,21 @@ const OrderScreen = (props) => {
     </View>
   );
 };
+OrderScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: 'Orders',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
+};
 
 export default OrderScreen;

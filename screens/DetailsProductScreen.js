@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
     textAlign: 'center',
     paddingTop: 20,
-    color: '#d3d3d3'
+    color: '#d3d3d3',
   },
   descriptionStyles: {
     fontFamily: 'open-sans-bold',
