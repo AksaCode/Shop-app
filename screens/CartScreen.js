@@ -2,11 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import HeaderButton from '../components/HeaderButton';
 import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
 import { addOrder } from '../store/action/order';
-
 
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
@@ -32,6 +33,23 @@ const CartScreen = (props) => {
       <CartList />
     </View>
   );
+};
+
+CartScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: 'Orders',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 export default CartScreen;

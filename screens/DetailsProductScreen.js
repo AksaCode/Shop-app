@@ -34,6 +34,17 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
 
   return {
     headerTitle: productTitle,
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navigationData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -69,7 +80,7 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
     textAlign: 'center',
     paddingTop: 20,
-    color: '#d3d3d3'
+    color: '#d3d3d3',
   },
   descriptionStyles: {
     fontFamily: 'open-sans-bold',
