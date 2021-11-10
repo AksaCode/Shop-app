@@ -69,12 +69,14 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
     textAlign: 'center',
     paddingTop: 20,
+    color: '#d3d3d3'
   },
   descriptionStyles: {
     fontFamily: 'open-sans-bold',
     fontSize: 18,
     textAlign: 'center',
     paddingTop: 50,
+    paddingHorizontal: 15,
   },
 });
 

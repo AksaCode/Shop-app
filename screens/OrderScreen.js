@@ -1,5 +1,14 @@
 import React from 'react';
+import { View } from 'react-native';
 
-const OrderScreen = props => {};
+import OrderList from '../components/OrderList';
+
+const OrderScreen = (props) => {
+  return (
+    <View>
+      <OrderList />
+    </View>
+  );
+};
 
 export default OrderScreen;
