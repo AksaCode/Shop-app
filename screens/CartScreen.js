@@ -9,7 +9,6 @@ import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
 import { addOrder } from '../store/action/order';
 
-
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
@@ -41,11 +40,15 @@ CartScreen.navigationOptions = (navData) => {
     headerTitle: 'Orders',
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item title="Menu" iconName="ios-menu" onPress={() => {
-          navData.navigation.toggleDrawer()
-        }} />
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
       </HeaderButtons>
-    )
+    ),
   };
 };
 
