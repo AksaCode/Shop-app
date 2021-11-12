@@ -8,6 +8,7 @@ import ProductsScreen from '../screens/ProductsScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderScreen from '../screens/OrderScreen';
 import DetailsProductScreen from '../screens/DetailsProductScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 import Colors from '../constants/Colors';
 
 const defaultStackOptions = {
@@ -33,6 +34,13 @@ const OrderScreenNavigator = createStackNavigator(
   { defaultNavigationOptions: defaultStackOptions },
 );
 
+const UserScreenNavigator = createStackNavigator(
+  {
+    User: UserProductsScreen,
+  },
+  { defaultNavigationOptions: defaultStackOptions },
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Products: {
@@ -47,6 +55,13 @@ const MainNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: 'Orders',
         drawerIcon: (drawerConfig) => <Ionicons name="list-sharp" size={20} color={drawerConfig.tintColor} />,
+      },
+    },
+    User: {
+      screen: UserScreenNavigator,
+      navigationOptions: {
+        drawerLabel: 'User',
+        drawerIcon: (drawerConfig) => <Ionicons name="md-create" size={20} color={drawerConfig.tintColor} />,
       },
     },
   },
