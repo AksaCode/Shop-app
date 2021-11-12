@@ -3,11 +3,11 @@ import { StyleSheet, View } from 'react-native';
 
 import CustomButton from './CustomButton';
 
-const RowButtons = (props) => {
+const RowButtons = ({ leftAction, rightAction, leftTitle, rightTitle }) => {
   return (
     <View style={styles.content}>
-      <CustomButton title="details" action={props.onViewDetail} />
-      <CustomButton title="cart" action={props.onAddToCart} />
+      <CustomButton title={leftTitle} action={leftAction} />
+      <CustomButton title={rightTitle} action={rightAction} />
     </View>
   );
 };
