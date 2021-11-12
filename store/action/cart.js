@@ -9,7 +9,3 @@ export const addProduct = (product) => {
 export const deleteProduct = (id) => {
   return { type: DELETE_PRODUCT, id: id };
 };
-
-export const deleteList = (items) => {
-  return { type: DELETE_LIST, items: items };
-};

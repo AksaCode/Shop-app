@@ -1,6 +1,6 @@
 import { ADD_PRODUCT } from '../action/cart';
 import { DELETE_PRODUCT } from '../action/cart';
-import { DELETE_LIST } from '../action/cart';
+import { CREATOR } from '../action/order';
 import CartProduct from '../../model/cart';
 
 const initState = {
@@ -42,8 +42,8 @@ const cartReducer = (state = initState, action) => {
         updateProducts.splice(existingProduct, 1);
         return { ...state, items: updateProducts };
       }
-    case DELETE_LIST:
-      if (action.type === DELETE_LIST) {
+    case CREATOR:
+      if (action.type === CREATOR) {
         return { items: [], total: 0 };
       }
     default:

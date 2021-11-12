@@ -8,7 +8,6 @@ import HeaderButton from '../components/HeaderButton';
 import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
 import { addOrder } from '../store/action/order';
-import { deleteList } from '../store/action/cart';
 
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
@@ -17,7 +16,6 @@ const CartScreen = (props) => {
   const dispatch = useDispatch();
   const executeOrder = (cart, total) => {
     dispatch(addOrder(cart, total));
-    dispatch(deleteList(cart));
   };
 
   return (

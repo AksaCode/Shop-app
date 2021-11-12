@@ -12,7 +12,6 @@ import productsReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cartReducer';
 import orderReducer from './store/reducer/orderReducer';
 import ProductsNavigator from './navigation/ProductsNavigator';
-import Colors from './constants/Colors';
 
 const fontFetch = () => {
   return Font.loadAsync({
@@ -37,7 +36,9 @@ export default function App(props) {
 
   return (
     <Provider store={store}>
-      <ProductsNavigator />
+      <SafeAreaView style={styles.container}>
+        <ProductsNavigator />
+      </SafeAreaView>
     </Provider>
   );
 }
@@ -45,8 +46,5 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
