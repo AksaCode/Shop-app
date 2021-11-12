@@ -11,10 +11,13 @@ import DetailsProductScreen from '../screens/DetailsProductScreen';
 import Colors from '../constants/Colors';
 
 const defaultStackOptions = {
-  headerTitlesStyle: {
+  headerTintColor: Colors.accentColor,
+  headerTitleStyle: {
+    fontFamily: 'open-sans-bold',
+  },
+  headerBackTitleStyle: {
     fontFamily: 'open-sans',
   },
-  headerTintColor: Platform.OS === 'android' ? 'white' : Colors.accentColor,
 };
 
 const ProductsNavigator = createStackNavigator(
