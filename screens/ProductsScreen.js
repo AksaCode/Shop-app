@@ -8,6 +8,7 @@ import CardWrapper from '../components/CardWrapper';
 import { addProduct } from '../store/action/cart';
 import DetailsProductScreen from './DetailsProductScreen';
 import HeaderButton from '../components/HeaderButton';
+import RowButtons from '../components/RowButtons';
 
 const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
@@ -18,8 +19,7 @@ const ProductsList = (props) => {
       image={itemData.item.imageUrl}
       title={itemData.item.title}
       price={itemData.item.price}
-      onAddToCart={() => onAddToCart(itemData.item)}
-      onViewDetail={() => {
+      cardAction={() => {
         props.navigation.navigate({
           routeName: 'Details',
           params: {
@@ -27,7 +27,21 @@ const ProductsList = (props) => {
           },
         });
       }}
-    />
+    >
+      <RowButtons
+        rightAction={() => onAddToCart(itemData.item)}
+        leftAction={() => {
+          props.navigation.navigate({
+            routeName: 'Details',
+            params: {
+              productId: itemData.item.id,
+            },
+          });
+        }}
+        leftTitle="details"
+        rightTitle="cart"
+      />
+    </CardWrapper>
   );
 
   const onAddToCart = (product) => {
