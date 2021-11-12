@@ -1,18 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-import RowButtons from './RowButtons';
 import CardDetail from './CardDetail';
 
-const CardWrapper = ({ image, title, price, onViewDetail, onAddToCart }) => {
+const CardWrapper = ({ image, title, price, cardAction, children }) => {
   return (
     <View style={styles.align}>
-      <TouchableOpacity onPress={onViewDetail} style={styles.wrap}>
+      <TouchableOpacity onPress={cardAction} style={styles.wrap}>
         <View style={styles.imageWrap}>
           <Image source={{ uri: image }} style={styles.image} />
         </View>
         <CardDetail title={title} price={price} />
-        <RowButtons onViewDetail={onViewDetail} onAddToCart={onAddToCart} />
+        {children}
       </TouchableOpacity>
     </View>
   );
