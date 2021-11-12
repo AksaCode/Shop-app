@@ -12,10 +12,11 @@ const CartList = (props) => {
       productPrice={itemData.item.price}
       id={itemData.item.id}
       count={itemData.item.count}
+      active={props.active}
     />
   );
 
-  return <FlatList data={cart} renderItem={renderCart} numColumn={1} />;
+  return <FlatList data={props.data} renderItem={renderCart} numColumn={1} />;
 };
 
 export default CartList;

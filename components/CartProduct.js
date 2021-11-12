@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { deleteProduct } from '../store/action/cart';
 
-const CartProduct = ({ productName, productPrice, id, count }) => {
+const CartProduct = ({ productName, productPrice, id, count, active }) => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const deleteItem = (id) => {
     dispatch(deleteProduct(id));
   };
 
+  const [showItem, setShowItem] = useState(false);
   return (
     <View style={styles.pos}>
       <View style={styles.wrap}>
@@ -21,14 +22,18 @@ const CartProduct = ({ productName, productPrice, id, count }) => {
         </View>
         <View style={styles.right}>
           <Text style={{ marginRight: 10 }}>${productPrice}</Text>
-          <Ionicons
-            name="md-trash"
-            size={20}
-            color="red"
-            onPress={() => {
-              deleteItem(id);
-            }}
-          />
+          {!active ? (
+            <Ionicons
+              name="md-trash"
+              size={20}
+              color="red"
+              onPress={() => {
+                deleteItem(id);
+              }}
+            />
+          ) : (
+            <Ionicons />
+          )}
         </View>
       </View>
     </View>

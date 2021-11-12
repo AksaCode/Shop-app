@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
-
+import moment from 'moment';
 import CustomButton from './CustomButton';
 import RowButtons from './RowButtons';
+import CartList from './CartList';
 
-const OrderItem = ({ productPrice, date }) => {
+const OrderItem = ({ order }) => {
+  const [active, setActive] = useState(false);
   return (
     <View style={styles.primaryCon}>
       <View style={styles.container}>
-        <Text style={styles.price}>${productPrice}</Text>
-        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.price}>${order.totalAmount}</Text>
+        <Text style={styles.date}>{moment(order.date).format('MMMM Do YYYY, h:mm')}</Text>
       </View>
       <View style={styles.button}>
-        <CustomButton title="SHOW DETAILS" action={() => {}} />
+        <CustomButton title={active ? 'HIDE DETAILS' : 'SHOW DETAILS'} action={() => setActive(!active)} />
       </View>
+      {active ? <CartList data={order.items} active={active} /> : null}
     </View>
   );
 };
