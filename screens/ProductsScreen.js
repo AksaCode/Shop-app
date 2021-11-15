@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import CardWrapper from '../components/CardWrapper';
 import { addProduct } from '../store/action/cart';
-import DetailsProductScreen from './DetailsProductScreen';
+import CardWrapper from '../components/CardWrapper';
 import HeaderButton from '../components/HeaderButton';
 import RowButtons from '../components/RowButtons';
 

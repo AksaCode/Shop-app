@@ -5,15 +5,17 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
+import RowButtons from '../../components/RowButtons';
 
 const renderUserProductsItem = (itemData) => (
   <CardWrapper
     image={itemData.item.imageUrl}
     title={itemData.item.title}
     price={itemData.item.price}
-    onAddToCart={() => {}}
-    onViewDetail={() => {}}
-  />
+    cardAction={() => {}}
+  >
+    <RowButtons rightAction={() => {}} leftAction={() => {}} leftTitle="edit" rightTitle="delete" />
+  </CardWrapper>
 );
 
 const UserProductsScreen = (props) => {
