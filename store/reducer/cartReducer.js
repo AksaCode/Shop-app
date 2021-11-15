@@ -36,11 +36,27 @@ const cartReducer = (state = initState, action) => {
         };
       }
     case DELETE_PRODUCT:
-      const existingProduct = state.items.findIndex((product) => product.id === action.id);
-      if (existingProduct >= 0) {
-        const updateProducts = [...state.items];
-        updateProducts.splice(existingProduct, 1);
-        return { ...state, items: updateProducts };
+      if (action.type === DELETE_PRODUCT) {
+        let newItems = [];
+        const cartProducts = [...state.items];
+        state.items.map((item, index) => {
+          if (item.id === action.id) {
+            if (item.count === 1) {
+              state.total = state.total - item.price;
+              newItems = state.items.filter((item) => item.id !== action.id);
+            } else if (item.count > 1) {
+              item.count = item.count - 1;
+              state.total = state.total - item.price;
+              newItems = [...state.items];
+            }
+          }
+        });
+        return {
+          items: newItems.sort(function (a, b) {
+            return ('' + a.title).localeCompare(b.title);
+          }),
+          total: parseFloat(state.total.toFixed(2)),
+        };
       }
     case CREATOR:
       if (action.type === CREATOR) {
