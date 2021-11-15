@@ -7,19 +7,32 @@ import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
 
-const renderUserProductsItem = (itemData) => (
-  <CardWrapper
-    image={itemData.item.imageUrl}
-    title={itemData.item.title}
-    price={itemData.item.price}
-    cardAction={() => {}}
-  >
-    <RowButtons rightAction={() => {}} leftAction={() => {}} leftTitle="edit" rightTitle="delete" />
-  </CardWrapper>
-);
-
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+
+  const renderUserProductsItem = (itemData) => (
+    <CardWrapper
+      image={itemData.item.imageUrl}
+      title={itemData.item.title}
+      price={itemData.item.price}
+      cardAction={() => {}}
+    >
+      <RowButtons
+        rightAction={() => {}}
+        leftAction={() => {
+          props.navigation.navigate({
+            routeName: 'Edit',
+            params: {
+              productId: itemData.item.id,
+            },
+          });
+        }}
+        leftTitle="edit"
+        rightTitle="delete"
+      />
+    </CardWrapper>
+  );
+
   return <FlatList data={userProducts} renderItem={renderUserProductsItem} numColumns={1} />;
 };
 
@@ -33,6 +46,17 @@ UserProductsScreen.navigationOptions = (navData) => {
           iconName="ios-menu"
           onPress={() => {
             navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Create"
+          iconName="md-create"
+          onPress={() => {
+            navData.navigation.navigate({ routeName: 'Edit' });
           }}
         />
       </HeaderButtons>
