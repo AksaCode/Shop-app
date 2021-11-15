@@ -30,7 +30,7 @@ const CartScreen = (props) => {
           </View>
         </View>
       </View>
-      <CartList />
+      <CartList data={cart} />
     </View>
   );
 };
