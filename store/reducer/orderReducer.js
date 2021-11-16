@@ -1,4 +1,5 @@
 import { CREATOR } from '../action/order';
+import { DELETE } from '../action/product';
 import Order from '../../model/order';
 
 const initState = { orders: [] };
