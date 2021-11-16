@@ -1,25 +1,38 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
-
-const renderUserProductsItem = (itemData) => (
-  <CardWrapper
-    image={itemData.item.imageUrl}
-    title={itemData.item.title}
-    price={itemData.item.price}
-    cardAction={() => {}}
-  >
-    <RowButtons rightAction={() => {}} leftAction={() => {}} leftTitle="edit" rightTitle="delete" />
-  </CardWrapper>
-);
+import { deleteOnClick } from '../../store/action/product';
 
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+  const dispatch = useDispatch();
+  const deleteProduct = (productId) => {
+    dispatch(deleteOnClick(productId));
+  };
+
+  const renderUserProductsItem = (itemData) => (
+    <CardWrapper
+      image={itemData.item.imageUrl}
+      title={itemData.item.title}
+      price={itemData.item.price}
+      cardAction={() => {}}
+    >
+      <RowButtons
+        rightAction={() => {
+          deleteProduct(itemData.item.id);
+        }}
+        leftAction={() => {}}
+        leftTitle="edit"
+        rightTitle="delete"
+      />
+    </CardWrapper>
+  );
+
   return <FlatList data={userProducts} renderItem={renderUserProductsItem} numColumns={1} />;
 };
 

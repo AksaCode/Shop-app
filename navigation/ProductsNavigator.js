@@ -23,6 +23,7 @@ const defaultStackOptions = {
 
 const ProductsNavigator = createStackNavigator(
   {
+    
     Products: ProductsScreen,
     Details: DetailsProductScreen,
     Cart: CartScreen,
