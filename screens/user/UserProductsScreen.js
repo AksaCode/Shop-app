@@ -10,10 +10,6 @@ import RowButtons from '../../components/RowButtons';
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
 
-  const editProductHandler = (id) => {
-    props.navigation.navigate('Edit', { productId: id });
-  };
-
   const renderUserProductsItem = (itemData) => (
     <CardWrapper
       image={itemData.item.imageUrl}
@@ -23,7 +19,14 @@ const UserProductsScreen = (props) => {
     >
       <RowButtons
         rightAction={() => {}}
-        leftAction={() => editProductHandler(itemData.item.id)}
+        leftAction={() => {
+          props.navigation.navigate({
+            routeName: 'Edit',
+            params: {
+              productId: itemData.item.id,
+            },
+          });
+        }}
         leftTitle="edit"
         rightTitle="delete"
       />
@@ -53,7 +56,7 @@ UserProductsScreen.navigationOptions = (navData) => {
           title="Create"
           iconName="md-create"
           onPress={() => {
-            navData.navigation.navigate('Edit');
+            navData.navigation.navigate({ routeName: 'Edit' });
           }}
         />
       </HeaderButtons>
