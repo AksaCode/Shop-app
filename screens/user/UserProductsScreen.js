@@ -26,7 +26,14 @@ const UserProductsScreen = (props) => {
         rightAction={() => {
           deleteProduct(itemData.item.id);
         }}
-        leftAction={() => {}}
+        leftAction={() => {
+          props.navigation.navigate({
+            routeName: 'Edit',
+            params: {
+              productId: itemData.item.id,
+            },
+          });
+        }}
         leftTitle="edit"
         rightTitle="delete"
       />
@@ -46,6 +53,17 @@ UserProductsScreen.navigationOptions = (navData) => {
           iconName="ios-menu"
           onPress={() => {
             navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Create"
+          iconName="md-create"
+          onPress={() => {
+            navData.navigation.navigate({ routeName: 'Edit' });
           }}
         />
       </HeaderButtons>
