@@ -6,9 +6,14 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
+import { deleteOnClick } from '../../store/action/product';
 
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+  const dispatch = useDispatch();
+  const deleteProduct = (productId) => {
+    dispatch(deleteOnClick(productId));
+  };
 
   const renderUserProductsItem = (itemData) => (
     <CardWrapper
@@ -18,7 +23,9 @@ const UserProductsScreen = (props) => {
       cardAction={() => {}}
     >
       <RowButtons
-        rightAction={() => {}}
+        rightAction={() => {
+          deleteProduct(itemData.item.id);
+        }}
         leftAction={() => {
           props.navigation.navigate({
             routeName: 'Edit',
