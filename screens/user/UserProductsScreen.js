@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardWrapper from '../../components/CardWrapper';
