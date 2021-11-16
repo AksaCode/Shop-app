@@ -3,18 +3,21 @@ import { StyleSheet, View, TextInput, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
 const EditProductScreen = (props) => {
-  const availableProd = useSelector((state) => state.products.products);
   const prodId = props.navigation.getParam('productId');
-  const selectedProduct = availableProd.find((product) => product.id === prodId);
+  const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === prodId));
 
-  const [text, setText] = useState('');
+  const [value, onChangeText] = useState(editedProduct ? editedProduct.title : '');
+
   return (
-    <View>
+    <View style={styles.input}>
       <TextInput
-        style={styles.input}
-        placeholder="useless placeholder"
-        value={text}
-        onChangeText={(text) => setText(text)}
+        id="title"
+        label="Title"
+        errorText="Please enter a valid title!"
+        keyboardType="default"
+        onChangeText={(value) => onChangeText(value)}
+        value={value}
+        required
       />
     </View>
   );
@@ -30,5 +33,6 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 15,
     textAlign: 'center',
+    color: 'black',
   },
 });

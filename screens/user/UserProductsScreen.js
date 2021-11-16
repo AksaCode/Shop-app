@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardWrapper from '../../components/CardWrapper';
@@ -9,6 +9,10 @@ import RowButtons from '../../components/RowButtons';
 
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+
+  const editProductHandler = (id) => {
+    props.navigation.navigate('Edit', { productId: id });
+  };
 
   const renderUserProductsItem = (itemData) => (
     <CardWrapper
@@ -19,14 +23,7 @@ const UserProductsScreen = (props) => {
     >
       <RowButtons
         rightAction={() => {}}
-        leftAction={() => {
-          props.navigation.navigate({
-            routeName: 'Edit',
-            params: {
-              productId: itemData.item.id,
-            },
-          });
-        }}
+        leftAction={() => editProductHandler(itemData.item.id)}
         leftTitle="edit"
         rightTitle="delete"
       />
@@ -56,7 +53,7 @@ UserProductsScreen.navigationOptions = (navData) => {
           title="Create"
           iconName="md-create"
           onPress={() => {
-            navData.navigation.navigate({ routeName: 'Edit' });
+            navData.navigation.navigate('Edit');
           }}
         />
       </HeaderButtons>
