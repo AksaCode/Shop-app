@@ -66,9 +66,17 @@ const cartReducer = (state = initState, action) => {
     case DELETE:
       if (action.type === DELETE) {
         let newList = [];
-        newList = state.items.filter((item) => item.id !== action.id);
-        return { ...state, items: [...newList] };
+        newList = state.items.map((item) => {
+          if (item.id !== action.id) {
+            return item;
+          } else if (item.id === action.id) {
+            state.total = state.total - item.count * item.price;
+          }
+        });
+        newList = newList.filter((item) => item !== undefined);
+        return { ...state, items: [...newList], total: parseFloat(state.total.toFixed(2)) };
       }
+    
     default:
       return state;
   }
