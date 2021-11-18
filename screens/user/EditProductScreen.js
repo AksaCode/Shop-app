@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, TextInput, Text } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/HeaderButton';
+import { addP } from '../../store/action/product';
+
 
 const EditProductScreen = (props) => {
-  const prodId = props.navigation.getParam('productId');
-  const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === prodId));
-
-  const [value, onChangeText] = useState({
+  const productId = props.navigation.getParam('productId');
+  const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
+  
+  const [value, setValue] = useState({
     title: editedProduct ? editedProduct.title : '',
     url: editedProduct ? editedProduct.imageUrl : '',
     description: editedProduct ? editedProduct.description : '',
     price: '',
   });
+
+  const dispatch = useDispatch();
+
+  const addProductHandler = useCallback(() => {
+    dispatch(addP(value));
+  }, [dispatch, value]);
+
+  useEffect(() => {
+    props.navigation.setParams({ addProduct: addProductHandler });
+  }, [addProductHandler]);
 
   return (
     <View>
@@ -24,7 +36,7 @@ const EditProductScreen = (props) => {
         id="title"
         label="Title"
         placeholder="Title"
-        onChangeText={(value) => onChangeText(value)}
+        onChangeText={(value) => setValue(value)}
         value={value.title}
         required
       />
@@ -35,7 +47,7 @@ const EditProductScreen = (props) => {
         label="Url"
         placeholder="Url"
         keyboardType="default"
-        onChangeText={(value) => onChangeText(value)}
+        onChangeText={(value) => setValue(value)}
         value={value.url}
         required
       />
@@ -46,7 +58,7 @@ const EditProductScreen = (props) => {
             style={styles.input}
             label="Price"
             placeholder="Price"
-            onChangeText={(value) => onChangeText(value)}
+            onChangeText={(value) => setValue(value)}
             keyboardType="decimal-pad"
             required
             min={0.2}
@@ -60,7 +72,7 @@ const EditProductScreen = (props) => {
         label="Description"
         placeholder="Description"
         keyboardType="default"
-        onChangeText={(value) => onChangeText(value)}
+        onChangeText={(value) =>setValue(value)}
         value={value.description}
         required
       />
@@ -69,11 +81,19 @@ const EditProductScreen = (props) => {
 };
 
 EditProductScreen.navigationOptions = (navData) => {
+  const addNewProduct = navData.navigation.getParam('addProduct');
   return {
     headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item title="Checkout" iconName="md-checkmark" onPress={() => {}} />
+        <Item
+          title="Checkout"
+          iconName="md-checkmark"
+          onPress={() => {
+            addNewProduct();
+            navData.navigation.goBack();
+          }}
+        />
       </HeaderButtons>
     ),
   };

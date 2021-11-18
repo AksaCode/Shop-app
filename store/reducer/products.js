@@ -7,7 +7,7 @@ import Product from '../../model/product';
 const initialState = {
   products: PRODUCTS,
   userProducts: PRODUCTS.filter((item) => item.ownerId === 'u1'),
-  //dodajem preko rest operatora novi product
+  
 };
 
 const productsReducer = (state = initialState, action) => {
@@ -21,9 +21,14 @@ const productsReducer = (state = initialState, action) => {
     case ADD:
       if(action.type===ADD)
       {
-        const exIndex = state.userProducts.findIndex((item) => item.id === action.id);
-        let product=new Product(Math.random(),'u1', action.product.title, action.product.imageUrl, action.product.description, action.product.price);
+        
+        const product=new Product(Math.random(),'u1', action.product.title, action.product.imageUrl, action.product.description, action.product.price);
         console.log(product);
+        return{
+          ...state , products: state.products.concat(product), userProducts: state.products.concat(product)
+          
+        }
+        
     }
     default:
       return state;
