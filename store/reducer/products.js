@@ -26,7 +26,6 @@ const productsReducer = (state = initialState, action) => {
           action.product.description,
           action.product.price,
         );
-        console.log(product);
         return {
           ...state,
           products: state.products.concat(product),
