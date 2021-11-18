@@ -2,7 +2,7 @@ import { ADD_PRODUCT } from '../action/cart';
 import { DELETE_PRODUCT } from '../action/cart';
 import { CREATOR } from '../action/order';
 import { DELETE } from '../action/product';
-import {ADD} from '../action/product';
+import { ADD } from '../action/product';
 import Product from '../../model/product';
 
 const initState = {
@@ -67,7 +67,7 @@ const cartReducer = (state = initState, action) => {
     case DELETE:
       if (action.type === DELETE) {
         let newList = [];
-          newList = state.items.map((item) => {
+        newList = state.items.map((item) => {
           if (item.id !== action.id) {
             return item;
           } else if (item.id === action.id) {
@@ -77,14 +77,21 @@ const cartReducer = (state = initState, action) => {
         newList = newList.filter((item) => item !== undefined);
         return { ...state, items: [...newList], total: parseFloat(state.total.toFixed(2)) };
       }
-      case ADD:
-      if(action.type===ADD)
-      {
-        let product=new Product(Math.random(),'u1', action.product.title, action.product.imageUrl, action.product.description, action.product.price);
-        return{
-          ...state, items: state.items.concat(product)
-        }
-    }
+    case ADD:
+      if (action.type === ADD) {
+        let product = new Product(
+          Math.random(),
+          'u1',
+          action.product.title,
+          action.product.imageUrl,
+          action.product.description,
+          action.product.price,
+        );
+        return {
+          ...state,
+          items: state.items.concat(product),
+        };
+      }
     default:
       return state;
   }

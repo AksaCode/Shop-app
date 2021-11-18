@@ -6,11 +6,10 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/HeaderButton';
 import { addP } from '../../store/action/product';
 
-
 const EditProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
-  
+
   const [value, setValue] = useState({
     title: editedProduct ? editedProduct.title : '',
     url: editedProduct ? editedProduct.imageUrl : '',
@@ -72,7 +71,7 @@ const EditProductScreen = (props) => {
         label="Description"
         placeholder="Description"
         keyboardType="default"
-        onChangeText={(value) =>setValue(value)}
+        onChangeText={(value) => setValue(value)}
         value={value.description}
         required
       />
