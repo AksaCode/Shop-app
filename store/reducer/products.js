@@ -11,27 +11,16 @@ const initialState = {
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case DELETE:
-      if (action.type === DELETE) {
-        let newList = [];
-        newList = state.userProducts.filter((item) => item.id !== action.id);
-        return { ...state, userProducts: [...newList] };
-      }
+      let newList = [];
+      newList = state.userProducts.filter((item) => item.id !== action.id);
+      return { ...state, userProducts: [...newList] };
     case ADD:
-      if (action.type === ADD) {
-        const product = new Product(
-          Math.random(),
-          'u1',
-          action.product.title,
-          action.product.imageUrl,
-          action.product.description,
-          action.product.price,
-        );
-        return {
-          ...state,
-          products: state.products.concat(product),
-          userProducts: state.products.concat(product),
-        };
-      }
+      const product = new Product(Math.random(), 'u1', action.title, action.imageUrl, action.description, action.price);
+      return {
+        ...state,
+        products: state.products.concat(product),
+        userProducts: state.userProducts.concat(product),
+      };
     default:
       return state;
   }

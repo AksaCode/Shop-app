@@ -6,5 +6,5 @@ export const deleteOnClick = (id) => {
 };
 
 export const addP = (title, imageUrl, description,price) => {
-  return { type: ADD, product: {title,imageUrl,description,price} };
+  return { type: ADD, title: title, imageUrl: imageUrl, description: description, price: price };
 };
