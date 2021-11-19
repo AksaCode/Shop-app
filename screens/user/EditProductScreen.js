@@ -10,6 +10,7 @@ import { editProduct } from '../../store/action/product';
 const EditProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
+  console.log(editedProduct);
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
   const [url, setUrl] = useState(editedProduct ? editedProduct.imageUrl : '');
   const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
@@ -22,8 +23,8 @@ const EditProductScreen = (props) => {
   }, [dispatch, title, url, description, price]);
 
   const editProductHandler = useCallback(() => {
-    dispatch(editProduct(editedProduct.id, editedProduct.ownerId, title, description, url));
-  }, [dispatch, editedProduct.ownerId, editedProduct.id, title, description, url]);
+    dispatch(editProduct(productId, 'u1', title, description, url));
+  }, [dispatch, productId, title, description, url]);
 
   useEffect(() => {
     props.navigation.setParams({
