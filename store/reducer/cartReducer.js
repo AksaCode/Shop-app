@@ -2,6 +2,7 @@ import { ADD_PRODUCT } from '../action/cart';
 import { DELETE_PRODUCT } from '../action/cart';
 import { CREATOR } from '../action/order';
 import { DELETE } from '../action/product';
+import { EDIT } from '../action/product';
 import CartProduct from '../../model/cart';
 
 const initState = {
@@ -76,7 +77,7 @@ const cartReducer = (state = initState, action) => {
         newList = newList.filter((item) => item !== undefined);
         return { ...state, items: [...newList], total: parseFloat(state.total.toFixed(2)) };
       }
-    
+
     default:
       return state;
   }
