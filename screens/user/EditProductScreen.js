@@ -5,14 +5,16 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/HeaderButton';
 import { addP } from '../../store/action/product';
+import { editProduct } from '../../store/action/product';
 
 const EditProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
-  const [title, setTitle] = useState({ title: editedProduct ? editedProduct.title : '' });
-  const [url, setUrl] = useState({ url: editedProduct ? editedProduct.imageUrl : '' });
-  const [description, setDescription] = useState({ description: editedProduct ? editedProduct.description : '' });
-  const [price, setPrice] = useState({ price: '' });
+  console.log(editedProduct);
+  const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
+  const [url, setUrl] = useState(editedProduct ? editedProduct.imageUrl : '');
+  const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
+  const [price, setPrice] = useState('');
 
   const dispatch = useDispatch();
 
@@ -20,8 +22,16 @@ const EditProductScreen = (props) => {
     dispatch(addP(title, url, description, price));
   }, [dispatch, title, url, description, price]);
 
+  const editProductHandler = useCallback(() => {
+    dispatch(editProduct(productId, 'u1', title, description, url));
+  }, [dispatch, productId, title, description, url]);
+
   useEffect(() => {
-    props.navigation.setParams({ addProduct: addProductHandler });
+    props.navigation.setParams({
+      addProduct: addProductHandler,
+      editProduct: editProductHandler,
+      editedProduct: editedProduct,
+    });
   }, [addProductHandler]);
 
   return (
@@ -78,15 +88,17 @@ const EditProductScreen = (props) => {
 
 EditProductScreen.navigationOptions = (navData) => {
   const addNewProduct = navData.navigation.getParam('addProduct');
+  const editSelectedProduct = navData.navigation.getParam('editProduct');
+  const editedProduct = navData.navigation.getParam('editedProduct');
   return {
     headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
-    headerRight: (
+    headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Checkout"
           iconName="md-checkmark"
           onPress={() => {
-            addNewProduct();
+            editedProduct ? editSelectedProduct() : addNewProduct();
             navData.navigation.goBack();
           }}
         />
