@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -15,6 +15,19 @@ const UserProductsScreen = (props) => {
     dispatch(deleteOnClick(productId));
   };
 
+  const deleteAlert = (id) => {
+    Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
+      { text: 'No', style: 'cancel' },
+      {
+        text: 'Yes',
+        style: 'default',
+        onPress: () => {
+          deleteProduct(id);
+        },
+      },
+    ]);
+  };
+
   const renderUserProductsItem = (itemData) => (
     <CardWrapper
       image={itemData.item.imageUrl}
@@ -24,7 +37,7 @@ const UserProductsScreen = (props) => {
     >
       <RowButtons
         rightAction={() => {
-          deleteProduct(itemData.item.id);
+          deleteAlert(itemData.item.id);
         }}
         leftAction={() => {
           props.navigation.navigate({
@@ -71,6 +84,6 @@ UserProductsScreen.navigationOptions = (navData) => {
   };
 };
 
-export default UserProductsScreen;
-
 const styles = StyleSheet.create({});
+
+export default UserProductsScreen;
