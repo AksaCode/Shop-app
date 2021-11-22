@@ -4,13 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/HeaderButton';
-import { addP } from '../../store/action/product';
+import { addNewProduct } from '../../store/action/product';
 import { editProduct } from '../../store/action/product';
 
 const EditProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
-  console.log(editedProduct);
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
   const [url, setUrl] = useState(editedProduct ? editedProduct.imageUrl : '');
   const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
@@ -19,7 +18,7 @@ const EditProductScreen = (props) => {
   const dispatch = useDispatch();
 
   const addProductHandler = useCallback(() => {
-    dispatch(addP(title, url, description, price));
+    dispatch(addNewProduct(title, url, description, price));
   }, [dispatch, title, url, description, price]);
 
   const editProductHandler = useCallback(() => {

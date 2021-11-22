@@ -1,7 +1,7 @@
 import { ADD_PRODUCT } from '../action/cart';
 import { DELETE_PRODUCT } from '../action/cart';
 import { CREATOR } from '../action/order';
-import { DELETE } from '../action/product';
+import { DELETE_ON_CLICK } from '../action/product';
 import CartProduct from '../../model/cart';
 
 const initState = {
@@ -60,7 +60,7 @@ const cartReducer = (state = initState, action) => {
     case CREATOR: {
       return { items: [], total: 0 };
     }
-    case DELETE: {
+    case DELETE_ON_CLICK: {
       let newList = [];
       newList = state.items.map((item) => {
         if (item.id !== action.id) {
