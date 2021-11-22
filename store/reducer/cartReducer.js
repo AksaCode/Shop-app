@@ -2,7 +2,9 @@ import { ADD_PRODUCT } from '../action/cart';
 import { DELETE_PRODUCT } from '../action/cart';
 import { CREATOR } from '../action/order';
 import { DELETE_ON_CLICK } from '../action/product';
+import { EDIT } from '../action/product';
 import CartProduct from '../../model/cart';
+import Product from '../../model/product';
 
 const initState = {
   items: [],
@@ -72,7 +74,22 @@ const cartReducer = (state = initState, action) => {
       newList = newList.filter((item) => item !== undefined);
       return { ...state, items: [...newList], total: parseFloat(state.total.toFixed(2)) };
     }
-
+    case EDIT:
+      const EditedProduct = state.items.find((prod) => prod.id === action.id);
+      const newEditedProduct = new CartProduct(
+        action.id,
+        action.ownerId,
+        action.title,
+        action.imageUrl,
+        action.description,
+        EditedProduct.price,
+        EditedProduct.count,
+      );
+      const editedItems = state.items.filter((product) => product.id !== EditedProduct.id);
+      return {
+        ...state,
+        items: [...editedItems, newEditedProduct],
+      };
     default:
       return state;
   }
