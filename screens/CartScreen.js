@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -18,6 +18,19 @@ const CartScreen = (props) => {
     dispatch(addOrder(cart, total));
   };
 
+  const orderAlert = () => {
+    Alert.alert('Empty cart', 'Select your products!', [
+      {
+        text: 'Go back',
+        onPress: () => {
+          props.navigation.navigate({
+            routeName: 'Products',
+          });
+        },
+      },
+    ]);
+  };
+
   return (
     <View>
       <View style={styles.pos}>
@@ -25,7 +38,12 @@ const CartScreen = (props) => {
           <View style={styles.container}>
             <Text>Total: {total} $</Text>
             <View>
-              <CustomButton title="Order now" action={() => executeOrder(cart, total)} />
+              <CustomButton
+                title="Order now"
+                action={() => {
+                  total === 0 ? orderAlert() : executeOrder(cart, total);
+                }}
+              />
             </View>
           </View>
         </View>

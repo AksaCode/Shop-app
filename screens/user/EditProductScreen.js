@@ -10,7 +10,6 @@ import { editProduct } from '../../store/action/product';
 const EditProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
-  console.log(editedProduct);
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
   const [url, setUrl] = useState(editedProduct ? editedProduct.imageUrl : '');
   const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
