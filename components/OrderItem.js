@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { color } from 'react-native-reanimated';
+import { StyleSheet, Text, View } from 'react-native';
 import moment from 'moment';
 import CustomButton from './CustomButton';
-import RowButtons from './RowButtons';
 import CartList from './CartList';
 
 const OrderItem = ({ order }) => {

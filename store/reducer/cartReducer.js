@@ -4,7 +4,6 @@ import { CREATOR } from '../action/order';
 import { DELETE_ON_CLICK } from '../action/product';
 import { EDIT } from '../action/product';
 import CartProduct from '../../model/cart';
-import Product from '../../model/product';
 
 const initState = {
   items: [],

@@ -1,17 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { Item } from 'react-navigation-header-buttons';
 import { HeaderButtons } from 'react-navigation-header-buttons';
 
 import OrderList from '../components/OrderList';
 import HeaderButton from '../components/HeaderButton';
+import EmptyOrder from '../components/EmptyOrder';
 
 const OrderScreen = (props) => {
-  return (
-    <View>
-      <OrderList />
-    </View>
-  );
+  const orders = useSelector((state) => state.orders.orders);
+  return <View>{orders.length === 0 ? <EmptyOrder /> : <OrderList />}</View>;
 };
 OrderScreen.navigationOptions = (navData) => {
   return {
