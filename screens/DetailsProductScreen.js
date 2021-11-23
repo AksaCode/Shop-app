@@ -3,14 +3,21 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useDispatch } from 'react-redux';
 
 import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
+import { addProduct } from '../store/action/cart';
 
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
   const productId = props.navigation.getParam('productId');
   const selectedProduct = availableProducts.find((product) => product.id === productId);
+
+  const dispatch = useDispatch();
+  const onAddToCart = (selectedProduct) => {
+    dispatch(addProduct(selectedProduct));
+  };
 
   useEffect(() => {
     props.navigation.setParams({ productTitle: selectedProduct.title });
@@ -20,7 +27,7 @@ const DetailsProductScreen = (props) => {
     <ScrollView>
       <Image source={{ uri: selectedProduct.imageUrl }} style={styles.image} />
       <View style={styles.buttonStyles}>
-        <CustomButton title="ADD TO CART" />
+        <CustomButton title="ADD TO CART" action={() => onAddToCart(selectedProduct)} />
       </View>
       <Text style={styles.priceStyles}>${selectedProduct.price}</Text>
       <Text style={styles.descriptionStyles}>{selectedProduct.description}</Text>
