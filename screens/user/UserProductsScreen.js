@@ -33,7 +33,14 @@ const UserProductsScreen = (props) => {
       image={itemData.item.imageUrl}
       title={itemData.item.title}
       price={itemData.item.price}
-      cardAction={() => {}}
+      cardAction={() => {
+        props.navigation.navigate({
+          routeName: 'Edit',
+          params: {
+            productId: itemData.item.id,
+          },
+        });
+      }}
     >
       <RowButtons
         rightAction={() => {
