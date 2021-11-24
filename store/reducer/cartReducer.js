@@ -75,20 +75,22 @@ const cartReducer = (state = initState, action) => {
     }
     case EDIT:
       const EditedProduct = state.items.find((prod) => prod.id === action.id);
-      const newEditedProduct = new CartProduct(
-        action.id,
-        action.ownerId,
-        action.title,
-        action.imageUrl,
-        action.description,
-        EditedProduct.price,
-        EditedProduct.count,
-      );
-      const editedItems = state.items.filter((product) => product.id !== EditedProduct.id);
-      return {
-        ...state,
-        items: [...editedItems, newEditedProduct],
-      };
+      if (EditedProduct) {
+        const newEditedProduct = new CartProduct(
+          action.id,
+          action.ownerId,
+          action.title,
+          action.imageUrl,
+          action.description,
+          EditedProduct.price,
+          EditedProduct.count,
+        );
+        const editedItems = state.items.filter((product) => product.id !== EditedProduct.id);
+        return {
+          ...state,
+          items: [...editedItems, newEditedProduct],
+        };
+      }
     default:
       return state;
   }
