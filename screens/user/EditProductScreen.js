@@ -55,11 +55,10 @@ const EditProductScreen = (props) => {
   });
 
   const addProductHandler = useCallback(() => {
-    // ne radi description
-    // if (!restOfFormState.formIsValid) {
-    //   Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
-    //   return;
-    // }
+    if (!restOfFormState.formIsValid) {
+      Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
+      return;
+    }
     dispatch(
       addNewProduct(
         restOfFormState.inputValues.title,
@@ -151,8 +150,8 @@ const EditProductScreen = (props) => {
         errorText="Please enter a valid description!"
         keyboardType="default"
         autoCapitalize="sentences"
+        returnKeyType="next"
         autoCorrect
-        multiline
         numberOfLines={3}
         onInputChange={inputChangeHandler}
         initialValue={editedProduct ? editedProduct.description : ''}
