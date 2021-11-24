@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Item } from 'react-navigation-header-buttons';
 import { HeaderButtons } from 'react-navigation-header-buttons';
