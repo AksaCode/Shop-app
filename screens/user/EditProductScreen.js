@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
-import { StyleSheet, View, TextInput, Text, Alert } from 'react-native';
+import React, { useState, useEffect, useCallback, useReducer, useLayoutEffect } from 'react';
+import { StyleSheet, View, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { Ionicons } from '@expo/vector-icons';
+//import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/HeaderButton';
 import Input from '../../components/Input';
 import { addNewProduct } from '../../store/action/product';
 import { editProduct } from '../../store/action/product';
+import Colors from '../../constants/Colors';
 
 const FORM_INPUT_CHANGES = 'FORM_INPUT_CHANGES';
 
@@ -33,9 +35,11 @@ const reactReducer = (state, action) => {
   return state;
 };
 
-const EditProductScreen = (props) => {
-  const productId = props.navigation.getParam('productId');
+const EditProductScreen = ({ route, navigation }) => {
+  const { productId } = route.params;
+  //const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
+  console.log(editedProduct);
   const dispatch = useDispatch();
 
   const [restOfFormState, dispatchRestOfFormState] = useReducer(reactReducer, {
@@ -86,7 +90,7 @@ const EditProductScreen = (props) => {
   }, [dispatch, productId, restOfFormState]);
 
   useEffect(() => {
-    props.navigation.setParams({
+    navigation.setParams({
       addProduct: addProductHandler,
       editProduct: editProductHandler,
       editedProduct: editedProduct,
@@ -104,6 +108,24 @@ const EditProductScreen = (props) => {
     },
     [dispatchRestOfFormState],
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View>
+          <Ionicons
+            name="md-checkmark"
+            size={25}
+            color={Colors.accentColor}
+            onPress={() => {
+              editedProduct ? editProductHandler() : addNewProduct();
+              navigation.goBack();
+            }}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <View>
@@ -163,7 +185,7 @@ const EditProductScreen = (props) => {
   );
 };
 
-EditProductScreen.navigationOptions = (navData) => {
+/* EditProductScreen.navigationOptions = (navData) => {
   const addNewProduct = navData.navigation.getParam('addProduct');
   const editSelectedProduct = navData.navigation.getParam('editProduct');
   const editedProduct = navData.navigation.getParam('editedProduct');
@@ -182,6 +204,6 @@ EditProductScreen.navigationOptions = (navData) => {
       </HeaderButtons>
     ),
   };
-};
+}; */
 
 export default EditProductScreen;

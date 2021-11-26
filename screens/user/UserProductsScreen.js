@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, FlatList, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+//import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
@@ -34,11 +34,8 @@ const UserProductsScreen = (props) => {
       title={itemData.item.title}
       price={itemData.item.price}
       cardAction={() => {
-        props.navigation.navigate({
-          routeName: 'Edit',
-          params: {
-            productId: itemData.item.id,
-          },
+        rops.navigation.navigate('Edit', {
+          productId: itemData.item.id,
         });
       }}
     >
@@ -47,11 +44,8 @@ const UserProductsScreen = (props) => {
           deleteAlert(itemData.item.id);
         }}
         leftAction={() => {
-          props.navigation.navigate({
-            routeName: 'Edit',
-            params: {
-              productId: itemData.item.id,
-            },
+          props.navigation.navigate('Edit', {
+            productId: itemData.item.id,
           });
         }}
         leftTitle="edit"
@@ -63,7 +57,7 @@ const UserProductsScreen = (props) => {
   return <FlatList data={userProducts} renderItem={renderUserProductsItem} numColumns={1} />;
 };
 
-UserProductsScreen.navigationOptions = (navData) => {
+/* UserProductsScreen.navigationOptions = (navData) => {
   return {
     headerTitle: 'Your products',
     headerLeft: () => (
@@ -89,7 +83,7 @@ UserProductsScreen.navigationOptions = (navData) => {
       </HeaderButtons>
     ),
   };
-};
+}; */
 
 const styles = StyleSheet.create({});
 
