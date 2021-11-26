@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../components/HeaderButton';
 import CustomButton from '../components/CustomButton';
@@ -51,23 +50,6 @@ const CartScreen = (props) => {
       <CartList data={cart} />
     </View>
   );
-};
-
-CartScreen.navigationOptions = (navData) => {
-  return {
-    headerTitle: 'Orders',
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName="md-arrow-back"
-          onPress={() => {
-            navData.navigation.goBack();
-          }}
-        />
-      </HeaderButtons>
-    ),
-  };
 };
 
 export default CartScreen;

@@ -25,6 +25,7 @@ const productsReducer = (state = initialState, action) => {
         userProducts: state.userProducts.concat(product),
       };
     case EDIT:
+      console.log('radi');
       const editIndex = state.userProducts.find((prod) => prod.id === action.id);
       const editedProduct = new Product(
         action.id,

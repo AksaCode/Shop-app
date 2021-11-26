@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
+import { useNavigationState } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useDispatch } from 'react-redux';
 
 import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
 import { addProduct } from '../store/action/cart';
 
-const DetailsProductScreen = (props) => {
+const DetailsProductScreen = ({ route, navigation }) => {
   const availableProducts = useSelector((state) => state.products.products);
-  const productId = props.navigation.getParam('productId');
+  const { productId } = route.params;
   const selectedProduct = availableProducts.find((product) => product.id === productId);
 
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const DetailsProductScreen = (props) => {
   };
 
   useEffect(() => {
-    props.navigation.setParams({ productTitle: selectedProduct.title });
+    navigation.setParams({ productTitle: selectedProduct.title });
   }, [selectedProduct]);
 
   return (
@@ -33,37 +33,6 @@ const DetailsProductScreen = (props) => {
       <Text style={styles.descriptionStyles}>{selectedProduct.description}</Text>
     </ScrollView>
   );
-};
-
-DetailsProductScreen.navigationOptions = (navigationData) => {
-  const productId = navigationData.navigation.getParam('productId');
-  const productTitle = navigationData.navigation.getParam('productTitle');
-
-  return {
-    headerTitle: productTitle,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName="md-arrow-back"
-          onPress={() => {
-            navigationData.navigation.goBack();
-          }}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Cart"
-          iconName="md-cart"
-          onPress={() => {
-            navigationData.navigation.navigate({ routeName: 'Cart' });
-          }}
-        />
-      </HeaderButtons>
-    ),
-  };
 };
 
 const styles = StyleSheet.create({
