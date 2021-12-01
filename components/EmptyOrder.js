@@ -6,7 +6,7 @@ import Colors from '../constants/Colors';
 const EmptyOrder = (props) => {
   return (
     <View>
-      <Text style={styles.mainStyle}>There is no orders...</Text>
+      <Text style={styles.mainStyle}>{props.output}</Text>
       <View>
         <Image
           style={{ width: 100, height: 100, marginHorizontal: 140, marginVertical: 40 }}
@@ -14,6 +14,7 @@ const EmptyOrder = (props) => {
             uri: 'https://www.kaphstore.com/resources/assets/front/images/cartempty.png',
           }}
         />
+        {props.children}
       </View>
     </View>
   );

@@ -7,16 +7,29 @@ export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 export const fetchProducts = () => {
   return async (dispatch) => {
-    const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
-
-    const resData = await response.json();
-    const loadedProducts = [];
-    for (const key in resData) {
-      loadedProducts.push(
-        new Product(key, 'u1', resData[key].title, resData[key].description, resData[key].imageUrl, resData[key].price),
-      );
+    try {
+      const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
+      if (!response.ok) {
+        throw new Error('Response is not 200');
+      }
+      const resData = await response.json();
+      const loadedProducts = [];
+      for (const key in resData) {
+        loadedProducts.push(
+          new Product(
+            key,
+            'u1',
+            resData[key].title,
+            resData[key].description,
+            resData[key].imageUrl,
+            resData[key].price,
+          ),
+        );
+        dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+      }
+    } catch (error) {
+      throw error;
     }
-    dispatch({ type: SET_PRODUCTS, products: loadedProducts });
   };
 };
 
@@ -26,7 +39,6 @@ export const deleteOnClick = (id) => {
       method: 'DELETE',
     });
     const resData = await response.json();
-    console.log(resData);
     dispetch({ type: DELETE_ON_CLICK, id: id });
   };
 };
@@ -46,7 +58,6 @@ export const addNewProduct = (title, imageUrl, description, price) => {
       }),
     });
     const responseData = await response.json();
-    console.log(responseData);
     dispatch({
       type: ADD,
       id: responseData.name,
