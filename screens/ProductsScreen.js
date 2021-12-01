@@ -30,6 +30,14 @@ const ProductsList = (props) => {
     setLoading(false);
   }, [dispatch, setError, setLoading]);
 
+  useEffect(() =>{
+    const willFocus = props.navigation.addListener('willFocus', loadinOfProducts)
+    return () => {
+      willFocus.remove();
+    };
+  },[loadinOfProducts]);
+    
+
   useEffect(() => {
     loadinOfProducts();
   }, [dispatch, loadinOfProducts]);
