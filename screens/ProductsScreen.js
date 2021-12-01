@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -8,10 +8,15 @@ import { addProduct } from '../store/action/cart';
 import CardWrapper from '../components/CardWrapper';
 import HeaderButton from '../components/HeaderButton';
 import RowButtons from '../components/RowButtons';
+import * as productActions from '../store/action/product';
 
 const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(productActions.fetchProducts());
+  }, [dispatch]);
 
   const renderProductsItem = (itemData) => (
     <CardWrapper

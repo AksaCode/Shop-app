@@ -5,6 +5,7 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReduxThunk from 'redux-thunk';
 
@@ -26,7 +27,7 @@ const rootReducer = combineReducers({
   orders: orderReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+const store = createStore(rootReducer, composeWithDevTools(), applyMiddleware(ReduxThunk));
 
 export default function App(props) {
   const [fonts, setFonts] = useState(false);
