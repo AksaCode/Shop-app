@@ -10,7 +10,7 @@ import EmptyOrder from '../components/EmptyOrder';
 
 const OrderScreen = (props) => {
   const orders = useSelector((state) => state.orders.orders);
-  return <View>{orders.length === 0 ? <EmptyOrder /> : <OrderList />}</View>;
+  return <View>{orders.length === 0 ? <EmptyOrder output="There are no orders." /> : <OrderList />}</View>;
 };
 OrderScreen.navigationOptions = (navData) => {
   return {
