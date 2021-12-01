@@ -29,5 +29,18 @@ export const addNewProduct = (title, imageUrl, description, price) => {
 };
 
 export const editProduct = (id, ownerId, title, description, imageUrl) => {
-  return { type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl };
+  return async (dispatch) => {
+    await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        imageUrl,
+      }),
+    });
+    dispatch({ type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl });
+  };
 };
