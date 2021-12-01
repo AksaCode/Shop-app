@@ -6,6 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
+import EmptyOrder from '../../components/EmptyOrder';
 import { deleteOnClick } from '../../store/action/product';
 
 const UserProductsScreen = (props) => {
@@ -59,7 +60,9 @@ const UserProductsScreen = (props) => {
       />
     </CardWrapper>
   );
-
+  if (userProducts.length === 0) {
+    return <EmptyOrder output="This user has no products." />;
+  }
   return <FlatList data={userProducts} renderItem={renderUserProductsItem} numColumns={1} />;
 };
 

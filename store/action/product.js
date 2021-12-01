@@ -7,25 +7,66 @@ export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 export const fetchProducts = () => {
   return async (dispatch) => {
-    const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
-
-    const resData = await response.json();
-    const loadedProducts = [];
-    for (const key in resData) {
-      loadedProducts.push(
-        new Product(key, 'u1', resData[key].title, resData[key].description, resData[key].imageUrl, resData[key].price),
-      );
+    try {
+      const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
+      if (!response.ok) {
+        throw new Error('Response is not 200');
+      }
+      const resData = await response.json();
+      const loadedProducts = [];
+      for (const key in resData) {
+        loadedProducts.push(
+          new Product(
+            key,
+            'u1',
+            resData[key].title,
+            resData[key].description,
+            resData[key].imageUrl,
+            resData[key].price,
+          ),
+        );
+        dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+      }
+    } catch (error) {
+      throw error;
     }
-    dispatch({ type: SET_PRODUCTS, products: loadedProducts });
   };
 };
 
 export const deleteOnClick = (id) => {
-  return { type: DELETE_ON_CLICK, id: id };
+  return async (dispetch) => {
+    const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
+      method: 'DELETE',
+    });
+    const resData = await response.json();
+    dispetch({ type: DELETE_ON_CLICK, id: id });
+  };
 };
 
 export const addNewProduct = (title, imageUrl, description, price) => {
-  return { type: ADD, title: title, imageUrl: imageUrl, description: description, price: price };
+  return async (dispatch) => {
+    const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        imageUrl,
+        description,
+        price,
+      }),
+    });
+    const responseData = await response.json();
+    dispatch({
+      type: ADD,
+      id: responseData.name,
+      title: title,
+      imageUrl: imageUrl,
+      description: description,
+      price: price,
+    });
+  };
 };
 
 export const editProduct = (id, ownerId, title, description, imageUrl) => {
