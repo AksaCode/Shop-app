@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ReduxThunk from 'redux-thunk';
 
 import productsReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cartReducer';
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   orders: orderReducer,
 });
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App(props) {
   const [fonts, setFonts] = useState(false);

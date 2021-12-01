@@ -3,8 +3,13 @@ export const ADD = 'ADD';
 export const EDIT = 'EDIT';
 
 export const deleteOnClick = (id) => {
-  return { type: DELETE_ON_CLICK, id: id };
-};
+  return async dispetch => {
+    await fetch(`https://rn-complete-guide.firebaseio.com/products/${id}.json`,
+    {
+      method: 'DELETE'
+    });
+    dispetch({ type: DELETE_ON_CLICK, id: id });
+  }};
 
 export const addNewProduct = (title, imageUrl, description, price) => {
   return { type: ADD, title: title, imageUrl: imageUrl, description: description, price: price };
