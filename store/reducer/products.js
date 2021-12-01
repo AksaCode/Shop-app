@@ -1,7 +1,5 @@
 import { PRODUCTS } from '../../data/dummy-data';
-import { DELETE_ON_CLICK } from '../action/product';
-import { ADD } from '../action/product';
-import { EDIT } from '../action/product';
+import { DELETE_ON_CLICK, ADD, EDIT, SET_PRODUCTS } from '../action/product';
 import Product from '../../model/product';
 
 const initialState = {
@@ -11,6 +9,11 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_PRODUCTS:
+      return {
+        products: action.products,
+        userProducts: action.products.filter((item) => item.ownerId === 'u1'),
+      };
     case DELETE_ON_CLICK:
       let newList = [];
       newList = state.userProducts.filter((item) => item.id !== action.id);
