@@ -21,7 +21,8 @@ const productsReducer = (state = initialState, action) => {
       newListProducts = state.products.filter((item) => item.id !== action.id);
       return { ...state, userProducts: [...newList], products: [...newListProducts] };
     case ADD:
-      const product = new Product(Math.random(), 'u1', action.title, action.imageUrl, action.description, action.price);
+      const product = new Product(action.id, 'u1', action.title, action.imageUrl, action.description, action.price);
+      console.log(product);
       return {
         ...state,
         products: state.products.concat(product),
