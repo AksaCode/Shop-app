@@ -41,8 +41,8 @@ const EditProductScreen = (props) => {
   const [restOfFormState, dispatchRestOfFormState] = useReducer(reactReducer, {
     inputValues: {
       title: editedProduct ? editedProduct.title : '',
-      description: editedProduct ? editedProduct.description : '',
       imageUrl: editedProduct ? editedProduct.imageUrl : '',
+      description: editedProduct ? editedProduct.description : '',
       price: '',
     },
     inputValidities: {
@@ -79,8 +79,8 @@ const EditProductScreen = (props) => {
         productId,
         'u1',
         restOfFormState.inputValues.title,
-        restOfFormState.inputValues.description,
         restOfFormState.inputValues.imageUrl,
+        restOfFormState.inputValues.description,
       ),
     );
   }, [dispatch, productId, restOfFormState]);
@@ -106,59 +106,61 @@ const EditProductScreen = (props) => {
   );
 
   return (
-    <View>
-      <Input
-        id="title"
-        label="Title"
-        errorText="Please enter a valid title!"
-        keyboardType="default"
-        autoCapitalize="sentences"
-        autoCorrect
-        returnKeyType="next"
-        onInputChange={inputChangeHandler}
-        initialValue={editedProduct ? editedProduct.title : ''}
-        initiallyValid={!!editedProduct}
-        required
-      />
-
-      <Input
-        id="imageUrl"
-        label="Image Url"
-        errorText="Please enter a valid image imageUrl!"
-        keyboardType="default"
-        returnKeyType="next"
-        onInputChange={inputChangeHandler}
-        initialValue={editedProduct ? editedProduct.imageUrl : ''}
-        initiallyValid={!!editedProduct}
-        required
-      />
-      {editedProduct ? null : (
+    <View removeClippedSubviews={false}>
+      <View>
         <Input
-          id="price"
-          label="Price"
-          errorText="Please enter a valid price!"
-          keyboardType="decimal-pad"
+          id="title"
+          label="Title"
+          errorText="Please enter a valid title!"
+          keyboardType="default"
+          autoCapitalize="sentences"
+          autoCorrect
           returnKeyType="next"
           onInputChange={inputChangeHandler}
+          initialValue={editedProduct ? editedProduct.title : ''}
+          initiallyValid={!!editedProduct}
           required
-          min={0.1}
         />
-      )}
-      <Input
-        id="description"
-        label="Description"
-        errorText="Please enter a valid description!"
-        keyboardType="default"
-        autoCapitalize="sentences"
-        returnKeyType="next"
-        autoCorrect
-        numberOfLines={3}
-        onInputChange={inputChangeHandler}
-        initialValue={editedProduct ? editedProduct.description : ''}
-        initiallyValid={!!editedProduct}
-        required
-        minLength={5}
-      />
+
+        <Input
+          id="imageUrl"
+          label="Image Url"
+          errorText="Please enter a valid image imageUrl!"
+          keyboardType="default"
+          returnKeyType="next"
+          onInputChange={inputChangeHandler}
+          initialValue={editedProduct ? editedProduct.imageUrl : ''}
+          initiallyValid={!!editedProduct}
+          required
+        />
+        {editedProduct ? null : (
+          <Input
+            id="price"
+            label="Price"
+            errorText="Please enter a valid price!"
+            keyboardType="decimal-pad"
+            returnKeyType="next"
+            onInputChange={inputChangeHandler}
+            required
+            min={0.1}
+          />
+        )}
+        <Input
+          id="description"
+          label="Description"
+          errorText="Please enter a valid description!"
+          keyboardType="default"
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          autoCorrect
+          numberOfLines={3}
+          onInputChange={inputChangeHandler}
+          initialValue={editedProduct ? editedProduct.description : ''}
+          initiallyValid={!!editedProduct}
+          required
+          minLength={5}
+        />
+      </View>
     </View>
   );
 };

@@ -20,8 +20,8 @@ export const fetchProducts = () => {
             key,
             'u1',
             resData[key].title,
-            resData[key].description,
             resData[key].imageUrl,
+            resData[key].description,
             resData[key].price,
           ),
         );
@@ -69,7 +69,7 @@ export const addNewProduct = (title, imageUrl, description, price) => {
   };
 };
 
-export const editProduct = (id, ownerId, title, description, imageUrl) => {
+export const editProduct = (id, ownerId, title, imageUrl, description) => {
   return async (dispatch) => {
     await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
       method: 'PATCH',
@@ -78,8 +78,8 @@ export const editProduct = (id, ownerId, title, description, imageUrl) => {
       },
       body: JSON.stringify({
         title,
-        description,
         imageUrl,
+        description,
       }),
     });
     dispatch({ type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl });

@@ -63,16 +63,16 @@ const EditProductScreen = (props) => {
         productsActions.updateProduct(
           prodId,
           formState.inputValues.title,
-          formState.inputValues.description,
           formState.inputValues.imageUrl,
+          formState.inputValues.description,
         ),
       );
     } else {
       dispatch(
         productsActions.createProduct(
           formState.inputValues.title,
-          formState.inputValues.description,
           formState.inputValues.imageUrl,
+          formState.inputValues.description,
           +formState.inputValues.price,
         ),
       );

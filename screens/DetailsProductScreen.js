@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
 import { addProduct } from '../store/action/cart';
+import Product from '../model/product';
 
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
@@ -20,7 +21,9 @@ const DetailsProductScreen = (props) => {
   };
 
   useEffect(() => {
-    props.navigation.setParams({ productTitle: selectedProduct.title });
+    props.navigation.setParams({
+      productTitle: selectedProduct.title,
+    });
   }, [selectedProduct]);
 
   return (
