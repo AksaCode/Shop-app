@@ -39,7 +39,6 @@ const EditProductScreen = ({ route, navigation }) => {
   const { productId } = route.params;
   //const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
-  console.log(editedProduct);
   const dispatch = useDispatch();
 
   const [restOfFormState, dispatchRestOfFormState] = useReducer(reactReducer, {
@@ -89,13 +88,13 @@ const EditProductScreen = ({ route, navigation }) => {
     );
   }, [dispatch, productId, restOfFormState]);
 
-  useEffect(() => {
-    navigation.setParams({
-      addProduct: addProductHandler,
-      editProduct: editProductHandler,
-      editedProduct: editedProduct,
-    });
-  }, [addProductHandler, editProductHandler, editedProduct]);
+  // useEffect(() => {
+  //   navigation.setParams({
+  //     addProduct: addProductHandler,
+  //     editProduct: editProductHandler,
+  //     editedProduct: editedProduct,
+  //   });
+  // }, [addProductHandler, editProductHandler, editedProduct]);
 
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
@@ -116,9 +115,9 @@ const EditProductScreen = ({ route, navigation }) => {
           <Ionicons
             name="md-checkmark"
             size={25}
-            color={Colors.accentColor}
+            color={Colors.primaryColor}
             onPress={() => {
-              editedProduct ? editProductHandler() : addNewProduct();
+              editedProduct ? editProductHandler() : addProductHandler();
               navigation.goBack();
             }}
           />

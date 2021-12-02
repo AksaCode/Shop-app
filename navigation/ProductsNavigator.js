@@ -155,18 +155,6 @@ const UserScreenNavigator = ({ navigation, route }) => (
             />
           </View>
         ),
-        headerRight: () => (
-          <View>
-            <Ionicons
-              name="md-create"
-              size={25}
-              color={Colors.accentColor}
-              onPress={() => {
-                navigation.navigate('Edit');
-              }}
-            />
-          </View>
-        ),
       }}
     />
     <Stack3.Screen

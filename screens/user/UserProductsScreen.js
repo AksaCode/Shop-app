@@ -1,6 +1,8 @@
-import React from 'react';
-import { StyleSheet, FlatList, Alert } from 'react-native';
+import React, { useLayoutEffect, useState } from 'react';
+import { StyleSheet, FlatList, Alert, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
+
 //import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardWrapper from '../../components/CardWrapper';
@@ -8,7 +10,8 @@ import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
 import { deleteOnClick } from '../../store/action/product';
 
-const UserProductsScreen = (props) => {
+const UserProductsScreen = ({ navigation }) => {
+  const [prodId, setProdId] = useState();
   const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
   const deleteProduct = (productId) => {
@@ -44,7 +47,7 @@ const UserProductsScreen = (props) => {
           deleteAlert(itemData.item.id);
         }}
         leftAction={() => {
-          props.navigation.navigate('Edit', {
+          navigation.navigate('Edit', {
             productId: itemData.item.id,
           });
         }}
@@ -53,7 +56,24 @@ const UserProductsScreen = (props) => {
       />
     </CardWrapper>
   );
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View>
+          <Ionicons
+            name="md-create"
+            size={25}
+            color="green"
+            onPress={() => {
+              navigation.navigate('Edit', {
+                productId: -1,
+              });
+            }}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
   return <FlatList data={userProducts} renderItem={renderUserProductsItem} numColumns={1} />;
 };
 

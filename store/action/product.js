@@ -12,4 +12,5 @@ export const addNewProduct = (title, imageUrl, description, price) => {
 
 export const editProduct = (id, ownerId, title, description, imageUrl) => {
   return { type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl };
+  // dispatch({ type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl });
 };

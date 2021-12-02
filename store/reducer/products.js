@@ -18,14 +18,16 @@ const productsReducer = (state = initialState, action) => {
       newListProducts = state.products.filter((item) => item.id !== action.id);
       return { ...state, userProducts: [...newList], products: [...newListProducts] };
     case ADD:
+      console.log('edit start');
       const product = new Product(Math.random(), 'u1', action.title, action.imageUrl, action.description, action.price);
+      console.log(product);
       return {
         ...state,
         products: state.products.concat(product),
         userProducts: state.userProducts.concat(product),
       };
     case EDIT:
-      console.log('radi');
+      console.log('edit start');
       const editIndex = state.userProducts.find((prod) => prod.id === action.id);
       const editedProduct = new Product(
         action.id,
@@ -35,6 +37,7 @@ const productsReducer = (state = initialState, action) => {
         action.description,
         editIndex.price,
       );
+      console.log(editedProduct);
       const editedMap = state.userProducts.filter((product) => product.id !== editedProduct.id);
       const editedMapProducts = state.products.filter((product) => product.id !== editedProduct.id);
       state.products.splice(editIndex, 1);
