@@ -34,14 +34,14 @@ export const fetchProducts = () => {
 };
 
 export const deleteOnClick = (id) => {
-  return async (dispetch) => {
+  return async (dispatch) => {
     const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
       method: 'DELETE',
     });
     if (!response.ok) {
       throw new Error('Response is not 200');
     }
-    dispetch({ type: DELETE_ON_CLICK, id: id });
+    dispatch({ type: DELETE_ON_CLICK, id: id });
   };
 };
 

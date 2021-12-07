@@ -73,8 +73,8 @@ const EditProductScreen = (props) => {
           restOfFormState.inputValues.price,
         ),
       );
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     }
     setLoading(false);
   }, [dispatch, restOfFormState]);
@@ -96,10 +96,9 @@ const EditProductScreen = (props) => {
           restOfFormState.inputValues.description,
         ),
       );
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     }
-
     setLoading(false);
   }, [dispatch, productId, restOfFormState]);
 
@@ -122,15 +121,16 @@ const EditProductScreen = (props) => {
     },
     [dispatchRestOfFormState],
   );
-  if (loading) {
-    return <LoadingComponent />;
-  }
-
   useEffect(() => {
     if (error) {
       Alert.alert('Error', error, [{ text: 'Ok' }]);
     }
   }, [error]);
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
+
   return (
     <View removeClippedSubviews={false}>
       <View>
