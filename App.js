@@ -12,6 +12,7 @@ import ReduxThunk from 'redux-thunk';
 import productsReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cartReducer';
 import orderReducer from './store/reducer/orderReducer';
+import authReducer from './store/reducer/auth';
 import ProductsNavigator from './navigation/ProductsNavigator';
 
 const fontFetch = () => {
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
   orders: orderReducer,
+  auth: authReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(), applyMiddleware(ReduxThunk));
