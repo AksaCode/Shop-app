@@ -20,7 +20,7 @@ const ProductsList = (props) => {
   const products = useSelector((state) => state.products.products);
   const dispatch = useDispatch();
 
-  const loadinOfProducts = useCallback(async () => {
+  const loadingOfProducts = useCallback(async () => {
     setError(null);
     setIsRefreshing(true);
     try {
@@ -32,18 +32,18 @@ const ProductsList = (props) => {
   }, [dispatch, setError, setLoading]);
 
   useEffect(() => {
-    const willFocus = props.navigation.addListener('willFocus', loadinOfProducts);
+    const willFocus = props.navigation.addListener('willFocus', loadingOfProducts);
     return () => {
       willFocus.remove();
     };
-  }, [loadinOfProducts]);
+  }, [loadingOfProducts]);
 
   useEffect(() => {
     setLoading(true);
-    loadinOfProducts().then(() => {
+    loadingOfProducts().then(() => {
       setLoading(false);
     });
-  }, [dispatch, loadinOfProducts]);
+  }, [dispatch, loadingOfProducts]);
 
   const renderProductsItem = (itemData) => (
     <CardWrapper
@@ -81,7 +81,7 @@ const ProductsList = (props) => {
   if (error) {
     return (
       <EmptyOrder output="There is an error.">
-        <Button title="reload" onPress={loadinOfProducts} color={Colors.accentColor} />
+        <Button title="reload" onPress={loadingOfProducts} color={Colors.accentColor} />
       </EmptyOrder>
     );
   }
@@ -93,7 +93,7 @@ const ProductsList = (props) => {
   }
   return (
     <FlatList
-      onRefresh={loadinOfProducts}
+      onRefresh={loadingOfProducts}
       refreshing={isRefreshing}
       data={products}
       renderItem={renderProductsItem}

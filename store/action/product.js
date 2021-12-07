@@ -34,12 +34,14 @@ export const fetchProducts = () => {
 };
 
 export const deleteOnClick = (id) => {
-  return async (dispetch) => {
+  return async (dispatch) => {
     const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
       method: 'DELETE',
     });
-    const resData = await response.json();
-    dispetch({ type: DELETE_ON_CLICK, id: id });
+    if (!response.ok) {
+      throw new Error('Response is not 200');
+    }
+    dispatch({ type: DELETE_ON_CLICK, id: id });
   };
 };
 
@@ -71,7 +73,7 @@ export const addNewProduct = (title, imageUrl, description, price) => {
 
 export const editProduct = (id, ownerId, title, imageUrl, description) => {
   return async (dispatch) => {
-    await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
+    const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -82,6 +84,9 @@ export const editProduct = (id, ownerId, title, imageUrl, description) => {
         description,
       }),
     });
+    if (!response.ok) {
+      throw new Error('Response is not 200');
+    }
     dispatch({ type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl });
   };
 };

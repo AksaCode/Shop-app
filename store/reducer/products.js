@@ -22,7 +22,6 @@ const productsReducer = (state = initialState, action) => {
       return { ...state, userProducts: [...newList], products: [...newListProducts] };
     case ADD:
       const product = new Product(action.id, 'u1', action.title, action.imageUrl, action.description, action.price);
-      console.log(product);
       return {
         ...state,
         products: state.products.concat(product),

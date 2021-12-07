@@ -5,6 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/HeaderButton';
 import Input from '../../components/Input';
+import LoadingComponent from '../../components/LoadingComponent';
 import { addNewProduct } from '../../store/action/product';
 import { editProduct } from '../../store/action/product';
 
@@ -34,6 +35,8 @@ const reactReducer = (state, action) => {
 };
 
 const EditProductScreen = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
   const productId = props.navigation.getParam('productId');
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
   const dispatch = useDispatch();
@@ -54,35 +57,49 @@ const EditProductScreen = (props) => {
     formIsValid: editedProduct ? true : false,
   });
 
-  const addProductHandler = useCallback(() => {
+  const addProductHandler = useCallback(async () => {
     if (!restOfFormState.formIsValid) {
       Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
       return;
     }
-    dispatch(
-      addNewProduct(
-        restOfFormState.inputValues.title,
-        restOfFormState.inputValues.imageUrl,
-        restOfFormState.inputValues.description,
-        restOfFormState.inputValues.price,
-      ),
-    );
+    setError(null);
+    setLoading(true);
+    try {
+      await dispatch(
+        addNewProduct(
+          restOfFormState.inputValues.title,
+          restOfFormState.inputValues.imageUrl,
+          restOfFormState.inputValues.description,
+          restOfFormState.inputValues.price,
+        ),
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
   }, [dispatch, restOfFormState]);
 
-  const editProductHandler = useCallback(() => {
+  const editProductHandler = useCallback(async () => {
     if (!restOfFormState.formIsValid) {
       Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
       return;
     }
-    dispatch(
-      editProduct(
-        productId,
-        'u1',
-        restOfFormState.inputValues.title,
-        restOfFormState.inputValues.imageUrl,
-        restOfFormState.inputValues.description,
-      ),
-    );
+    setError(null);
+    setLoading(true);
+    try {
+      await dispatch(
+        editProduct(
+          productId,
+          'u1',
+          restOfFormState.inputValues.title,
+          restOfFormState.inputValues.imageUrl,
+          restOfFormState.inputValues.description,
+        ),
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
   }, [dispatch, productId, restOfFormState]);
 
   useEffect(() => {
@@ -104,6 +121,15 @@ const EditProductScreen = (props) => {
     },
     [dispatchRestOfFormState],
   );
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Error', error, [{ text: 'Ok' }]);
+    }
+  }, [error]);
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <View removeClippedSubviews={false}>
