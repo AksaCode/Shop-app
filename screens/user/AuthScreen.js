@@ -35,8 +35,8 @@ const signReducer = (state, action) => {
 
 const AuthScreen = (props) => {
   const [isSignUp, setIsSignUp] = useState(false);
-
   const dispatch = useDispatch();
+
   const [signState, dispatchSignState] = useReducer(signReducer, {
     inputValues: {
       email: '',
@@ -81,8 +81,8 @@ const AuthScreen = (props) => {
               required
               email
               autoCapitalize="none"
-              errorText="Some error email text."
-              onInputChange={authHandler}
+              errorText="Please enter a valid email address."
+              onInputChange={signHandler}
               initialValue=""
             />
             <Input
@@ -93,12 +93,12 @@ const AuthScreen = (props) => {
               required
               minLength={8}
               autoCapitalize="none"
-              errorText="Some error password text."
+              errorText="Please enter a valid password."
               onInputChange={signHandler}
               initialValue=""
             />
             <View style={styles.buttonStyle}>
-              <Button title={isSignUp ? 'Sign Up' : 'Login'} color={Colors.primaryColor} onPress={signupHandler} />
+              <Button title={isSignUp ? 'Sign Up' : 'Login'} color={Colors.primaryColor} onPress={authHandler} />
             </View>
             <View style={styles.buttonStyle}>
               <Button
