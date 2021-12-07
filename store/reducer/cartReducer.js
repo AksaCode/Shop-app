@@ -33,7 +33,7 @@ const cartReducer = (state = initState, action) => {
         items: newItems.sort(function (a, b) {
           return ('' + a.title).localeCompare(b.title);
         }),
-        total: parseFloat(totalCost.toFixed(2)),
+        total: parseFloat(totalCost),
       };
     }
     case DELETE_PRODUCT: {

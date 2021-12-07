@@ -16,18 +16,19 @@ import Colors from '../constants/Colors';
 const ProductsList = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const products = useSelector((state) => state.products.products);
   const dispatch = useDispatch();
 
   const loadinOfProducts = useCallback(async () => {
     setError(null);
-    setLoading(true);
+    setIsRefreshing(true);
     try {
       await dispatch(productActions.fetchProducts());
     } catch (error) {
       setError(error.message);
     }
-    setLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setError, setLoading]);
 
   useEffect(() => {
@@ -38,7 +39,10 @@ const ProductsList = (props) => {
   }, [loadinOfProducts]);
 
   useEffect(() => {
-    loadinOfProducts();
+    setLoading(true);
+    loadinOfProducts().then(() => {
+      setLoading(false);
+    });
   }, [dispatch, loadinOfProducts]);
 
   const renderProductsItem = (itemData) => (
@@ -87,7 +91,15 @@ const ProductsList = (props) => {
   if (!loading && products.length === 0) {
     return <EmptyOrder output="There are no products." />;
   }
-  return <FlatList data={products} renderItem={renderProductsItem} numColumns={1} />;
+  return (
+    <FlatList
+      onRefresh={loadinOfProducts}
+      refreshing={isRefreshing}
+      data={products}
+      renderItem={renderProductsItem}
+      numColumns={1}
+    />
+  );
 };
 
 ProductsList.navigationOptions = (navData) => {
