@@ -21,7 +21,7 @@ export const signup = (email, password) => {
     const responseData = await response.json();
     console.log(responseData);
 
-    dispatch({ type: SIGN_UP });
+    dispatch({ type: SIGN_UP, token: responseData.idToken, userId: responseData.localId });
   };
 };
 
@@ -47,6 +47,6 @@ export const login = (email, password) => {
     }
     const responseData = await response.json();
     console.log(responseData);
-    dispatch({ type: LOGIN });
+    dispatch({ type: LOGIN, token: responseData.idToken, userId: responseData.localId });
   };
 };
