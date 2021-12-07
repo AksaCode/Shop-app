@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { ScrollView, View, KeyboardAvoidingView, StyleSheet, Button } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -7,6 +7,7 @@ import CardWrapper from '../../components/CardWrapper';
 import Colors from '../../constants/Colors';
 
 const AuthScreen = (props) => {
+    const [isSignUp, setIsSignUp] = useState(false);
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screenStyle}>
       <LinearGradient colors={['#ffff99','#ffffcc']}>
@@ -35,8 +36,18 @@ const AuthScreen = (props) => {
             onInputChange={() => {}}
             initialValue=""
           />
-          <View style={styles.buttonStyle}><Button title="Login" color={Colors.primaryColor} onPress={() => {}} /></View>
-          <View style={styles.buttonStyle}><Button title="Sign Up" color={Colors.accentColor} onPress={() => {}} /></View>
+          <View style={styles.buttonStyle}>
+              <Button title={isSignUp ? 'Sign Up' : 'Login'} 
+              color={Colors.primaryColor} 
+              onPress={() => {}} />
+            </View>
+          <View style={styles.buttonStyle}>
+              <Button title={`Switch to ${isSignUp ? 'Login' : 'Sign Up'}`} 
+              color={Colors.accentColor} 
+              onPress={() => {
+                  setIsSignUp(prevState => !prevState);
+              }} />
+          </View>
         </ScrollView>
       </CardWrapper>
       </LinearGradient>
