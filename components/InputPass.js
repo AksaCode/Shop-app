@@ -1,5 +1,6 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const INPUT_BLUR = 'INPUT_BLUR';
@@ -22,7 +23,9 @@ const inputReducer = (state, action) => {
   }
 };
 
-const Input = (props) => {
+const InputPass = (props) => {
+  const [icon, setIcon] = useState('ios-eye-off');
+  const [hidePassword, setHidePassword] = useState(true);
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue ? props.initialValue : '',
     isValid: props.initiallyValid,
@@ -63,9 +66,14 @@ const Input = (props) => {
     dispatch({ type: INPUT_BLUR });
   };
 
+  _changeIcon = () => {
+    icon !== 'ios-eye-off' ? (setIcon('ios-eye-off'), setHidePassword(false)) : (setIcon('eye'), setHidePassword(true));
+  };
+
   return (
     <View>
       <Text style={styles.label}>{props.label}</Text>
+
       <View style={styles.passV}>
         <TextInput
           {...props}
@@ -73,6 +81,14 @@ const Input = (props) => {
           value={inputState.value}
           onChangeText={textChangeHandler}
           onBlur={lostFocusHandler}
+          secureTextEntry={hidePassword}
+        />
+        <Ionicons
+          name={icon}
+          size={23}
+          onPress={() => _changeIcon()}
+          style={{ textAlign: 'right', width: '15%' }}
+          color="black"
         />
       </View>
       {!inputState.isValid && <Text>{props.errorText}</Text>}
@@ -84,7 +100,7 @@ const styles = StyleSheet.create({
   input: {
     borderColor: 'black',
     borderBottomWidth: 1,
-    width: '90%',
+    width: '70%',
     height: 50,
     marginHorizontal: 15,
   },
@@ -97,9 +113,8 @@ const styles = StyleSheet.create({
   },
   passV: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
   },
 });
 
-export default Input;
+export default InputPass;
