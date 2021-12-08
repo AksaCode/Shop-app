@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 
 import Input from '../../components/Input';
+import InputPass from '../../components/InputPass';
 import Card from '../../components/Card';
 import Colors from '../../constants/Colors';
 import * as authActions from '../../store/action/auth';
@@ -101,18 +102,19 @@ const AuthScreen = (props) => {
               onInputChange={signHandler}
               initialValue=""
             />
-            <Input
-              id="password"
-              label="Password"
-              keyboardType="default"
-              secureTextEntry
-              required
-              minLength={8}
-              autoCapitalize="none"
-              errorText="Please enter a valid password."
-              onInputChange={signHandler}
-              initialValue=""
-            />
+            <View>
+              <InputPass
+                id="password"
+                label="Password"
+                keyboardType="default"
+                required
+                minLength={8}
+                autoCapitalize="none"
+                errorText="Please enter a valid password."
+                onInputChange={signHandler}
+                initialValue=""
+              />
+            </View>
             <View style={styles.buttonStyle}>
               {isLoading ? (
                 <ActivityIndicator size="small" color={Colors.primaryColor} />
