@@ -12,6 +12,7 @@ import UserProductsScreen from '../screens/user/UserProductsScreen';
 import Colors from '../constants/Colors';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
+import StartupScreen from '../screens/StartupScreen';
 
 const defaultStackOptions = {
   headerTintColor: Colors.accentColor,
@@ -87,6 +88,7 @@ const AuthNavigator = createStackNavigator({
 });
 
 const LoginNavigator = createSwitchNavigator({
+  Startup : StartupScreen,
   Auth: AuthNavigator,
   Shop: MainNavigator,
 });
