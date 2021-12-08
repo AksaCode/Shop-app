@@ -26,6 +26,8 @@ export const signup = (email, password) => {
       }
       throw new Error(message);
     }
+    const responseData = await response.json();
+
     dispatch({ type: SIGN_UP, token: responseData.idToken, userId: responseData.localId });
   };
 };
