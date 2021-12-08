@@ -30,7 +30,6 @@ const cartReducer = (state = initState, action) => {
       }
 
       const totalCost = +state.total + +action.product.price;
-      console.log(totalCost);
       return {
         items: newItems.sort(function (a, b) {
           return ('' + a.title).localeCompare(b.title);

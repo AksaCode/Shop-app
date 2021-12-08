@@ -6,7 +6,8 @@ export const EDIT = 'EDIT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 export const fetchProducts = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
       if (!response.ok) {
@@ -18,14 +19,18 @@ export const fetchProducts = () => {
         loadedProducts.push(
           new Product(
             key,
-            'u1',
+            resData[key].ownerId,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
             resData[key].price,
           ),
         );
-        dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+        dispatch({
+          type: SET_PRODUCTS,
+          products: loadedProducts,
+          userProducts: loadedProducts.filter((prod) => prod.ownerId === userId),
+        });
       }
     } catch (error) {
       throw error;
@@ -52,6 +57,7 @@ export const deleteOnClick = (id) => {
 export const addNewProduct = (title, imageUrl, description, price) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json?auth=${token}`, {
       method: 'POST',
       headers: {
@@ -62,6 +68,7 @@ export const addNewProduct = (title, imageUrl, description, price) => {
         imageUrl,
         description,
         price,
+        ownerId: userId,
       }),
     });
     const responseData = await response.json();
@@ -72,11 +79,12 @@ export const addNewProduct = (title, imageUrl, description, price) => {
       imageUrl: imageUrl,
       description: description,
       price: price,
+      ownerId: userId,
     });
   };
 };
 
-export const editProduct = (id, ownerId, title, imageUrl, description) => {
+export const editProduct = (id, title, imageUrl, description) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
@@ -96,6 +104,6 @@ export const editProduct = (id, ownerId, title, imageUrl, description) => {
     if (!response.ok) {
       throw new Error('Response is not 200');
     }
-    dispatch({ type: EDIT, id: id, ownerId: ownerId, title: title, description: description, imageUrl: imageUrl });
+    dispatch({ type: EDIT, id: id, title: title, description: description, imageUrl: imageUrl });
   };
 };

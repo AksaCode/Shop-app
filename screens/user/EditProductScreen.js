@@ -90,7 +90,6 @@ const EditProductScreen = (props) => {
       await dispatch(
         editProduct(
           productId,
-          'u1',
           restOfFormState.inputValues.title,
           restOfFormState.inputValues.imageUrl,
           restOfFormState.inputValues.description,
