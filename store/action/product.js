@@ -34,10 +34,14 @@ export const fetchProducts = () => {
 };
 
 export const deleteOnClick = (id) => {
-  return async (dispatch) => {
-    const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
-      method: 'DELETE',
-    });
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
+      {
+        method: 'DELETE',
+      },
+    );
     if (!response.ok) {
       throw new Error('Response is not 200');
     }
@@ -46,8 +50,9 @@ export const deleteOnClick = (id) => {
 };
 
 export const addNewProduct = (title, imageUrl, description, price) => {
-  return async (dispatch) => {
-    const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json', {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json?auth=${token}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,18 +77,22 @@ export const addNewProduct = (title, imageUrl, description, price) => {
 };
 
 export const editProduct = (id, ownerId, title, imageUrl, description) => {
-  return async (dispatch) => {
-    const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          imageUrl,
+          description,
+        }),
       },
-      body: JSON.stringify({
-        title,
-        imageUrl,
-        description,
-      }),
-    });
+    );
     if (!response.ok) {
       throw new Error('Response is not 200');
     }
