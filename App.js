@@ -13,7 +13,7 @@ import productsReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cartReducer';
 import orderReducer from './store/reducer/orderReducer';
 import authReducer from './store/reducer/auth';
-import ProductsNavigator from './navigation/ProductsNavigator';
+import NavigationContainer from './navigation/NavigationContainer';
 
 const fontFetch = () => {
   return Font.loadAsync({
@@ -40,7 +40,7 @@ export default function App(props) {
   return (
     <Provider store={store}>
       <SafeAreaView style={styles.container}>
-        <ProductsNavigator />
+        <NavigationContainer />
       </SafeAreaView>
     </Provider>
   );
