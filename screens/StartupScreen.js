@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors';
+import * as authActions from '../store/action/auth';
 
 const StartupScreen = (props) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const tryLogin = async () => {
       const userData = await AsyncStorage.getItem('userData');
@@ -19,9 +23,10 @@ const StartupScreen = (props) => {
         return;
       }
       props.navigation.navigate('Shop');
+      dispatch(authActions.authenticate(userId, token));
     };
     tryLogin();
-  }, []);
+  }, [dispatch]);
 
   return (
     <View style={styles.screenStyle}>
