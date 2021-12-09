@@ -8,13 +8,13 @@ import { useDispatch } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
 import { addProduct } from '../store/action/cart';
-import Product from '../model/product';
 
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
   const productId = props.navigation.getParam('productId');
-  const selectedProduct = availableProducts.find((product) => product.id === productId);
-
+  let selectedProduct = availableProducts.find((product) => product.id === productId);
+  if (selectedProduct === undefined) selectedProduct = {};
+  console.log(selectedProduct);
   const dispatch = useDispatch();
   const onAddToCart = (selectedProduct) => {
     dispatch(addProduct(selectedProduct));
@@ -50,7 +50,7 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
           title="Menu"
           iconName="md-arrow-back"
           onPress={() => {
-            navigationData.navigation.goBack();
+            navigationData.navigation.navigate({ routeName: 'Products' });
           }}
         />
       </HeaderButtons>

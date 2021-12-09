@@ -66,15 +66,13 @@ const Input = (props) => {
   return (
     <View>
       <Text style={styles.label}>{props.label}</Text>
-      <View style={styles.passV}>
-        <TextInput
-          {...props}
-          style={styles.input}
-          value={inputState.value}
-          onChangeText={textChangeHandler}
-          onBlur={lostFocusHandler}
-        />
-      </View>
+      <TextInput
+        {...props}
+        style={styles.input}
+        value={inputState.value}
+        onChangeText={textChangeHandler}
+        onBlur={lostFocusHandler}
+      />
       {!inputState.isValid && <Text>{props.errorText}</Text>}
     </View>
   );
@@ -94,11 +92,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     color: 'black',
     fontWeight: 'bold',
-  },
-  passV: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
   },
 });
 
