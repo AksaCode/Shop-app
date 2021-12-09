@@ -95,7 +95,7 @@ const saveDataToStorage = (token, userId, expirationDate) => {
     }),
   );
 };
-//2 .5
+
 const clearTimer = () => {
   if (timer) clearTimeout(timer);
 };
