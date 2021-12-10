@@ -65,7 +65,7 @@ const AuthScreen = (props) => {
   );
   useEffect(() => {
     if (error) {
-      Alert.alert('An Error Occured!', error, [{ text: 'Okay' }]);
+      Alert.alert('An Error Ocurred!', error, [{ text: 'Okay' }]);
     }
   }, [error]);
 

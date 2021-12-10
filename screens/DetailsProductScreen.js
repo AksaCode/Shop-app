@@ -14,7 +14,6 @@ const DetailsProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
   let selectedProduct = availableProducts.find((product) => product.id === productId);
   if (selectedProduct === undefined) selectedProduct = {};
-  console.log(selectedProduct);
   const dispatch = useDispatch();
   const onAddToCart = (selectedProduct) => {
     dispatch(addProduct(selectedProduct));
