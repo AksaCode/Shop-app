@@ -29,7 +29,7 @@ const ProductsList = (props) => {
       setError(error.message);
     }
     setIsRefreshing(false);
-  }, [dispatch, setError, setLoading]);
+  }, [dispatch, setError, setLoading, setIsRefreshing]);
 
   useEffect(() => {
     const willFocus = props.navigation.addListener('willFocus', loadingOfProducts);
@@ -43,7 +43,7 @@ const ProductsList = (props) => {
     loadingOfProducts().then(() => {
       setLoading(false);
     });
-  }, [dispatch, loadingOfProducts]);
+  }, [dispatch, loadingOfProducts, setLoading]);
 
   const renderProductsItem = (itemData) => (
     <CardWrapper

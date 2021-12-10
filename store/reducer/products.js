@@ -10,7 +10,9 @@ const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PRODUCTS:
       return {
-        products: action.products,
+        products: action.products.sort(function (a, b) {
+          return ('' + a.title).localeCompare(b.title);
+        }),
         userProducts: action.userProducts,
       };
     case DELETE_ON_CLICK:
