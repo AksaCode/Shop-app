@@ -11,7 +11,6 @@ import ReduxThunk from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
 
 import productsReducer from './store/reducer/products';
-import cartReducer from './ReduxToolkit/cartReducer';
 // import cartReducer from './store/reducer/cartReducer';
 import orderReducer from './store/reducer/orderReducer';
 import authReducer from './store/reducer/auth';

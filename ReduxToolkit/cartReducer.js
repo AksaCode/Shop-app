@@ -2,16 +2,15 @@ import {  createSlice } from '@reduxjs/toolkit';
 
 import CartProduct from '../model/cart';
 
-const initState = {
-  items: [],
-  total: 0,
-};
 
 const cartSlice = createSlice({
   name: 'cartItems',
-  initState,
+  initialState:{
+    items: [],
+    total: 0,
+  },
   reducers: {
-    ADD_PRODUCT(state, action) {
+    addProduct(state, action) {
       const prodIndex = state.items.findIndex((item) => item.id === action.product.id);
       let newItems = [];
       if (prodIndex === -1) {
@@ -29,15 +28,15 @@ const cartSlice = createSlice({
       }
 
       const totalCost = +state.total + +action.product.price;
-      return {
-        items: newItems.sort(function (a, b) {
+      
+        state.items= newItems.sort(function (a, b) {
           return ('' + a.title).localeCompare(b.title);
-        }),
-        total: totalCost.toFixed(2),
-      };
+        })
+        state.total= totalCost.toFixed(2)
+      
     },
   },
-  DELETE_PRODUCT(state, action) {
+  deleteProduct(state, action) {
     let newItems = [];
     const cartProducts = [...state.items];
     state.items.map((item, index) => {
@@ -52,14 +51,14 @@ const cartSlice = createSlice({
         }
       }
     });
-    return {
-      items: newItems.sort(function (a, b) {
+  
+      state.items= newItems.sort(function (a, b) {
         return ('' + a.title).localeCompare(b.title);
-      }),
-      total: parseFloat(state.total.toFixed(2)),
-    };
-  },
+      })
+      state.total= parseFloat(state.total.toFixed(2))
+    
+  }
 });
 
-export const cartAction = cartSlice.actions;
-export default cartReducer;
+export const {addProduct,deleteProduct} = cartSlice.actions;
+export default cartSlice.reducer;

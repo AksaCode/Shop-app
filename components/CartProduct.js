@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { deleteProduct } from '../store/action/cart';
 
+
+
 const CartProduct = ({ productName, productPrice, id, count, active }) => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
