@@ -9,6 +9,7 @@ import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
 import { addProduct } from '../store/action/cart';
 
+
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
   const productId = props.navigation.getParam('productId');
