@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, FlatList, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -7,7 +7,10 @@ import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
 import EmptyOrder from '../../components/EmptyOrder';
-import { deleteOnClick } from '../../store/action/product';
+// REDUX
+// import { deleteOnClick } from '../../store/action/product';
+// TOOLKIT
+import { deleteOnClick, getProducts } from '../../ReduxToolkit/products';
 
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
@@ -15,6 +18,10 @@ const UserProductsScreen = (props) => {
   const deleteProduct = (productId) => {
     dispatch(deleteOnClick(productId));
   };
+
+  useEffect(() => {
+    getProducts();
+  }, [dispatch]);
 
   const deleteAlert = (id) => {
     Alert.alert('Are you sure?', 'Do you really want to delete this item?', [

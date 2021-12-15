@@ -6,8 +6,11 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/HeaderButton';
 import Input from '../../components/Input';
 import LoadingComponent from '../../components/LoadingComponent';
-import { addNewProduct } from '../../store/action/product';
+// REDUX
+// import { addNewProduct } from '../../store/action/product';
 import { editProduct } from '../../store/action/product';
+// TOOLKIT
+import { addNewProduct } from '../../ReduxToolkit/products';
 
 const FORM_INPUT_CHANGES = 'FORM_INPUT_CHANGES';
 
@@ -65,14 +68,7 @@ const EditProductScreen = (props) => {
     setError(null);
     setLoading(true);
     try {
-      await dispatch(
-        addNewProduct(
-          restOfFormState.inputValues.title,
-          restOfFormState.inputValues.imageUrl,
-          restOfFormState.inputValues.description,
-          restOfFormState.inputValues.price,
-        ),
-      );
+      await dispatch(addNewProduct(restOfFormState.inputValues));
     } catch (err) {
       setError(err.message);
     }

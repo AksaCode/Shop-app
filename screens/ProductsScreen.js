@@ -10,22 +10,29 @@ import RowButtons from '../components/RowButtons';
 import LoadingComponent from '../components/LoadingComponent';
 // import { addProduct } from '../store/action/cart';
 import {addProduct} from '../ReduxToolkit/cartReducer';
-import * as productActions from '../store/action/product';
+// import * as productActions from '../store/action/product';
+// REDUX
+import { fetchProducts } from '../store/action/product';
 import EmptyOrder from '../components/EmptyOrder';
 import Colors from '../constants/Colors';
+// TOOLKIT
+import { getProducts } from '../ReduxToolkit/products';
 
 const ProductsList = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const products = useSelector((state) => state.products.products);
+  const {products} = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   const loadingOfProducts = useCallback(async () => {
     setError(null);
     setIsRefreshing(true);
     try {
-      await dispatch(productActions.fetchProducts());
+      // TOOLKIT
+      await dispatch(getProducts());
+      // REDUX
+      // await dispatch(fetchProducts());
     } catch (error) {
       setError(error.message);
     }
