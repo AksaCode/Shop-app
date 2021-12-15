@@ -9,26 +9,18 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReduxThunk from 'redux-thunk';
 
-// REDUX
-// import productsReducer from './store/reducer/products';
-
 import cartReducer from './store/reducer/cartReducer';
 import orderReducer from './store/reducer/orderReducer';
 import authReducer from './store/reducer/auth';
+import { configureStore } from '@reduxjs/toolkit';
+import productsReducer from './ReduxToolkit/products';
+import ProductsNavigator from './navigation/ProductsNavigator';
 import NavigationContainer from './navigation/NavigationContainer';
 
-//
-import { configureStore } from '@reduxjs/toolkit';
-// TOOLKIT
-import productsReducer from './ReduxToolkit/products';
-
-import ProductsNavigator from './navigation/ProductsNavigator';
-
-// TOOLKIT
 export const storeToolkit = configureStore({
   reducer: { products: productsReducer },
 });
-//
+
 const fontFetch = () => {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -43,7 +35,6 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-// REDUX
 const store = createStore(rootReducer, composeWithDevTools(), applyMiddleware(ReduxThunk));
 
 export default function App(props) {

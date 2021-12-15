@@ -9,14 +9,14 @@ import HeaderButton from '../components/HeaderButton';
 import RowButtons from '../components/RowButtons';
 import LoadingComponent from '../components/LoadingComponent';
 import { addProduct } from '../store/action/cart';
-// REDUX
 import { fetchProducts } from '../store/action/product';
 import EmptyOrder from '../components/EmptyOrder';
 import Colors from '../constants/Colors';
-// TOOLKIT
 import { getProducts } from '../ReduxToolkit/products';
 
 const ProductsList = (props) => {
+  const refresh = props.navigation.getParam('refresh');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -27,9 +27,7 @@ const ProductsList = (props) => {
     setError(null);
     setIsRefreshing(true);
     try {
-      // TOOLKIT
       await dispatch(getProducts());
-      // REDUX
       // await dispatch(fetchProducts());
     } catch (error) {
       setError(error.message);
@@ -46,8 +44,12 @@ const ProductsList = (props) => {
 
   useEffect(() => {
     setLoading(true);
+    if (refresh) {
+      setIsRefreshing(true);
+    }
     loadingOfProducts().then(() => {
       setLoading(false);
+      setIsRefreshing(false);
     });
   }, [dispatch, loadingOfProducts, setLoading]);
 
@@ -81,9 +83,12 @@ const ProductsList = (props) => {
     </CardWrapper>
   );
 
-  const onAddToCart = (product) => {
-    dispatch(addProduct(product));
-  };
+  const onAddToCart = useCallback(
+    async (product) => {
+      await dispatch(addProduct(product));
+    },
+    [dispatch],
+  );
   if (error) {
     return (
       <EmptyOrder output="There is an error.">
@@ -102,6 +107,7 @@ const ProductsList = (props) => {
       onRefresh={loadingOfProducts}
       refreshing={isRefreshing}
       data={products}
+      keyExtractor={(item, index) => index}
       renderItem={renderProductsItem}
       numColumns={1}
     />
