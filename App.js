@@ -9,11 +9,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReduxThunk from 'redux-thunk';
 
-import productsReducer from './store/reducer/products';
-import cartReducer from './store/reducer/cartReducer';
 import orderReducer from './store/reducer/orderReducer';
 import authReducer from './store/reducer/auth';
+import { configureStore } from '@reduxjs/toolkit';
+import ProductsNavigator from './navigation/ProductsNavigator';
 import NavigationContainer from './navigation/NavigationContainer';
+import cartReducer from './ReduxToolkit/cartReducer';
+import productsReducer from './ReduxToolkit/products';
 
 const fontFetch = () => {
   return Font.loadAsync({
@@ -30,6 +32,9 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(rootReducer, composeWithDevTools(), applyMiddleware(ReduxThunk));
+const storeToolkit = configureStore({
+  reducer: { cart: cartReducer, products: productsReducer },
+});
 
 export default function App(props) {
   const [fonts, setFonts] = useState(false);
@@ -38,9 +43,9 @@ export default function App(props) {
   }
 
   return (
-    <Provider store={store}>
+    <Provider store={storeToolkit}>
       <SafeAreaView style={styles.container}>
-        <NavigationContainer />
+        <ProductsNavigator />
       </SafeAreaView>
     </Provider>
   );

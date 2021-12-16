@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { deleteProduct } from '../store/action/cart';
+import { deleteProduct } from '../ReduxToolkit/cartReducer';
 
 const CartProduct = ({ productName, productPrice, id, count, active }) => {
   const cart = useSelector((state) => state.cart.items);

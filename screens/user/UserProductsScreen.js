@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -7,15 +7,22 @@ import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
 import EmptyOrder from '../../components/EmptyOrder';
-import { deleteOnClick } from '../../store/action/product';
+// import { deleteOnClick } from '../../store/action/product';
+import { deleteOnClick, getProducts } from '../../ReduxToolkit/products';
 
 const UserProductsScreen = (props) => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
-  const deleteProduct = (productId) => {
-    dispatch(deleteOnClick(productId));
-  };
-
+  const deleteProduct = useCallback(async (productId) => {
+    setIsRefreshing(true);
+    try {
+      await dispatch(deleteOnClick(productId));
+    } catch {
+      throw new Error(`delete didn't worked`);
+    }
+    setIsRefreshing(false);
+  });
   const deleteAlert = (id) => {
     Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
       { text: 'No', style: 'cancel' },
@@ -63,7 +70,16 @@ const UserProductsScreen = (props) => {
   if (userProducts.length === 0) {
     return <EmptyOrder output="This user has no products." />;
   }
-  return <FlatList data={userProducts} renderItem={renderUserProductsItem} numColumns={1} />;
+  return (
+    <FlatList
+      onRefresh={deleteProduct}
+      refreshing={isRefreshing}
+      keyExtractor={(item, index) => index}
+      data={userProducts}
+      renderItem={renderUserProductsItem}
+      numColumns={1}
+    />
+  );
 };
 
 UserProductsScreen.navigationOptions = (navData) => {
