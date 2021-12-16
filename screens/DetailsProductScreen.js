@@ -7,8 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
-import { addProduct } from '../store/action/cart';
-
+import { addProduct } from '../ReduxToolkit/cartReducer';
 
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
