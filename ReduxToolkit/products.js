@@ -9,9 +9,9 @@ export const getProducts = createAsyncThunk('products/getProducts', async (dispa
 });
 
 export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (id, dispatch, getState) => {
-  // const token = getState().auth.token;
+  const token = getState().auth.token;
   const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, // ?auth=${token}
+    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`, 
     {
       method: 'DELETE',
     },
@@ -23,10 +23,9 @@ export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (i
 });
 
 export const addNewProduct = createAsyncThunk('products/addNewProduct', async (data, dispatch) => {
-  // const token = getState().auth.token;
-  // const userId = getState().auth.userId;
-  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json`, {
-    // ?auth=${token}
+  const token = getState().auth.token;
+  const userId = getState().auth.userId;
+  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json?auth=${token}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,18 +35,18 @@ export const addNewProduct = createAsyncThunk('products/addNewProduct', async (d
       imageUrl: data.imageUrl,
       description: data.description,
       price: data.price,
-      ownerId: 'zylavxBt6XR1D1Lj2vCsptTgKZh2', //userId
+      ownerId: 'userId', 
     }),
   });
   const responseData = await response.json();
   const id = responseData.name;
-  const prodData = { ...data, ownerId: 'zylavxBt6XR1D1Lj2vCsptTgKZh2', id };
+  const prodData = { ...data, ownerId: 'userId', id };
   return prodData;
 });
 export const editProduct = createAsyncThunk('products/editProduct', async (data, dispatch, getState) => {
-  // const token = getState().auth.token;
+  const token = getState().auth.token;
   const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json`, //?auth=${token}
+    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json?auth=${token}`, 
     {
       method: 'PATCH',
       headers: {
@@ -93,7 +92,7 @@ export const productsSlice = createSlice({
         });
       }
       state.products = [...loadedProducts];
-      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'zylavxBt6XR1D1Lj2vCsptTgKZh2')]; //userId
+      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'userId')]; 
     },
     [getProducts.rejected]: (state, action) => {
       state.products = [];
