@@ -14,7 +14,6 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (dispatc
 export const addOrder = createAsyncThunk('orders/addOrder', async (data, dispatch, getState) => {
   // const token = getState().auth.token;
   // const userId = getState().auth.userId;
-  console.log(data);
   const date = new Date();
   const response = await fetch(
     `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/orders/zylavxBt6XR1D1Lj2vCsptTgKZh2.json`, //?auth=${token}
@@ -35,7 +34,6 @@ export const addOrder = createAsyncThunk('orders/addOrder', async (data, dispatc
   }
   const responseData = await response.json();
   const pom = { id: responseData.name, cartItems: data.cart, total: data.total, date: date };
-  console.log(pom);
   return pom;
 });
 
@@ -63,7 +61,16 @@ const orderSlice = createSlice({
     [fetchOrders.rejected]: (state, action) => {
       state.orders = [];
     },
-    [addOrder.fulfilled]: (state, action) => {},
+    [addOrder.fulfilled]: (state, action) => {
+      const order = {
+        id: action.payload.id,
+        // cartItems: action.payload.cartItems,
+        total: action.payload.totalAmount,
+        date: action.payload.date,
+      };
+      // dispatch(resetItems);
+      state.orders = [...state.orders, order];
+    },
   },
 });
 
