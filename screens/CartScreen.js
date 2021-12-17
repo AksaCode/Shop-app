@@ -16,10 +16,9 @@ const CartScreen = (props) => {
   const total = useSelector((state) => state.cart.total);
 
   const pom = { total: total, cart: cart };
-  console.log(pom);
   const dispatch = useDispatch();
-  const executeOrder = (dusan) => {
-    dispatch(addOrder(dusan));
+  const executeOrder = (orderItem) => {
+    dispatch(addOrder(orderItem));
   };
 
   const orderAlert = () => {
