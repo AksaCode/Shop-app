@@ -6,11 +6,9 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/HeaderButton';
 import Input from '../../components/Input';
 import LoadingComponent from '../../components/LoadingComponent';
-// REDUX
 // import { addNewProduct } from '../../store/action/product';
-import { editProduct } from '../../store/action/product';
-// TOOLKIT
-import { addNewProduct } from '../../ReduxToolkit/products';
+// import { editProduct } from '../../store/action/product';
+import { addNewProduct, editProduct } from '../../ReduxToolkit/products';
 
 const FORM_INPUT_CHANGES = 'FORM_INPUT_CHANGES';
 
@@ -69,13 +67,20 @@ const EditProductScreen = (props) => {
     setLoading(true);
     try {
       await dispatch(addNewProduct(restOfFormState.inputValues));
+      props.navigation.navigate({
+        routeName: 'Products',
+        params: {
+          refresh: true,
+        },
+      });
     } catch (err) {
       setError(err.message);
     }
     setLoading(false);
-  }, [dispatch, restOfFormState]);
+  }, [dispatch, restOfFormState, setError, setLoading]);
 
   const editProductHandler = useCallback(async () => {
+    const editParams = [productId, restOfFormState.inputValues];
     if (!restOfFormState.formIsValid) {
       Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
       return;
@@ -83,14 +88,7 @@ const EditProductScreen = (props) => {
     setError(null);
     setLoading(true);
     try {
-      await dispatch(
-        editProduct(
-          productId,
-          restOfFormState.inputValues.title,
-          restOfFormState.inputValues.imageUrl,
-          restOfFormState.inputValues.description,
-        ),
-      );
+      await dispatch(editProduct(editParams));
     } catch (err) {
       setError(err.message);
     }
