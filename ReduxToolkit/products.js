@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import Product from '../model/product';
 
 export const getProducts = createAsyncThunk('products/getProducts', async (dispatch, getState) => {
   const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
