@@ -7,9 +7,11 @@ import { HeaderButtons } from 'react-navigation-header-buttons';
 import OrderList from '../components/OrderList';
 import HeaderButton from '../components/HeaderButton';
 import EmptyOrder from '../components/EmptyOrder';
-import * as ordersActions from '../store/action/order';
+//import * as ordersActions from '../store/action/order';
 import Colors from '../constants/Colors';
 import LoadingComponent from '../components/LoadingComponent';
+//import { orderActions } from '../ReduxToolkit/order';
+import { fetchOrders } from '../ReduxToolkit/order';
 
 const OrderScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +21,7 @@ const OrderScreen = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(ordersActions.fetchOrders()).then(() => {
+    dispatch(fetchOrders()).then(() => {
       setIsLoading(false);
     });
   }, [dispatch]);

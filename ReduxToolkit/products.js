@@ -74,7 +74,6 @@ export const productsSlice = createSlice({
     products: [],
     userProducts: [],
   },
-  reducers: {},
   extraReducers: {
     [getProducts.pending]: (state, action) => {
       state.products = [];
@@ -106,6 +105,7 @@ export const productsSlice = createSlice({
       newListProducts = state.products.filter((item) => item.id !== action.payload);
       state.userProducts = [...newList];
       state.products = [...newListProducts];
+      
     },
     [addNewProduct.pending]: (state) => {
       state.products = [...state.products];
