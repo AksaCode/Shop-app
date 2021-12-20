@@ -9,12 +9,12 @@ export const authSlice = createSlice({
   name: 'products',
   initialState: {
     token: null,
-    userId: null,
+    userId: 10,
   },
   reducers: {
     resetAuth(state) {
-      state.token = null;
-      state.userId - null;
+      state.token = 10;
+      state.userId = 12;
     },
     verifyAuth(state, action) {
       state.token = action.payload.token;
@@ -23,6 +23,7 @@ export const authSlice = createSlice({
   },
   extraReducers: {},
 });
+
 export const { resetAuth, verifyAuth } = authSlice.actions;
 
 export const authenticate = (data) => {
@@ -94,10 +95,14 @@ export const login = (data) => {
       throw new Error(message);
     }
     const responseData = await response.json();
-    // dispatch(authenticate(responseData.localId, responseData.idToken, +responseData.expiresIn * 1000));
+    const userData = {
+      userId: responseData.localId,
+      token: responseData.idToken,
+      expireTime: (+responseData.expiresIn * 1000) / 60,
+    };
+    dispatch(authenticate(userData));
     const expirationDate = new Date(new Date().getTime() + (+responseData.expiresIn * 1000) / 60);
     saveDataToStorage(responseData.idToken, responseData.localId, expirationDate);
-    dispatch(resetAuth());
   };
 };
 
@@ -127,11 +132,15 @@ export const signup = (data) => {
       throw new Error(message);
     }
     const responseData = await response.json();
-
+    const userData = {
+      userId: responseData.localId,
+      token: responseData.idToken,
+      expireTime: (+responseData.expiresIn * 1000) / 60,
+    };
+    dispatch(authenticate(userData));
     // dispatch(authenticate(responseData.localId, responseData.idToken, +responseData.expiresIn * 1000));
     const expirationDate = new Date(new Date().getTime() + (+responseData.expiresIn * 1000) / 60);
     saveDataToStorage(responseData.idToken, responseData.localId, expirationDate);
-    dispatch(verifyAuth());
   };
 };
 

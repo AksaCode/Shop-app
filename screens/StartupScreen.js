@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -7,6 +7,7 @@ import { authenticate } from '../ReduxToolkit/auth';
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
+  const userInfoo = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     const tryLogin = async () => {
@@ -25,6 +26,7 @@ const StartupScreen = (props) => {
       const runOutTime = expirationDate.getTime() - new Date().getTime();
       props.navigation.navigate('Shop');
       const userInfo = { userId: userId, token: token, expireTime: runOutTime };
+      console.log('user id: ', userInfoo);
       dispatch(authenticate(userInfo));
     };
     tryLogin();
