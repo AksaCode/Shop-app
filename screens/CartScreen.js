@@ -10,6 +10,7 @@ import CartList from '../components/CartList';
 //import { addOrder } from '../store/action/order';
 //import { orderActions } from '../ReduxToolkit/order';
 import { addOrder } from '../ReduxToolkit/order';
+import { restartOrder } from '../ReduxToolkit/cartReducer';
 
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
@@ -19,6 +20,7 @@ const CartScreen = (props) => {
   const dispatch = useDispatch();
   const executeOrder = (orderItem) => {
     dispatch(addOrder(orderItem));
+    dispatch(restartOrder(orderItem));
   };
 
   const orderAlert = () => {
