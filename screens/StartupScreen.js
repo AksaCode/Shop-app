@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors';
-// import * as authActions from '../store/action/auth';
 import { authenticate } from '../ReduxToolkit/auth';
 
 const StartupScreen = (props) => {
@@ -18,15 +17,15 @@ const StartupScreen = (props) => {
       }
       const transformedData = JSON.parse(userData);
       const { token, userId, expiryDate } = transformedData;
-      const experationDate = new Date(expiryDate);
-      if (experationDate <= new Date() || !token || !userId) {
+      const expirationDate = new Date(expiryDate);
+      if (expirationDate <= new Date() || !token || !userId) {
         props.navigation.navigate('Auth');
         return;
       }
-      const runOutTime = experationDate.getTime() - new Date().getTime();
+      const runOutTime = expirationDate.getTime() - new Date().getTime();
       props.navigation.navigate('Shop');
-      const pom = { userId: userId, token: token, expireTime: runOutTime };
-      dispatch(authenticate(pom));
+      const userInfo = { userId: userId, token: token, expireTime: runOutTime };
+      dispatch(authenticate(userInfo));
     };
     tryLogin();
   }, [dispatch]);
