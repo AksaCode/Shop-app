@@ -15,7 +15,7 @@ const OrderItem = ({ order }) => {
       <View style={styles.button}>
         <CustomButton title={active ? 'HIDE DETAILS' : 'SHOW DETAILS'} action={() => setActive(!active)} />
       </View>
-      {active ? <CartList data={order.items} active={active} /> : null}
+      <View style={styles.cartList}>{active ? <CartList data={order.items} active={active} /> : null}</View>
     </View>
   );
 };
@@ -51,5 +51,8 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 15,
     color: '#d3d3d3',
+  },
+  cartList: {
+    paddingHorizontal: 20,
   },
 });
