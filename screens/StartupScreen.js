@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native';
 
@@ -26,7 +27,6 @@ const StartupScreen = (props) => {
       const runOutTime = expirationDate.getTime() - new Date().getTime();
       props.navigation.navigate('Shop');
       const userInfo = { userId: userId, token: token, expireTime: runOutTime };
-      console.log('user id: ', userInfoo);
       dispatch(authenticate(userInfo));
     };
     tryLogin();

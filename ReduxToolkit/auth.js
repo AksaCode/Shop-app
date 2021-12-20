@@ -9,12 +9,10 @@ export const authSlice = createSlice({
   name: 'products',
   initialState: {
     token: null,
-    userId: 10,
   },
   reducers: {
     resetAuth(state) {
-      state.token = 10;
-      state.userId = 12;
+      state.token = null;
     },
     verifyAuth(state, action) {
       state.token = action.payload.token;
