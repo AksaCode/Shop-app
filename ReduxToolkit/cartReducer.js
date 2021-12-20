@@ -50,8 +50,31 @@ const cartSlice = createSlice({
       });
       state.total = parseFloat(state.total.toFixed(2));
     },
+    restartOrder(state, action) {
+      state.items = [];
+      state.total = 0;
+    },
+    deleteOnClick(state, action) {
+      let newListItems = [];
+      newList = state.userProducts.filter((item) => item.id !== action.payload);
+      state.items = [...newListItems];
+    },
+    editProduct(state, action) {
+      const editItems = state.items.find((item) => item.id === action.payload[1]);
+      const items = {
+        id: action.payload[1],
+        ownerId: action.payload[0].ownerId,
+        title: action.payload[0].title,
+        imageUrl: action.payload[0].imageUrl,
+        description: action.payload[0].description,
+        price: editItems.price,
+      };
+      const editedMapItems = state.items.filter((item) => item.id !== items.id);
+      state.items.splice(editItems, 1);
+      state.items = [...editedMapItems, items];
+    },
   },
 });
 
-export const { addProduct, deleteProduct } = cartSlice.actions;
+export const { addProduct, deleteProduct, restartOrder, deleteOnClick, editProduct } = cartSlice.actions;
 export default cartSlice.reducer;

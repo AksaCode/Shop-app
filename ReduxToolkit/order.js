@@ -32,6 +32,7 @@ export const addOrder = createAsyncThunk('orders/addOrder', async (data, dispatc
   if (!response.ok) {
     throw new Error('Something went wrong!');
   }
+
   const responseData = await response.json();
   const pom = { id: responseData.name, cartItems: data.cart, total: data.total, date: date };
   return pom;
@@ -68,7 +69,6 @@ const orderSlice = createSlice({
         total: action.payload.totalAmount,
         date: action.payload.date,
       };
-      // dispatch(resetItems);
       state.orders = [...state.orders, order];
     },
   },
