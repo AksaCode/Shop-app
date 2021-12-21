@@ -9,19 +9,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReduxThunk from 'redux-thunk';
 
-//import cartReducer from './store/reducer/cartReducer';
-//import orderReducer from './store/reducer/orderReducer';
-import cartReducer from './ReduxToolkit/cartReducer';
-import productsReducer from './ReduxToolkit/products';
-
-import { configureStore } from '@reduxjs/toolkit';
-//import productsReducer from './store/reducer/products';
-//import cartReducer from './store/reducer/cartReducer';
-//import orderReducer from './store/reducer/orderReducer';
-import authReducer from './store/reducer/auth';
 import NavigationContainer from './navigation/NavigationContainer';
+import { configureStore } from '@reduxjs/toolkit';
+import productsReducer from './ReduxToolkit/products';
+import cartReducer from './ReduxToolkit/cartReducer';
+import authReducer from './store/reducer/auth';
 import orderReducer from './ReduxToolkit/order';
-import ProductsNavigator from './navigation/ProductsNavigator';
 
 const fontFetch = () => {
   return Font.loadAsync({
@@ -37,12 +30,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-export const storeToolkit = configureStore({
-  reducer: {
-    cart: cartReducer,
-    products: productsReducer,
-    orders: orderReducer,
-  },
+const storeToolkit = configureStore({
+  reducer: { cart: cartReducer, products: productsReducer, auth: authReducer, orders: orderReducer },
 });
 
 const store = createStore(rootReducer, composeWithDevTools(), applyMiddleware(ReduxThunk));
@@ -56,7 +45,7 @@ export default function App(props) {
   return (
     <Provider store={storeToolkit}>
       <SafeAreaView style={styles.container}>
-        <ProductsNavigator />
+        <NavigationContainer />
       </SafeAreaView>
     </Provider>
   );

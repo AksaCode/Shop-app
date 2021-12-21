@@ -15,7 +15,8 @@ import Colors from '../constants/Colors';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
 import StartupScreen from '../screens/StartupScreen';
-import * as authActions from '../store/action/auth';
+// import * as authActions from '../store/action/auth';
+import { logout } from '../ReduxToolkit/auth';
 
 const defaultStackOptions = {
   headerTintColor: Colors.accentColor,
@@ -93,7 +94,7 @@ const MainNavigator = createDrawerNavigator(
               title="logout"
               color={Colors.primaryColor}
               onPress={() => {
-                dispatch(authActions.logout);
+                dispatch(logout());
                 props.navigation.navigate('Auth');
               }}
             />

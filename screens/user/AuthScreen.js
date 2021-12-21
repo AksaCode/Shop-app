@@ -7,7 +7,7 @@ import Input from '../../components/Input';
 import InputPass from '../../components/InputPass';
 import Card from '../../components/Card';
 import Colors from '../../constants/Colors';
-import * as authActions from '../../store/action/auth';
+import { login, signup } from '../../ReduxToolkit/auth';
 
 const FORM_SIGN = 'FORM_SIGN';
 
@@ -72,9 +72,9 @@ const AuthScreen = (props) => {
   const authHandler = async () => {
     let action;
     if (isSignUp) {
-      action = authActions.signup(signState.inputValues.email, signState.inputValues.password);
+      action = signup(signState.inputValues);
     } else {
-      action = authActions.login(signState.inputValues.email, signState.inputValues.password);
+      action = login(signState.inputValues);
     }
     setError(null);
     setIsLoading(true);

@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors';
-import * as authActions from '../store/action/auth';
+import { authenticate, verifyAuth } from '../ReduxToolkit/auth';
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
+  const userInfoo = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     const tryLogin = async () => {
@@ -17,14 +19,15 @@ const StartupScreen = (props) => {
       }
       const transformedData = JSON.parse(userData);
       const { token, userId, expiryDate } = transformedData;
-      const experationDate = new Date(expiryDate);
-      if (experationDate <= new Date() || !token || !userId) {
+      const expirationDate = new Date(expiryDate);
+      if (expirationDate <= new Date() || !token || !userId) {
         props.navigation.navigate('Auth');
         return;
       }
-      const runOutTime = experationDate.getTime() - new Date().getTime();
+      const runOutTime = expirationDate.getTime() - new Date().getTime();
       props.navigation.navigate('Shop');
-      dispatch(authActions.authenticate(userId, token, runOutTime));
+      dispatch(authenticate(userId, token, runOutTime));
+      dispatch(verifyAuth(userId, token));
     };
     tryLogin();
   }, [dispatch]);
