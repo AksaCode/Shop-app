@@ -5,29 +5,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AsyncStorage } from 'react-native';
 
-export const authSlice = createSlice({
-  name: 'products',
-  initialState: {
-    token: null,
-  },
-  reducers: {
-    resetAuth(state) {
-      state.token = null;
-    },
-    verifyAuth(state, action) {
-      state.token = action.payload.token;
-      state.userId = action.payload.userId;
-    },
-  },
-  extraReducers: {},
-});
-
-export const { resetAuth, verifyAuth } = authSlice.actions;
-
-export const authenticate = (data) => {
+export const authenticate = (userId, token, runOutTime) => {
   return (dispatch) => {
-    dispatch(logoutTimer(data.expireTime));
-    dispatch(verifyAuth(data.userId, data.token));
+    dispatch(logoutTimer(runOutTime));
+    let pom = { userId: userId, token: token };
+    dispatch(verifyAuth(pom));
+    console.log('auth');
   };
 };
 
@@ -42,6 +25,7 @@ const logoutTimer = (runOutTime) => {
     timer = setTimeout(() => {
       dispatch(logout());
     }, runOutTime);
+    console.log('logoutTimer');
   };
 };
 
@@ -50,6 +34,7 @@ export const logout = () => {
     clearTimer();
     AsyncStorage.removeItem('userData');
     dispatch(resetAuth());
+    console.log('logout');
   };
 };
 
@@ -62,6 +47,9 @@ const saveDataToStorage = (token, userId, expirationDate) => {
       expiryDate: expirationDate.toISOString(),
     }),
   );
+  console.log('token:', token);
+  console.log('userId:', userId);
+  console.log('expirationDate:', expirationDate);
 };
 
 export const login = (data) => {
@@ -96,10 +84,10 @@ export const login = (data) => {
     const userData = {
       userId: responseData.localId,
       token: responseData.idToken,
-      expireTime: (+responseData.expiresIn * 1000) / 60,
+      expireTime: +responseData.expiresIn * 1000,
     };
-    dispatch(authenticate(userData));
-    const expirationDate = new Date(new Date().getTime() + (+responseData.expiresIn * 1000) / 60);
+    dispatch(authenticate(responseData.localId, responseData.idToken, +responseData.expiresIn * 1000));
+    const expirationDate = new Date(new Date().getTime() + +responseData.expiresIn * 1000);
     saveDataToStorage(responseData.idToken, responseData.localId, expirationDate);
   };
 };
@@ -133,13 +121,35 @@ export const signup = (data) => {
     const userData = {
       userId: responseData.localId,
       token: responseData.idToken,
-      expireTime: (+responseData.expiresIn * 1000) / 60,
+      expireTime: +responseData.expiresIn * 1000,
     };
     dispatch(authenticate(userData));
-    // dispatch(authenticate(responseData.localId, responseData.idToken, +responseData.expiresIn * 1000));
-    const expirationDate = new Date(new Date().getTime() + (+responseData.expiresIn * 1000) / 60);
+    const expirationDate = new Date(new Date().getTime() + +responseData.expiresIn * 1000);
     saveDataToStorage(responseData.idToken, responseData.localId, expirationDate);
   };
 };
+
+const initialState = { token: null, userId: null, status: [] };
+
+const authSlice = createSlice({
+  name: 'products',
+  initialState,
+  reducers: {
+    resetAuth: (state) => {
+      console.log('reset');
+      state.token = null;
+      state.status = [1];
+      state.userId = null;
+    },
+    verifyAuth: (state, action) => {
+      console.log('VERIFY');
+      state.token = action.payload.token;
+      state.status = [2];
+      state.userId = action.payload.userId;
+    },
+  },
+});
+
+export const { resetAuth, verifyAuth } = authSlice.actions;
 
 export default authSlice.reducer;

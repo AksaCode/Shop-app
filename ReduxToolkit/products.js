@@ -1,31 +1,29 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const getProducts = createAsyncThunk('products/getProducts', async (dispatch, getState) => {
+export const getProducts = createAsyncThunk('products/getProducts', async (data, { getState, dispatch }) => {
+  const token = getState().auth.token;
+  const userId = getState().auth.userId;
+  const status = getState().auth.status;
+  console.log('userId: ', userId);
+  console.log('token: ', token);
+  console.log('status: ', status);
   const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
   const resData = await response.json();
-
   return resData;
 });
 
-export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (id, dispatch, getState) => {
-  // const token = getState().auth.token;
-  const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, // ?auth=${token}
-    {
-      method: 'DELETE',
-    },
-  );
+export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (id, { getState }) => {
+  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
+    method: 'DELETE',
+  });
   if (!response.ok) {
     throw new Error('Response is not 200');
   }
   return id;
 });
 
-export const addNewProduct = createAsyncThunk('products/addNewProduct', async (data, dispatch) => {
-  // const token = getState().auth.token;
-  // const userId = getState().auth.userId;
+export const addNewProduct = createAsyncThunk('products/addNewProduct', async (data, { getState }) => {
   const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json`, {
-    // ?auth=${token}
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,30 +33,27 @@ export const addNewProduct = createAsyncThunk('products/addNewProduct', async (d
       imageUrl: data.imageUrl,
       description: data.description,
       price: data.price,
-      ownerId: 'zylavxBt6XR1D1Lj2vCsptTgKZh2', //userId
+      ownerId: userId,
     }),
   });
   const responseData = await response.json();
   const id = responseData.name;
-  const prodData = { ...data, ownerId: 'zylavxBt6XR1D1Lj2vCsptTgKZh2', id };
+  const prodData = { ...data, ownerId: userId, id };
   return prodData;
 });
-export const editProduct = createAsyncThunk('products/editProduct', async (data, dispatch, getState) => {
-  // const token = getState().auth.token;
-  const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json`, //?auth=${token}
-    {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: data[1].title,
-        imageUrl: data[1].imageUrl,
-        description: data[1].description,
-      }),
+export const editProduct = createAsyncThunk('products/editProduct', async (data) => {
+  const token = getState().auth.token;
+  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({
+      title: data[1].title,
+      imageUrl: data[1].imageUrl,
+      description: data[1].description,
+    }),
+  });
   if (!response.ok) {
     throw new Error('Response is not 200');
   }
@@ -73,9 +68,8 @@ export const productsSlice = createSlice({
     products: [],
     userProducts: [],
   },
-  reducers: {},
   extraReducers: {
-    [getProducts.pending]: (state, action) => {
+    [getProducts.pending]: (state) => {
       state.products = [];
       state.userProducts = [];
     },
@@ -92,7 +86,7 @@ export const productsSlice = createSlice({
         });
       }
       state.products = [...loadedProducts];
-      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'zylavxBt6XR1D1Lj2vCsptTgKZh2')]; //userId
+      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'zylavxBt6XR1D1Lj2vCsptTgKZh2')];
     },
     [getProducts.rejected]: (state, action) => {
       state.products = [];

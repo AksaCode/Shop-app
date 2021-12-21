@@ -7,15 +7,20 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
-import { addOrder } from '../store/action/order';
+//import { addOrder } from '../store/action/order';
+//import { orderActions } from '../ReduxToolkit/order';
+import { addOrder } from '../ReduxToolkit/order';
+import { restartOrder } from '../ReduxToolkit/cartReducer';
 
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
 
+  const pom = { total: total, cart: cart };
   const dispatch = useDispatch();
-  const executeOrder = (cart, total) => {
-    dispatch(addOrder(cart, total));
+  const executeOrder = (orderItem) => {
+    dispatch(addOrder(orderItem));
+    dispatch(restartOrder(orderItem));
   };
 
   const orderAlert = () => {
@@ -41,7 +46,7 @@ const CartScreen = (props) => {
               <CustomButton
                 title="Order now"
                 action={() => {
-                  total === 0 ? orderAlert() : executeOrder(cart, total);
+                  total === 0 ? orderAlert() : executeOrder(pom);
                 }}
               />
             </View>

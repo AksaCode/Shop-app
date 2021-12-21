@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, ActivityIndicator, StyleSheet, AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors';
-import { authenticate } from '../ReduxToolkit/auth';
+import { authenticate, verifyAuth } from '../ReduxToolkit/auth';
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
@@ -26,8 +26,8 @@ const StartupScreen = (props) => {
       }
       const runOutTime = expirationDate.getTime() - new Date().getTime();
       props.navigation.navigate('Shop');
-      const userInfo = { userId: userId, token: token, expireTime: runOutTime };
-      dispatch(authenticate(userInfo));
+      dispatch(authenticate(userId, token, runOutTime));
+      dispatch(verifyAuth(userId, token));
     };
     tryLogin();
   }, [dispatch]);
