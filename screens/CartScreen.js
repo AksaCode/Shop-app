@@ -16,7 +16,7 @@ const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
 
-  const pom = { total: total, cart: cart };
+  const cartState = { total: total, cart: cart };
   const dispatch = useDispatch();
   const executeOrder = (orderItem) => {
     dispatch(addOrder(orderItem));
@@ -46,7 +46,7 @@ const CartScreen = (props) => {
               <CustomButton
                 title="Order now"
                 action={() => {
-                  total === 0 ? orderAlert() : executeOrder(pom);
+                  total === 0 ? orderAlert() : executeOrder(cartState);
                 }}
               />
             </View>

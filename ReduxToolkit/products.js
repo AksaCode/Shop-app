@@ -1,21 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getProducts = createAsyncThunk('products/getProducts', async (data, { getState, dispatch }) => {
-  const token = getState().auth.token;
   const userId = getState().auth.userId;
-  const status = getState().auth.status;
-  console.log('userId: ', userId);
-  console.log('token: ', token);
-  console.log('status: ', status);
   const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
   const resData = await response.json();
-  return resData;
+  let fromGetProducts = { items: { ...resData }, userId: userId };
+  return fromGetProducts;
 });
 
 export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (id, { getState }) => {
-  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json`, {
-    method: 'DELETE',
-  });
+  const token = getState().auth.token;
+  const response = await fetch(
+    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
+    {
+      method: 'DELETE',
+    },
+  );
   if (!response.ok) {
     throw new Error('Response is not 200');
   }
@@ -23,7 +23,10 @@ export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (i
 });
 
 export const addNewProduct = createAsyncThunk('products/addNewProduct', async (data, { getState }) => {
-  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json`, {
+  const token = getState().auth.token;
+  const userId = getState().auth.userId;
+
+  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json?auth=${token}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,28 +36,30 @@ export const addNewProduct = createAsyncThunk('products/addNewProduct', async (d
       imageUrl: data.imageUrl,
       description: data.description,
       price: data.price,
-      ownerId: 'I47kHpgjeqYoUhxfll9knc2VhPx2',
+      ownerId: userId,
     }),
   });
   const responseData = await response.json();
   const id = responseData.name;
-  const prodData = { ...data, ownerId: 'I47kHpgjeqYoUhxfll9knc2VhPx2', id };
-  console.log('proddata:', prodData);
+  const prodData = { ...data, ownerId: userId, id };
   return prodData;
 });
 export const editProduct = createAsyncThunk('products/editProduct', async (data, { getState }) => {
   const token = getState().auth.token;
-  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
+  const response = await fetch(
+    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json?auth=${token}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: data[1].title,
+        imageUrl: data[1].imageUrl,
+        description: data[1].description,
+      }),
     },
-    body: JSON.stringify({
-      title: data[1].title,
-      imageUrl: data[1].imageUrl,
-      description: data[1].description,
-    }),
-  });
+  );
   if (!response.ok) {
     throw new Error('Response is not 200');
   }
@@ -77,20 +82,20 @@ export const productsSlice = createSlice({
     },
     [getProducts.fulfilled]: (state, action) => {
       const loadedProducts = [];
-      for (const key in action.payload) {
+      for (const key in action.payload.items) {
         loadedProducts.push({
           id: key,
-          ownerId: action.payload[key].ownerId,
-          title: action.payload[key].title,
-          imageUrl: action.payload[key].imageUrl,
-          description: action.payload[key].description,
-          price: action.payload[key].price,
+          ownerId: action.payload.items[key].ownerId,
+          title: action.payload.items[key].title,
+          imageUrl: action.payload.items[key].imageUrl,
+          description: action.payload.items[key].description,
+          price: action.payload.items[key].price,
         });
       }
       state.products = [...loadedProducts];
-      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'I47kHpgjeqYoUhxfll9knc2VhPx2')];
+      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === action.payload.userId)];
     },
-    [getProducts.rejected]: (state, action) => {
+    [getProducts.rejected]: (state) => {
       state.products = [];
       state.userProducts = [];
     },

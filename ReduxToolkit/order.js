@@ -34,8 +34,8 @@ export const addOrder = createAsyncThunk('orders/addOrder', async (data, dispatc
   }
 
   const responseData = await response.json();
-  const pom = { id: responseData.name, cartItems: data.cart, total: data.total, date: date };
-  return pom;
+  const cartData = { id: responseData.name, cartItems: data.cart, total: data.total, date: date };
+  return cartData;
 });
 
 const orderSlice = createSlice({
