@@ -33,15 +33,16 @@ export const addNewProduct = createAsyncThunk('products/addNewProduct', async (d
       imageUrl: data.imageUrl,
       description: data.description,
       price: data.price,
-      ownerId: userId,
+      ownerId: 'I47kHpgjeqYoUhxfll9knc2VhPx2',
     }),
   });
   const responseData = await response.json();
   const id = responseData.name;
-  const prodData = { ...data, ownerId: userId, id };
+  const prodData = { ...data, ownerId: 'I47kHpgjeqYoUhxfll9knc2VhPx2', id };
+  console.log('proddata:', prodData);
   return prodData;
 });
-export const editProduct = createAsyncThunk('products/editProduct', async (data) => {
+export const editProduct = createAsyncThunk('products/editProduct', async (data, { getState }) => {
   const token = getState().auth.token;
   const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json`, {
     method: 'PATCH',
@@ -59,6 +60,7 @@ export const editProduct = createAsyncThunk('products/editProduct', async (data)
   }
   const resData = await response.json();
   const editParams = [resData, data[0]];
+
   return editParams;
 });
 
@@ -86,7 +88,7 @@ export const productsSlice = createSlice({
         });
       }
       state.products = [...loadedProducts];
-      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'zylavxBt6XR1D1Lj2vCsptTgKZh2')];
+      state.userProducts = [...loadedProducts.filter((prod) => prod.ownerId === 'I47kHpgjeqYoUhxfll9knc2VhPx2')];
     },
     [getProducts.rejected]: (state, action) => {
       state.products = [];
