@@ -13,7 +13,7 @@ import NavigationContainer from './navigation/NavigationContainer';
 import { configureStore } from '@reduxjs/toolkit';
 import productsReducer from './ReduxToolkit/products';
 import cartReducer from './ReduxToolkit/cartReducer';
-import authReducer from './store/reducer/auth';
+import authReducer from './ReduxToolkit/auth';
 import orderReducer from './ReduxToolkit/order';
 
 const fontFetch = () => {
