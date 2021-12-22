@@ -14,12 +14,11 @@ import UserProductsScreen from '../screens/user/UserProductsScreen';
 import Colors from '../constants/Colors';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
-import StartupScreen from '../screens/StartupScreen';
 // import * as authActions from '../store/action/auth';
 import { logout } from '../ReduxToolkit/auth';
 
 const defaultStackOptions = {
-  headerTintColor: Colors.accentColor,
+  headerTintColor: '#191970',
   headerTitleStyle: {
     fontFamily: 'open-sans-bold',
   },
@@ -110,7 +109,6 @@ const AuthNavigator = createStackNavigator({
 });
 
 const LoginNavigator = createSwitchNavigator({
-  Startup: StartupScreen,
   Auth: AuthNavigator,
   Shop: MainNavigator,
 });

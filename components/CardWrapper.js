@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   align: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 5,
+    margin: 5,
   },
   wrap: {
     width: '90%',
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#ddd',
     borderRadius: 10,
+    backgroundColor: 'rgba(230, 230, 230, 0.1)',
   },
   imageWrap: {
     justifyContent: 'center',
