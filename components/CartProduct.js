@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { deleteProduct } from '../ReduxToolkit/cartReducer';
+import Colors from '../constants/Colors';
 
 const CartProduct = ({ productName, productPrice, id, count, active }) => {
   const cart = useSelector((state) => state.cart.items);
@@ -17,16 +18,16 @@ const CartProduct = ({ productName, productPrice, id, count, active }) => {
     <View style={styles.pos}>
       <View style={styles.wrap}>
         <View style={styles.left}>
-          <Text style={{ marginRight: 5, fontStyle: 'italic' }}>{count}</Text>
-          <Text>{productName}</Text>
+          <Text style={{ fontWeight: '400', fontSize: 15 }}>{productName}</Text>
         </View>
         <View style={styles.right}>
-          <Text style={{ marginRight: 10 }}>${productPrice}</Text>
+          <Text style={{ marginRight: 5, fontWeight: 'bold', fontSize: 15 }}>{count}x</Text>
+          <Text style={{ marginRight: 10, fontWeight: '400', fontSize: 15, color: '#191970' }}>${productPrice}</Text>
           {!active ? (
             <Ionicons
               name="md-trash"
               size={20}
-              color="red"
+              color={Colors.primaryColor}
               onPress={() => {
                 deleteItem(id);
               }}

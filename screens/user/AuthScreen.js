@@ -1,6 +1,15 @@
 import React, { useState, useReducer, useCallback, useEffect } from 'react';
-import { ScrollView, View, KeyboardAvoidingView, StyleSheet, Button, ActivityIndicator, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import {
+  ScrollView,
+  View,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Button,
+  ActivityIndicator,
+  Alert,
+  ImageBackground,
+  Text,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import Input from '../../components/Input';
@@ -33,7 +42,9 @@ const signReducer = (state, action) => {
   }
   return state;
 };
-
+const image = {
+  uri: 'https://media.istockphoto.com/photos/smiling-deaf-african-girl-on-a-virtual-therapy-session-picture-id1284585951?k=20&m=1284585951&s=170667a&w=0&h=1RzXB10E6BpT4qUuAYOA8kG92s1QIoq1h2VP4_HhJR4=',
+};
 const AuthScreen = (props) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState(false);
@@ -88,58 +99,60 @@ const AuthScreen = (props) => {
   };
   return (
     <KeyboardAvoidingView keyboardVerticalOffset={50} style={styles.screenStyle}>
-      <LinearGradient colors={['#ffff99', '#ffffcc']} style={styles.gradientStyle}>
-        <Card style={styles.authContainerStyle}>
-          <ScrollView>
-            <Input
-              id="email"
-              label="E-mail"
-              keyboardType="email-address"
-              required
-              email
-              autoCapitalize="none"
-              errorText="Please enter a valid email address."
-              onInputChange={signHandler}
-              initialValue=""
-            />
-            <View>
-              <InputPass
-                id="password"
-                label="Password"
-                keyboardType="default"
+      <View style={styles.gradientStyle}>
+        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+          <Card style={styles.authContainerStyle}>
+            <ScrollView>
+              <Input
+                id="email"
+                label="E-mail"
+                keyboardType="email-address"
                 required
-                minLength={8}
+                email
                 autoCapitalize="none"
-                errorText="Please enter a valid password."
+                errorText="Please enter a valid email address."
                 onInputChange={signHandler}
                 initialValue=""
               />
-            </View>
-            <View style={styles.buttonStyle}>
-              {isLoading ? (
-                <ActivityIndicator size="small" color={Colors.primaryColor} />
-              ) : (
-                <Button title={isSignUp ? 'Sign Up' : 'Login'} color={Colors.primaryColor} onPress={authHandler} />
-              )}
-            </View>
-            <View style={styles.buttonStyle}>
-              <Button
-                title={`Switch to ${isSignUp ? 'Login' : 'Sign Up'}`}
-                color={Colors.accentColor}
-                onPress={() => {
-                  setIsSignUp((prevState) => !prevState);
-                }}
-              />
-            </View>
-          </ScrollView>
-        </Card>
-      </LinearGradient>
+              <View>
+                <InputPass
+                  id="password"
+                  label="Password"
+                  keyboardType="default"
+                  required
+                  minLength={8}
+                  autoCapitalize="none"
+                  errorText="Please enter a valid password."
+                  onInputChange={signHandler}
+                  initialValue=""
+                />
+              </View>
+              <View style={styles.buttonStyle}>
+                {isLoading ? (
+                  <ActivityIndicator size="small" color={Colors.primaryColor} />
+                ) : (
+                  <Button title={isSignUp ? 'Sign Up' : 'Login'} color={'#191970'} onPress={authHandler} />
+                )}
+              </View>
+              <View style={styles.buttonStyle}>
+                <Button
+                  title={`Switch to ${isSignUp ? 'Login' : 'Sign Up'}`}
+                  color={'#708090'}
+                  onPress={() => {
+                    setIsSignUp((prevState) => !prevState);
+                  }}
+                />
+              </View>
+            </ScrollView>
+          </Card>
+        </ImageBackground>
+      </View>
     </KeyboardAvoidingView>
   );
 };
 
 AuthScreen.navigationOptions = {
-  headerTitle: 'User Authentication',
+  headerTitle: 'Computer Equipment Shop',
 };
 
 const styles = StyleSheet.create({
@@ -149,13 +162,23 @@ const styles = StyleSheet.create({
   authContainerStyle: {
     width: '80%',
     maxWidth: 400,
-    maxHeight: 400,
+    maxHeight: 350,
     padding: 20,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(250, 250, 250, 0.7)',
+  },
+  image: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //justifyContent: 'flex-end',
   },
   gradientStyle: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //justifyContent: 'flex-start',
+    backgroundColor: '#b0c4de',
   },
   buttonStyle: {
     marginTop: 10,

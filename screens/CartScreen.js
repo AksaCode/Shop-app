@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, Image } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -11,6 +11,7 @@ import CartList from '../components/CartList';
 //import { orderActions } from '../ReduxToolkit/order';
 import { addOrder } from '../ReduxToolkit/order';
 import { restartOrder } from '../ReduxToolkit/cartReducer';
+import Colors from '../constants/Colors';
 
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
@@ -40,11 +41,18 @@ const CartScreen = (props) => {
     <View>
       <View style={styles.pos}>
         <View style={styles.shadow}>
+          <Image
+            source={{
+              uri: 'https://v5c5v6u7.stackpathcdn.com/wp-content/uploads/2019/02/Abandoned-Cart-Email-Sequence-Header.jpg',
+            }}
+            style={{ height: 150 }}
+          />
           <View style={styles.container}>
-            <Text>Total: {total} $</Text>
+            <Text style={{ fontWeight: '400', fontSize: 20 }}>Total: {total} $</Text>
             <View>
               <CustomButton
                 title="Order now"
+                color={Colors.primaryColor}
                 action={() => {
                   total === 0 ? orderAlert() : executeOrder(pom);
                 }}

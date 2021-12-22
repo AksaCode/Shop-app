@@ -91,7 +91,7 @@ const InputPass = (props) => {
           color="black"
         />
       </View>
-      {!inputState.isValid && <Text>{props.errorText}</Text>}
+      {!inputState.isValid && <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
     </View>
   );
 };
@@ -100,16 +100,17 @@ const styles = StyleSheet.create({
   input: {
     borderColor: 'black',
     borderBottomWidth: 1,
-    width: '70%',
-    height: 50,
+    width: '65%',
+    height: 35,
     marginHorizontal: 15,
   },
   label: {
     fontFamily: 'open-sans-bold',
-    marginHorizontal: 15,
     marginTop: 15,
     color: 'black',
     fontWeight: 'bold',
+    fontSize: 20,
+    marginHorizontal: 15,
   },
   passV: {
     flex: 1,

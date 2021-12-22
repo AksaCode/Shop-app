@@ -3,8 +3,8 @@ import { StyleSheet, Button } from 'react-native';
 
 import Colors from '../constants/Colors';
 
-const CustomButton = ({ title, action }) => {
-  return <Button title={title} onPress={action} color={Colors.accentColor} />;
+const CustomButton = ({ title, action, color }) => {
+  return <Button title={title} onPress={action} color={color} />;
 };
 
 export default CustomButton;

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import moment from 'moment';
 import CustomButton from './CustomButton';
 import CartList from './CartList';
+import Colors from '../constants/Colors';
 
 const OrderItem = ({ order }) => {
   const [active, setActive] = useState(false);
@@ -13,7 +14,11 @@ const OrderItem = ({ order }) => {
         <Text style={styles.date}>{moment(order.date).format('MMMM Do YYYY, h:mm')}</Text>
       </View>
       <View style={styles.button}>
-        <CustomButton title={active ? 'HIDE DETAILS' : 'SHOW DETAILS'} action={() => setActive(!active)} />
+        <CustomButton
+          title={active ? 'HIDE DETAILS' : 'SHOW DETAILS'}
+          action={() => setActive(!active)}
+          color={Colors.primaryColor}
+        />
       </View>
       <View style={styles.cartList}>{active ? <CartList data={order.items} active={active} /> : null}</View>
     </View>
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 15,
-    color: '#d3d3d3',
+    color: Colors.primaryColor,
   },
   cartList: {
     paddingHorizontal: 20,
