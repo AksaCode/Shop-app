@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import HeaderButton from '../components/HeaderButton';
 import { addProduct } from '../ReduxToolkit/cartReducer';
+import Colors from '../constants/Colors';
 
 const DetailsProductScreen = (props) => {
   const availableProducts = useSelector((state) => state.products.products);
@@ -27,11 +28,18 @@ const DetailsProductScreen = (props) => {
 
   return (
     <ScrollView>
+      <Image
+        source={{
+          uri: 'https://img.freepik.com/free-vector/yellow-header-banner-design_1302-16784.jpg?size=626&ext=jpg',
+        }}
+        style={{ height: 100 }}
+      />
       <Image source={{ uri: selectedProduct.imageUrl }} style={styles.image} />
       <View style={styles.buttonStyles}>
-        <CustomButton title="ADD TO CART" action={() => onAddToCart(selectedProduct)} />
+        <CustomButton title="ADD TO CART" action={() => onAddToCart(selectedProduct)} color={Colors.primaryColor} />
       </View>
       <Text style={styles.priceStyles}>${selectedProduct.price}</Text>
+      <Text style={styles.descriptionStyles}>Description:</Text>
       <Text style={styles.descriptionStyles}>{selectedProduct.description}</Text>
     </ScrollView>
   );
@@ -75,8 +83,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: '100%',
     height: 300,
+    margin: 15,
+    padding: 10,
+    borderColor: Colors.primaryColor,
+    borderWidth: 1,
   },
   buttonStyles: {
     flexDirection: 'row',
@@ -89,13 +100,13 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
     textAlign: 'center',
     paddingTop: 20,
-    color: '#d3d3d3',
+    paddingBottom: 20,
+    color: Colors.accentColor,
   },
   descriptionStyles: {
-    fontFamily: 'open-sans-bold',
+    fontFamily: 'open-sans',
     fontSize: 18,
-    textAlign: 'center',
-    paddingTop: 50,
+    textAlign: 'left',
     paddingHorizontal: 15,
   },
 });

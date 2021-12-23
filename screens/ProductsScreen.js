@@ -115,7 +115,7 @@ const ProductsList = (props) => {
 
 ProductsList.navigationOptions = (navData) => {
   return {
-    headerTitle: 'Products',
+    headerTitle: 'PRODUCTS',
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

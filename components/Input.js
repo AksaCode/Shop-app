@@ -73,7 +73,7 @@ const Input = (props) => {
         onChangeText={textChangeHandler}
         onBlur={lostFocusHandler}
       />
-      {!inputState.isValid && <Text>{props.errorText}</Text>}
+      {!inputState.isValid && <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
     </View>
   );
 };
@@ -83,15 +83,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderBottomWidth: 1,
     width: '90%',
-    height: 50,
+    height: 35,
     marginHorizontal: 15,
   },
   label: {
     fontFamily: 'open-sans-bold',
-    marginHorizontal: 15,
     marginTop: 15,
     color: 'black',
     fontWeight: 'bold',
+    fontSize: 20,
+    marginHorizontal: 15,
   },
 });
 
