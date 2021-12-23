@@ -1,11 +1,12 @@
 import React, { useState, useReducer, useCallback, useEffect } from 'react';
 import { ScrollView, View, KeyboardAvoidingView, StyleSheet, Button, ActivityIndicator, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Input from '../../components/Input';
 import InputPass from '../../components/InputPass';
 import Card from '../../components/Card';
+import LoadingComponent from '../../components/LoadingComponent';
 import Colors from '../../constants/Colors';
 import { login, signup } from '../../ReduxToolkit/auth';
 
@@ -39,6 +40,8 @@ const AuthScreen = (props) => {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const isAuth = useSelector((state) => !!state.auth.token);
+  console.log(isAuth);
 
   const [signState, dispatchSignState] = useReducer(signReducer, {
     inputValues: {
@@ -86,6 +89,7 @@ const AuthScreen = (props) => {
       setIsLoading(false);
     }
   };
+
   return (
     <KeyboardAvoidingView keyboardVerticalOffset={50} style={styles.screenStyle}>
       <LinearGradient colors={['#ffff99', '#ffffcc']} style={styles.gradientStyle}>

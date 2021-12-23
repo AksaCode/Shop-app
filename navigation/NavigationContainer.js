@@ -4,15 +4,15 @@ import { NavigationActions } from 'react-navigation';
 
 import ProductsNavigator from './ProductsNavigator';
 
-const NavigationContainer = (props) => {
+const NavigationContainer = () => {
   const navRef = useRef();
   const isAuth = useSelector((state) => !!state.auth.token);
+  const authRef = useRef(true);
   useEffect(() => {
-    setTimeout(() => {
-      if (!isAuth) {
-        navRef.current.dispatch(NavigationActions.navigate({ routeName: 'Auth' }));
-      }
-    }, 3000);
+    if (!authRef.current) {
+      authRef.current = !isAuth;
+      navRef.current.dispatch(NavigationActions.navigate({ routeName: 'Auth' }));
+    }
   }, [isAuth]);
   return <ProductsNavigator ref={navRef} />;
 };

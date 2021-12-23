@@ -28,7 +28,6 @@ const ProductsList = (props) => {
     setIsRefreshing(true);
     try {
       await dispatch(getProducts());
-      // await dispatch(fetchProducts());
     } catch (error) {
       setError(error.message);
     }
