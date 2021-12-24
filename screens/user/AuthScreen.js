@@ -10,7 +10,7 @@ import {
   ImageBackground,
   Text,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Input from '../../components/Input';
 import InputPass from '../../components/InputPass';
@@ -50,6 +50,8 @@ const AuthScreen = (props) => {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const isAuth = useSelector((state) => !!state.auth.token);
+  console.log(isAuth);
 
   const [signState, dispatchSignState] = useReducer(signReducer, {
     inputValues: {
@@ -97,6 +99,7 @@ const AuthScreen = (props) => {
       setIsLoading(false);
     }
   };
+
   return (
     <KeyboardAvoidingView keyboardVerticalOffset={50} style={styles.screenStyle}>
       <View style={styles.gradientStyle}>
