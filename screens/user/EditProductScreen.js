@@ -1,39 +1,50 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react';
-import { StyleSheet, View, TextInput, Text, Alert } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Alert, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { Ionicons } from '@expo/vector-icons';
 
+import Colors from '../../constants/Colors';
 import HeaderButton from '../../components/HeaderButton';
 import Input from '../../components/Input';
 import LoadingComponent from '../../components/LoadingComponent';
-// import { addNewProduct } from '../../store/action/product';
-// import { editProduct } from '../../store/action/product';
 import { addNewProduct, editProduct } from '../../ReduxToolkit/products';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-const FORM_INPUT_CHANGES = 'FORM_INPUT_CHANGES';
+const addingProductSchema = yup.object().shape({
+  title: yup
+    .string()
+    .min(3, ({ min }) => `Title must be at least ${min} characters`)
+    .required('Title should be added'),
+  imageUrl: yup
+    .string()
+    .min(10, ({ min }) => `Image url must be at least ${min} characters`)
+    .required('Image url is needed for showing the product picture'),
+  price: yup
+    .number()
+    .min(1, ({ min }) => `Price must be at least ${min} characters`)
+    .required('Give us the price of your product'),
+  description: yup
+    .string()
+    .min(10, ({ min }) => `Description must be at least ${min} characters`)
+    .required('Tell us about your product'),
+});
 
-const reactReducer = (state, action) => {
-  if (action.type === FORM_INPUT_CHANGES) {
-    const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value,
-    };
-    const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid,
-    };
-    let updatedFormIsValid = true;
-    for (const key in updatedValidities) {
-      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-    }
-    return {
-      formIsValid: updatedFormIsValid,
-      inputValidities: updatedValidities,
-      inputValues: updatedValues,
-    };
-  }
-  return state;
-};
+const editingProductSchema = yup.object().shape({
+  title: yup
+    .string()
+    .min(3, ({ min }) => `Title must be at least ${min} characters`)
+    .required('Title should be added'),
+  imageUrl: yup
+    .string()
+    .min(10, ({ min }) => `Image url must be at least ${min} characters`)
+    .required('Image url is needed for showing the product picture'),
+  description: yup
+    .string()
+    .min(10, ({ min }) => `Description must be at least ${min} characters`)
+    .required('Tell us about your product'),
+});
 
 const EditProductScreen = (props) => {
   const [loading, setLoading] = useState(false);
@@ -42,58 +53,40 @@ const EditProductScreen = (props) => {
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
   const dispatch = useDispatch();
 
-  const [restOfFormState, dispatchRestOfFormState] = useReducer(reactReducer, {
-    inputValues: {
-      title: editedProduct ? editedProduct.title : '',
-      imageUrl: editedProduct ? editedProduct.imageUrl : '',
-      description: editedProduct ? editedProduct.description : '',
-      price: '',
+  const addProductHandler = useCallback(
+    async (values) => {
+      setError(null);
+      setLoading(true);
+      try {
+        await dispatch(addNewProduct(values));
+        props.navigation.navigate({
+          routeName: 'Products',
+          params: {
+            refresh: true,
+          },
+        });
+      } catch (err) {
+        setError(err.message);
+      }
+      setLoading(false);
     },
-    inputValidities: {
-      title: editedProduct ? true : false,
-      imageUrl: editedProduct ? true : false,
-      description: editedProduct ? true : false,
-      price: editedProduct ? true : false,
+    [dispatch, setError, setLoading],
+  );
+
+  const editProductHandler = useCallback(
+    async (values) => {
+      const editParams = [productId, values];
+      setError(null);
+      setLoading(true);
+      try {
+        await dispatch(editProduct(editParams));
+      } catch (err) {
+        setError(err.message);
+      }
+      setLoading(false);
     },
-    formIsValid: editedProduct ? true : false,
-  });
-
-  const addProductHandler = useCallback(async () => {
-    if (!restOfFormState.formIsValid) {
-      Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
-      return;
-    }
-    setError(null);
-    setLoading(true);
-    try {
-      await dispatch(addNewProduct(restOfFormState.inputValues));
-      props.navigation.navigate({
-        routeName: 'Products',
-        params: {
-          refresh: true,
-        },
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-    setLoading(false);
-  }, [dispatch, restOfFormState, setError, setLoading]);
-
-  const editProductHandler = useCallback(async () => {
-    const editParams = [productId, restOfFormState.inputValues];
-    if (!restOfFormState.formIsValid) {
-      Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]);
-      return;
-    }
-    setError(null);
-    setLoading(true);
-    try {
-      await dispatch(editProduct(editParams));
-    } catch (err) {
-      setError(err.message);
-    }
-    setLoading(false);
-  }, [dispatch, productId, restOfFormState]);
+    [dispatch, productId],
+  );
 
   useEffect(() => {
     props.navigation.setParams({
@@ -103,17 +96,6 @@ const EditProductScreen = (props) => {
     });
   }, [addProductHandler, editProductHandler, editedProduct]);
 
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue, inputValidity) => {
-      dispatchRestOfFormState({
-        type: FORM_INPUT_CHANGES,
-        value: inputValue,
-        isValid: inputValidity,
-        input: inputIdentifier,
-      });
-    },
-    [dispatchRestOfFormState],
-  );
   useEffect(() => {
     if (error) {
       Alert.alert('Error', error, [{ text: 'Ok' }]);
@@ -127,82 +109,181 @@ const EditProductScreen = (props) => {
   return (
     <View removeClippedSubviews={false}>
       <View>
-        <Input
-          id="title"
-          label="Title"
-          errorText="Please enter a valid title!"
-          keyboardType="default"
-          autoCapitalize="sentences"
-          autoCorrect
-          returnKeyType="next"
-          onInputChange={inputChangeHandler}
-          initialValue={editedProduct ? editedProduct.title : ''}
-          initiallyValid={!!editedProduct}
-          required
-        />
+        <Formik
+          validationSchema={editedProduct ? editingProductSchema : addingProductSchema}
+          initialValues={{
+            title: editedProduct ? editedProduct.title : '',
+            imageUrl: editedProduct ? editedProduct.imageUrl : '',
+            price: 0,
+            description: editedProduct ? editedProduct.description : '',
+          }}
+          onSubmit={(values) => {
+            if (!editedProduct) {
+              addProductHandler(values);
+            } else {
+              editProductHandler(values);
+            }
+          }}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+            <>
+              <Text style={styles.label}>Title</Text>
 
-        <Input
-          id="imageUrl"
-          label="Image Url"
-          errorText="Please enter a valid image imageUrl!"
-          keyboardType="default"
-          returnKeyType="next"
-          onInputChange={inputChangeHandler}
-          initialValue={editedProduct ? editedProduct.imageUrl : ''}
-          initiallyValid={!!editedProduct}
-          required
-        />
-        {editedProduct ? null : (
-          <Input
-            id="price"
-            label="Price"
-            errorText="Please enter a valid price!"
-            keyboardType="decimal-pad"
-            returnKeyType="next"
-            onInputChange={inputChangeHandler}
-            required
-            min={0.1}
-          />
-        )}
-        <Input
-          id="description"
-          label="Description"
-          errorText="Please enter a valid description!"
-          keyboardType="default"
-          autoCapitalize="sentences"
-          returnKeyType="next"
-          autoCorrect
-          numberOfLines={3}
-          onInputChange={inputChangeHandler}
-          initialValue={editedProduct ? editedProduct.description : ''}
-          initiallyValid={!!editedProduct}
-          required
-          minLength={5}
-        />
+              <TextInput
+                name="title"
+                style={styles.input}
+                onChangeText={handleChange('title')}
+                onBlur={handleBlur('title')}
+                value={values.title}
+                keyboardType="default"
+              />
+              {errors.title && touched.title && <Text style={styles.errorText}>{errors.title}</Text>}
+              <Text style={styles.label}>Image url</Text>
+
+              <TextInput
+                name="imageUrl"
+                style={styles.input}
+                onChangeText={handleChange('imageUrl')}
+                onBlur={handleBlur('imageUrl')}
+                value={values.imageUrl}
+                keyboardType="default"
+              />
+              {errors.imageUrl && touched.imageUrl && <Text style={styles.errorText}>{errors.imageUrl}</Text>}
+              {editedProduct ? null : <Text style={styles.label}>Price</Text>}
+              {editedProduct ? null : (
+                <TextInput
+                  name="price"
+                  style={styles.input}
+                  onChangeText={handleChange('price')}
+                  onBlur={handleBlur('price')}
+                  keyboardType="number-pad"
+                />
+              )}
+              {errors.price && touched.price && <Text style={styles.errorText}>{errors.price}</Text>}
+              <Text style={styles.label}>Description</Text>
+
+              <TextInput
+                name="description"
+                style={styles.input}
+                onChangeText={handleChange('description')}
+                onBlur={handleBlur('description')}
+                value={values.description}
+                keyboardType="default"
+              />
+              {errors.description && touched.description && <Text style={styles.errorText}>{errors.description}</Text>}
+              <View style={styles.buttonContainer}>
+                <View style={styles.buttonCancel}>
+                  <Item
+                    onPress={() => {
+                      props.navigation.goBack();
+                    }}
+                    title="Checkout"
+                    iconName="chevron-back"
+                    IconComponent={Ionicons}
+                    iconSize={23}
+                    color={Colors.primaryColor}
+                  />
+                </View>
+                <View style={styles.buttonAccept}>
+                  <Item
+                    onPress={handleSubmit}
+                    title="Checkout"
+                    iconName="md-checkmark"
+                    IconComponent={Ionicons}
+                    iconSize={23}
+                    color={Colors.backgroundDefaultColor}
+                  />
+                </View>
+              </View>
+            </>
+          )}
+        </Formik>
       </View>
     </View>
   );
 };
 
 EditProductScreen.navigationOptions = (navData) => {
-  const addNewProduct = navData.navigation.getParam('addProduct');
-  const editSelectedProduct = navData.navigation.getParam('editProduct');
-  const editedProduct = navData.navigation.getParam('editedProduct');
   return {
     headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Checkout"
-          iconName="md-checkmark"
-          onPress={() => {
-            editedProduct ? editSelectedProduct() : addNewProduct();
-            navData.navigation.goBack();
-          }}
-        />
-      </HeaderButtons>
-    ),
   };
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#e6e6e6',
+  },
+  formContainer: {
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 10,
+    elevation: 10,
+    backgroundColor: '#e6e6e6',
+  },
+  textInput: {
+    height: 40,
+    width: '100%',
+    margin: 10,
+    paddingLeft: 10,
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  errorText: {
+    fontSize: 10,
+    color: 'red',
+  },
+  listParam: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input: {
+    borderColor: 'black',
+    borderBottomWidth: 1,
+    width: '90%',
+    height: 35,
+    marginHorizontal: 15,
+  },
+  label: {
+    fontFamily: 'open-sans-bold',
+    marginTop: 15,
+    color: Colors.accentColor,
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginHorizontal: 15,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  buttonAccept: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 50,
+    borderWidth: 0,
+    borderColor: Colors.accentColor,
+    borderRadius: 10,
+    backgroundColor: Colors.accentColor,
+    marginLeft: 20,
+  },
+  buttonCancel: {
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 50,
+    borderWidth: 2,
+    borderColor: Colors.primaryColorColor,
+    borderRadius: 10,
+  },
+});
 
 export default EditProductScreen;
