@@ -51,7 +51,6 @@ const AuthScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => !!state.auth.token);
-  console.log(isAuth);
 
   const [signState, dispatchSignState] = useReducer(signReducer, {
     inputValues: {
