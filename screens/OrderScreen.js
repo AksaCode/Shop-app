@@ -11,7 +11,7 @@ import EmptyOrder from '../components/EmptyOrder';
 import Colors from '../constants/Colors';
 import LoadingComponent from '../components/LoadingComponent';
 //import { orderActions } from '../ReduxToolkit/order';
-import { fetchOrders } from '../ReduxToolkit/order';
+import { fetchOrders, addOrder } from '../ReduxToolkit/order';
 
 const OrderScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
