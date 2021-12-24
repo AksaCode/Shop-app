@@ -44,19 +44,7 @@ const InputPass = (props) => {
     const emailRegex =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let isValid = true;
-    if (props.required && text.trim().length === 0) {
-      isValid = false;
-    }
-    if (props.email && !emailRegex.test(text.toLowerCase())) {
-      isValid = false;
-    }
-    if (props.min != null && +text < props.min) {
-      isValid = false;
-    }
-    if (props.max != null && +text > props.max) {
-      isValid = false;
-    }
-    if (props.minLength != null && text.length < props.minLength) {
+    if (props.minLength != null && text.length > props.minLength) {
       isValid = false;
     }
     dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
@@ -73,8 +61,17 @@ const InputPass = (props) => {
   return (
     <View>
       <Text style={styles.label}>{props.label}</Text>
-
       <View style={styles.passV}>
+        <Ionicons
+          name={icon}
+          size={23}
+          onPress={() => {
+            _changeIcon();
+            require;
+          }}
+          style={styles.iconEdit}
+          color="black"
+        />
         <TextInput
           {...props}
           style={styles.input}
@@ -83,15 +80,8 @@ const InputPass = (props) => {
           onBlur={lostFocusHandler}
           secureTextEntry={hidePassword}
         />
-        <Ionicons
-          name={icon}
-          size={23}
-          onPress={() => _changeIcon()}
-          style={{ textAlign: 'right', width: '15%' }}
-          color="black"
-        />
       </View>
-      {!inputState.isValid && <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
+      {!inputState.isValid ? <Text></Text> : <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
     </View>
   );
 };
@@ -100,9 +90,10 @@ const styles = StyleSheet.create({
   input: {
     borderColor: 'black',
     borderBottomWidth: 1,
-    width: '65%',
+    width: '90%',
     height: 35,
     marginHorizontal: 15,
+    color: 'black',
   },
   label: {
     fontFamily: 'open-sans-bold',
@@ -114,7 +105,13 @@ const styles = StyleSheet.create({
   },
   passV: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  iconEdit: {
+    paddingRight: 10,
+    position: 'absolute',
   },
 });
 
