@@ -23,11 +23,7 @@ const InputPass = (props) => {
           style={styles.iconEdit}
           color="black"
         />
-        <TextInput
-          {...props}
-          style={styles.input}
-          secureTextEntry={hidePassword}
-        />
+        <TextInput {...props} style={styles.input} secureTextEntry={hidePassword} />
         <Ionicons
           name={icon}
           size={23}

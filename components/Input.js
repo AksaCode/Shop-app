@@ -5,10 +5,7 @@ const Input = (props) => {
   return (
     <View>
       <Text style={styles.label}>{props.label}</Text>
-      <TextInput
-        {...props}
-        style={styles.input}
-      />
+      <TextInput {...props} style={styles.input} />
     </View>
   );
 };
