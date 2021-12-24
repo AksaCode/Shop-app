@@ -8,11 +8,7 @@ const Input = (props) => {
       <TextInput
         {...props}
         style={styles.input}
-        value={inputState.value}
-        onChangeText={textChangeHandler}
-        onBlur={lostFocusHandler}
       />
-      {!inputState.isValid ? <Text></Text> : <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
     </View>
   );
 };

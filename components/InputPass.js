@@ -1,8 +1,10 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const InputPass = (props) => {
+  const [icon, setIcon] = useState('ios-eye-off');
+  const [hidePassword, setHidePassword] = useState(true);
   _changeIcon = () => {
     icon !== 'ios-eye-off' ? (setIcon('ios-eye-off'), setHidePassword(false)) : (setIcon('eye'), setHidePassword(true));
   };
@@ -24,13 +26,16 @@ const InputPass = (props) => {
         <TextInput
           {...props}
           style={styles.input}
-          value={inputState.value}
-          onChangeText={textChangeHandler}
-          onBlur={lostFocusHandler}
           secureTextEntry={hidePassword}
         />
+        <Ionicons
+          name={icon}
+          size={23}
+          onPress={() => _changeIcon()}
+          style={{ textAlign: 'right', width: '15%' }}
+          color="black"
+        />
       </View>
-      {!inputState.isValid ? <Text></Text> : <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
     </View>
   );
 };
