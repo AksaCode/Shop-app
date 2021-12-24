@@ -1,92 +1,66 @@
-import React, { useState, useReducer, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
+  Text,
   ScrollView,
   View,
   KeyboardAvoidingView,
   StyleSheet,
   Button,
   ActivityIndicator,
-  Alert,
   ImageBackground,
-  Text,
+  Alert,
+  TextInput,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Ionicons } from '@expo/vector-icons';
 
-import Input from '../../components/Input';
-import InputPass from '../../components/InputPass';
 import Card from '../../components/Card';
 import Colors from '../../constants/Colors';
 import { login, signup } from '../../ReduxToolkit/auth';
+import Input from '../../components/Input';
+import InputPass from '../../components/InputPass';
 
-const FORM_SIGN = 'FORM_SIGN';
+let Authshema = yup.object().shape({
+  email: yup
+    .string()
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Email address is incorrect! Please try again.',
+    ),
+  password: yup.string().min(8, ({ min }) => `Password must be at least ${min} characters!`),
+});
 
-const signReducer = (state, action) => {
-  if (action.type === FORM_SIGN) {
-    const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value,
-    };
-    const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid,
-    };
-    let updatedFormIsValid = true;
-    for (const key in updatedValidities) {
-      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-    }
-    return {
-      formIsValid: updatedFormIsValid,
-      inputValidities: updatedValidities,
-      inputValues: updatedValues,
-    };
-  }
-  return state;
-};
 const image = {
   uri: 'https://media.istockphoto.com/photos/smiling-deaf-african-girl-on-a-virtual-therapy-session-picture-id1284585951?k=20&m=1284585951&s=170667a&w=0&h=1RzXB10E6BpT4qUuAYOA8kG92s1QIoq1h2VP4_HhJR4=',
 };
+
 const AuthScreen = (props) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => !!state.auth.token);
+  const [icon, setIcon] = useState('ios-eye-off');
+  const [hidePassword, setHidePassword] = useState(true);
+  _changeIcon = () => {
+    icon !== 'ios-eye-off' ? (setIcon('ios-eye-off'), setHidePassword(false)) : (setIcon('eye'), setHidePassword(true));
+  };
 
-  const [signState, dispatchSignState] = useReducer(signReducer, {
-    inputValues: {
-      email: '',
-      password: '',
-    },
-    inputValidities: {
-      email: false,
-      password: false,
-    },
-    formIsValid: false,
-  });
-
-  const signHandler = useCallback(
-    (inputIdentifier, inputValue, inputValidity) => {
-      dispatchSignState({
-        type: FORM_SIGN,
-        value: inputValue,
-        isValid: inputValidity,
-        input: inputIdentifier,
-      });
-    },
-    [dispatchSignState],
-  );
   useEffect(() => {
     if (error) {
       Alert.alert('An Error Ocurred!', error, [{ text: 'Okay' }]);
     }
   }, [error]);
 
-  const authHandler = async () => {
+  const authHandler = async (values) => {
     let action;
     if (isSignUp) {
-      action = signup(signState.inputValues);
+      action = signup(values);
     } else {
-      action = login(signState.inputValues);
+      action = login(values);
     }
     setError(null);
     setIsLoading(true);
@@ -101,54 +75,88 @@ const AuthScreen = (props) => {
 
   return (
     <KeyboardAvoidingView keyboardVerticalOffset={50} style={styles.screenStyle}>
-      <View style={styles.gradientStyle}>
+      <LinearGradient colors={['#ffff99', '#ffffcc']} style={styles.gradientStyle}>
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <Card style={styles.authContainerStyle}>
             <ScrollView>
-              <Input
-                id="email"
-                label="E-mail"
-                keyboardType="email-address"
-                required
-                email
-                autoCapitalize="none"
-                errorText="Please enter a valid email address."
-                onInputChange={signHandler}
-                initialValue=""
-              />
-              <View>
-                <InputPass
-                  id="password"
-                  label="Password"
-                  keyboardType="default"
-                  required
-                  minLength={8}
-                  autoCapitalize="none"
-                  errorText="Please enter a valid password."
-                  onInputChange={signHandler}
-                  initialValue=""
-                />
-              </View>
-              <View style={styles.buttonStyle}>
-                {isLoading ? (
-                  <ActivityIndicator size="small" color={Colors.primaryColor} />
-                ) : (
-                  <Button title={isSignUp ? 'Sign Up' : 'Login'} color={'#191970'} onPress={authHandler} />
+              <Formik
+                validationSchema={Authshema}
+                initialValues={{
+                  email: '',
+                  password: '',
+                }}
+                onSubmit={(values) => {
+                  authHandler(values);
+                }}
+              >
+                {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+                  <View>
+                    <Input
+                      id="email"
+                      label="E-mail"
+                      keyboardType="email-address"
+                      required
+                      email
+                      autoCapitalize="none"
+                      errorText="Please enter a valid email address."
+                      initialValue=""
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                    />
+
+                    {errors.email && touched.email && <Text style={styles.errorText}>{errors.email}</Text>}
+                    <View>
+                      <InputPass
+                        id="password"
+                        label="Password"
+                        keyboardType="default"
+                        required
+                        minLength={8}
+                        autoCapitalize="none"
+                        errorText="Please enter a valid password."
+                        initialValue=""
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                      />
+
+                      <Ionicons
+                        name={icon}
+                        size={23}
+                        onPress={() => _changeIcon()}
+                        style={styles.iconEdit}
+                        color="black"
+                      />
+                    </View>
+                    {errors.password && touched.password && <Text style={styles.errorText}>{errors.password}</Text>}
+                    <View style={styles.buttonStyle}>
+                      {isLoading ? (
+                        <ActivityIndicator size="small" color={Colors.primaryColor} />
+                      ) : (
+                        <Button
+                          title={isSignUp ? 'Sign Up' : 'Login'}
+                          color={Colors.primaryColor}
+                          onPress={handleSubmit}
+                        />
+                      )}
+                    </View>
+                    <View style={styles.buttonStyle}>
+                      <Button
+                        title={`Switch to ${isSignUp ? 'Login' : 'Sign Up'}`}
+                        color={Colors.accentColor}
+                        onPress={() => {
+                          setIsSignUp((prevState) => !prevState);
+                        }}
+                      />
+                    </View>
+                  </View>
                 )}
-              </View>
-              <View style={styles.buttonStyle}>
-                <Button
-                  title={`Switch to ${isSignUp ? 'Login' : 'Sign Up'}`}
-                  color={'#708090'}
-                  onPress={() => {
-                    setIsSignUp((prevState) => !prevState);
-                  }}
-                />
-              </View>
+              </Formik>
             </ScrollView>
           </Card>
         </ImageBackground>
-      </View>
+      </LinearGradient>
     </KeyboardAvoidingView>
   );
 };
@@ -184,6 +192,17 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     marginTop: 10,
+  },
+  textInput: {
+    borderColor: 'black',
+    borderBottomWidth: 1,
+    width: '90%',
+    height: 50,
+    marginHorizontal: 15,
+  },
+  iconEdit: {
+    paddingRight: 10,
+    position: 'relative',
   },
 });
 export default AuthScreen;

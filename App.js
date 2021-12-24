@@ -9,6 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReduxThunk from 'redux-thunk';
 
+
 import NavigationContainer from './navigation/NavigationContainer';
 import { configureStore } from '@reduxjs/toolkit';
 import productsReducer from './ReduxToolkit/products';

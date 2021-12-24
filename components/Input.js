@@ -5,14 +5,7 @@ const Input = (props) => {
   return (
     <View>
       <Text style={styles.label}>{props.label}</Text>
-      <TextInput
-        {...props}
-        style={styles.input}
-        value={inputState.value}
-        onChangeText={textChangeHandler}
-        onBlur={lostFocusHandler}
-      />
-      {!inputState.isValid ? <Text></Text> : <Text style={{ marginHorizontal: 15 }}>{props.errorText}</Text>}
+      <TextInput {...props} style={styles.input} />
     </View>
   );
 };
