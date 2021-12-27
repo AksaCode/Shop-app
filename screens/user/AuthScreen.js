@@ -28,9 +28,9 @@ let Authshema = yup.object().shape({
     .string()
     .matches(
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      'Email address is incorrect! Please try again.',
+      'Email address is incorrect!',
     ),
-  password: yup.string().min(8, ({ min }) => `Password must be at least ${min} characters!`),
+  password: yup.string().min(8, ({ min }) => `Password is incorect!`),
 });
 
 const image = {
@@ -120,16 +120,8 @@ const AuthScreen = (props) => {
                         onBlur={handleBlur('password')}
                         value={values.password}
                       />
-
-                      <Ionicons
-                        name={icon}
-                        size={23}
-                        onPress={() => _changeIcon()}
-                        style={styles.iconEdit}
-                        color="black"
-                      />
+                      {errors.password && touched.password && <Text style={styles.errorText}>{errors.password}</Text>}
                     </View>
-                    {errors.password && touched.password && <Text style={styles.errorText}>{errors.password}</Text>}
                     <View style={styles.buttonStyle}>
                       {isLoading ? (
                         <ActivityIndicator size="small" color={Colors.primaryColor} />
@@ -183,11 +175,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    //justifyContent: 'flex-end',
   },
   gradientStyle: {
     flex: 1,
-    //justifyContent: 'flex-start',
+
     backgroundColor: '#b0c4de',
   },
   buttonStyle: {
@@ -203,6 +194,9 @@ const styles = StyleSheet.create({
   iconEdit: {
     paddingRight: 10,
     position: 'relative',
+  },
+  errorText: {
+    marginHorizontal: 15,
   },
 });
 export default AuthScreen;
