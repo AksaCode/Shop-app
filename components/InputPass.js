@@ -13,6 +13,7 @@ const InputPass = (props) => {
     <View>
       <Text style={styles.label}>{props.label}</Text>
       <View style={styles.passV}>
+        <TextInput {...props} style={styles.input} secureTextEntry={hidePassword} />
         <Ionicons
           name={icon}
           size={23}
@@ -21,14 +22,6 @@ const InputPass = (props) => {
             require;
           }}
           style={styles.iconEdit}
-          color="black"
-        />
-        <TextInput {...props} style={styles.input} secureTextEntry={hidePassword} />
-        <Ionicons
-          name={icon}
-          size={23}
-          onPress={() => _changeIcon()}
-          style={{ textAlign: 'right', width: '15%' }}
           color="black"
         />
       </View>
@@ -52,6 +45,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginHorizontal: 15,
+
   },
   passV: {
     flex: 1,
@@ -60,8 +54,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   iconEdit: {
-    paddingRight: 10,
+    paddingRight: 15,
     position: 'absolute',
+    
   },
 });
 

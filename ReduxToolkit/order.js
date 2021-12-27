@@ -48,7 +48,6 @@ const orderSlice = createSlice({
       state.orders = [];
     },
     [fetchOrders.fulfilled]: (state, action) => {
-      console.log(action.payload.userId);
       const loadedOrders = [];
       for (const key in action.payload) {
         loadedOrders.push(
