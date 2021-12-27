@@ -7,7 +7,9 @@ export const fetchOrders = () => {
   return async (dispatch, getState) => {
     const userId = getState().auth.userId;
     try {
-      const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/orders/${userId}.json`);
+      const response = await fetch(
+        `https://shop-application-comtrade-default-rtdb.firebaseio.com//orders/${userId}.json`,
+      );
       if (!response.ok) {
         throw new Error('Response is not 200');
       }
@@ -32,7 +34,7 @@ export const addOrder = (cartItems, totalAmount) => {
     const userId = getState().auth.userId;
     const date = new Date();
     const response = await fetch(
-      `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
+      `https://shop-application-comtrade-default-rtdb.firebaseio.com//orders/${userId}.json?auth=${token}`,
       {
         method: 'POST',
         headers: {

@@ -9,7 +9,7 @@ export const fetchProducts = () => {
   return async (dispatch, getState) => {
     const userId = getState().auth.userId;
     try {
-      const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
+      const response = await fetch('https://shop-application-comtrade-default-rtdb.firebaseio.com//products.json');
       if (!response.ok) {
         throw new Error('Response is not 200');
       }
@@ -42,7 +42,7 @@ export const deleteOnClick = (id) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
+      `https://shop-application-comtrade-default-rtdb.firebaseio.com//products/${id}.json?auth=${token}`,
       {
         method: 'DELETE',
       },
@@ -58,19 +58,22 @@ export const addNewProduct = (title, imageUrl, description, price) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
-    const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json?auth=${token}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `https://shop-application-comtrade-default-rtdb.firebaseio.com//products.json?auth=${token}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          imageUrl,
+          description,
+          price,
+          ownerId: userId,
+        }),
       },
-      body: JSON.stringify({
-        title,
-        imageUrl,
-        description,
-        price,
-        ownerId: userId,
-      }),
-    });
+    );
     const responseData = await response.json();
     dispatch({
       type: ADD,
@@ -88,7 +91,7 @@ export const editProduct = (id, title, imageUrl, description) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
+      `https://shop-application-comtrade-default-rtdb.firebaseio.com//products/${id}.json?auth=${token}`,
       {
         method: 'PATCH',
         headers: {

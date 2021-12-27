@@ -45,7 +45,7 @@ const saveDataToStorage = (token, userId, expirationDate) => {
 export const login = (data) => {
   return async (dispatch) => {
     const response = await fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCo5oYcmYE2nMJj8J3dVism9s9Ql4xK70c',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDpEkdP9dTqOtLxlVHgnqIs1xVyr4G9u_0',
       {
         method: 'POST',
         headers: {
@@ -80,7 +80,7 @@ export const login = (data) => {
 export const signup = (data) => {
   return async (dispatch) => {
     const response = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCo5oYcmYE2nMJj8J3dVism9s9Ql4xK70c`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDpEkdP9dTqOtLxlVHgnqIs1xVyr4G9u_0`,
       {
         method: 'POST',
         headers: {

@@ -6,7 +6,7 @@ initialState = { orders: [] };
 export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (data, { getState }) => {
   const userId = getState().auth.userId;
   const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/orders/zylavxBt6XR1D1Lj2vCsptTgKZh2.json`,
+    `https://shop-application-comtrade-default-rtdb.firebaseio.com//orders/zylavxBt6XR1D1Lj2vCsptTgKZh2.json`,
   );
   const resData = await response.json();
   fetchOrdersData = { ...resData, userId: userId };
@@ -18,7 +18,7 @@ export const addOrder = createAsyncThunk('orders/addOrder', async (data, { getSt
   const userId = getState().auth.userId;
   const date = new Date();
   const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
+    `https://shop-application-comtrade-default-rtdb.firebaseio.com//orders/${userId}.json?auth=${token}`,
     {
       method: 'POST',
       headers: {
