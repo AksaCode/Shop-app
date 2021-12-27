@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getProducts = createAsyncThunk('products/getProducts', async (data, { getState, dispatch }) => {
   const userId = getState().auth.userId;
-  const response = await fetch('https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json');
+  const response = await fetch('https://shop-application-comtrade-default-rtdb.firebaseio.com//products.json');
   const resData = await response.json();
   let fromGetProducts = { items: { ...resData }, userId: userId };
   return fromGetProducts;
@@ -11,7 +11,7 @@ export const getProducts = createAsyncThunk('products/getProducts', async (data,
 export const deleteOnClick = createAsyncThunk('products/deleteOnClick', async (id, { getState }) => {
   const token = getState().auth.token;
   const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
+    `https://shop-application-comtrade-default-rtdb.firebaseio.com//products/${id}.json?auth=${token}`,
     {
       method: 'DELETE',
     },
@@ -26,19 +26,22 @@ export const addNewProduct = createAsyncThunk('products/addNewProduct', async (d
   const token = getState().auth.token;
   const userId = getState().auth.userId;
 
-  const response = await fetch(`https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products.json?auth=${token}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  const response = await fetch(
+    `https://shop-application-comtrade-default-rtdb.firebaseio.com//products.json?auth=${token}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: data.title,
+        imageUrl: data.imageUrl,
+        description: data.description,
+        price: data.price,
+        ownerId: userId,
+      }),
     },
-    body: JSON.stringify({
-      title: data.title,
-      imageUrl: data.imageUrl,
-      description: data.description,
-      price: data.price,
-      ownerId: userId,
-    }),
-  });
+  );
   const responseData = await response.json();
   const id = responseData.name;
   const prodData = { ...data, ownerId: userId, id };
@@ -47,7 +50,7 @@ export const addNewProduct = createAsyncThunk('products/addNewProduct', async (d
 export const editProduct = createAsyncThunk('products/editProduct', async (data, { getState }) => {
   const token = getState().auth.token;
   const response = await fetch(
-    `https://rn-shop-app-e309f-default-rtdb.firebaseio.com/products/${data[0]}.json?auth=${token}`,
+    `https://shop-application-comtrade-default-rtdb.firebaseio.com//products/${data[0]}.json?auth=${token}`,
     {
       method: 'PATCH',
       headers: {
