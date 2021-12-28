@@ -59,12 +59,6 @@ const EditProductScreen = (props) => {
       setLoading(true);
       try {
         await dispatch(addNewProduct(values));
-        props.navigation.navigate({
-          routeName: 'Products',
-          params: {
-            refresh: true,
-          },
-        });
       } catch (err) {
         setError(err.message);
       }
@@ -120,8 +114,22 @@ const EditProductScreen = (props) => {
           onSubmit={(values) => {
             if (!editedProduct) {
               addProductHandler(values);
+              props.navigation.goBack();
+              props.navigation.navigate({
+                routeName: 'Products',
+                params: {
+                  refresh: true,
+                },
+              });
             } else {
               editProductHandler(values);
+              props.navigation.goBack();
+              props.navigation.navigate({
+                routeName: 'Products',
+                params: {
+                  refresh: true,
+                },
+              });
             }
           }}
         >
