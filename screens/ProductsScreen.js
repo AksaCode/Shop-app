@@ -24,12 +24,14 @@ const ProductsList = (props) => {
 
   const loadingOfProducts = useCallback(async () => {
     setError(null);
+    setLoading(true);
     setIsRefreshing(true);
     try {
       await dispatch(getProducts());
     } catch (error) {
       setError(error.message);
     }
+    setLoading(false);
     setIsRefreshing(false);
   }, [dispatch, setError, setLoading, setIsRefreshing]);
 
@@ -41,7 +43,6 @@ const ProductsList = (props) => {
   }, [loadingOfProducts]);
 
   useEffect(() => {
-    setLoading(true);
     if (refresh) {
       setIsRefreshing(true);
     }
