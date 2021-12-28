@@ -16,7 +16,6 @@ import { addProduct } from '../ReduxToolkit/cartReducer';
 
 const ProductsList = (props) => {
   const refresh = props.navigation.getParam('refresh');
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
