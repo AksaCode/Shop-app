@@ -20,7 +20,7 @@ const OrderItem = ({ order }) => {
           color={Colors.primaryColor}
         />
       </View>
-      <View style={styles.cartList}>{active ? <CartList data={order.items} active={active} /> : null}</View>
+      <View style={styles.cartList}>{active ? <CartList data={order.cartItems} active={active} /> : null}</View>
     </View>
   );
 };

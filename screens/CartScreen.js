@@ -7,8 +7,6 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 import CustomButton from '../components/CustomButton';
 import CartList from '../components/CartList';
-//import { addOrder } from '../store/action/order';
-//import { orderActions } from '../ReduxToolkit/order';
 import { addOrder } from '../ReduxToolkit/order';
 import { restartOrder } from '../ReduxToolkit/cartReducer';
 import Colors from '../constants/Colors';
@@ -17,7 +15,7 @@ const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
 
-  const cartState = { total: total, cart: cart };
+  const cartState = { totalAmount: total, cartItems: cart };
   const dispatch = useDispatch();
   const executeOrder = (orderItem) => {
     dispatch(addOrder(orderItem));
