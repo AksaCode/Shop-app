@@ -1,79 +1,84 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import Order from '../model/order';
+import { createSlice } from '@reduxjs/toolkit';
 
 initialState = { orders: [] };
 
-export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (data, { getState }) => {
-  const userId = getState().auth.userId;
-  const response = await fetch(
-    `https://shop-application-comtrade-default-rtdb.firebaseio.com//orders/zylavxBt6XR1D1Lj2vCsptTgKZh2.json`,
-  );
-  const resData = await response.json();
-  fetchOrdersData = { ...resData, userId: userId };
-  return fetchOrdersData;
-});
+export const fetchOrders = () => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const date = new Date().toISOString();
+    try {
+      const response = await fetch(
+        `https://shop-application-comtrade-default-rtdb.firebaseio.com/orders/${userId}.json`,
+      );
+      if (!response.ok) {
+        throw new Error('Response is not 200');
+      }
+      const resData = await response.json();
+      const loadedOrders = [];
+      for (const key in resData) {
+        loadedOrders.push({
+          id: key,
+          cartItems: resData[key].cartItems,
+          totalAmount: resData[key].totalAmount,
+          date: resData[key].date,
+        });
+      }
+      const objectOrders = {
+        orders: loadedOrders,
+      };
+      dispatch(fetchOrderReducer(objectOrders));
+    } catch (error) {
+      throw error;
+    }
+  };
+};
 
-export const addOrder = createAsyncThunk('orders/addOrder', async (data, { getState }) => {
-  const token = getState().auth.token;
-  const userId = getState().auth.userId;
-  const date = new Date();
-  const response = await fetch(
-    `https://shop-application-comtrade-default-rtdb.firebaseio.com//orders/${userId}.json?auth=${token}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+export const addOrder = (data) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
+    const date = new Date().toISOString();
+    const response = await fetch(
+      `https://shop-application-comtrade-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cartItems: data.cartItems,
+          totalAmount: data.totalAmount,
+          date: date,
+        }),
       },
-      body: JSON.stringify({
-        cartItems: data.cart,
-        totalAmount: data.total,
-        date: date.toISOString(),
-      }),
-    },
-  );
-  if (!response.ok) {
-    throw new Error('Something went wrong!');
-  }
-
-  const responseData = await response.json();
-  const cartData = { id: responseData.name, cartItems: data.cart, total: data.total, date: date };
-  return cartData;
-});
+    );
+    const responseData = await response.json();
+    const id = responseData.name;
+    const cartData = { id, ...data, date: date };
+    dispatch(addOrderReducer(cartData));
+  };
+};
 
 const orderSlice = createSlice({
   name: 'orders',
   initialState: initialState,
-  extraReducers: {
-    [fetchOrders.pending]: (state, action) => {
-      state.orders = [];
+  reducers: {
+    fetchOrderReducer(state, action) {
+      console.log(action.payload);
+      state.orders = action.payload.orders;
     },
-    [fetchOrders.fulfilled]: (state, action) => {
-      const loadedOrders = [];
-      for (const key in action.payload) {
-        loadedOrders.push(
-          new Order(
-            key,
-            action.payload[key].cartItems,
-            action.payload[key].totalAmount,
-            new Date(action.payload[key].date),
-          ),
-        );
-      }
-      state.orders = [...loadedOrders];
-    },
-    [fetchOrders.rejected]: (state, action) => {
-      state.orders = [];
-    },
-    [addOrder.fulfilled]: (state, action) => {
+    addOrderReducer(state, action) {
       const order = {
         id: action.payload.id,
-        // cartItems: action.payload.cartItems,
-        total: action.payload.totalAmount,
-        // date: action.payload.date,
+        cartItems: action.payload.cartItems,
+        totalAmount: action.payload.totalAmount,
+        date: action.payload.date,
       };
       state.orders = [...state.orders, order];
     },
   },
 });
+
+export const { fetchOrderReducer, addOrderReducer } = orderSlice.actions;
 
 export default orderSlice.reducer;
