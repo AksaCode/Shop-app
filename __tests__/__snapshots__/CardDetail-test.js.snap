@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "fontFamily": "open-sans-bold",
+        "fontSize": 20,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "fontFamily": "open-sans",
+        "fontSize": 15,
+      }
+    }
+  >
+    $
+  </Text>
+</View>
+`;

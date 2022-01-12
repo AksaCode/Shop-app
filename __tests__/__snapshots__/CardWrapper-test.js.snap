@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+      "margin": 5,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={false}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "rgba(230, 230, 230, 0.1)",
+        "borderColor": "#ddd",
+        "borderRadius": 10,
+        "borderWidth": 2,
+        "opacity": 1,
+        "overflow": "hidden",
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "uri": undefined,
+          }
+        }
+        style={
+          Object {
+            "height": 200,
+            "width": "100%",
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "fontFamily": "open-sans-bold",
+            "fontSize": 20,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "fontFamily": "open-sans",
+            "fontSize": 15,
+          }
+        }
+      >
+        $
+      </Text>
+    </View>
+  </View>
+</View>
+`;
