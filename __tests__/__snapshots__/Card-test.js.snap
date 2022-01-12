@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  removeClippedSubviews={false}
+  style={
+    Object {
+      "backgroundColor": "white",
+      "shadowColor": "black",
+      "shadowOpacity": 0.26,
+      "shadowRadius": 8,
+    }
+  }
+/>
+`;
