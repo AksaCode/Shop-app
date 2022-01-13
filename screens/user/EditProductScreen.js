@@ -49,7 +49,7 @@ const editingProductSchema = yup.object().shape({
 const EditProductScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const productId = props.navigation.getParam('productId');
+  const productId = props.route.params ? props.route.params.productId : null;
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
   const dispatch = useDispatch();
 
@@ -115,20 +115,14 @@ const EditProductScreen = (props) => {
             if (!editedProduct) {
               addProductHandler(values);
               props.navigation.goBack();
-              props.navigation.navigate({
-                routeName: 'Products',
-                params: {
-                  refresh: true,
-                },
+              props.navigation.navigate('Products', {
+                refresh: true,
               });
             } else {
               editProductHandler(values);
               props.navigation.goBack();
-              props.navigation.navigate({
-                routeName: 'Products',
-                params: {
-                  refresh: true,
-                },
+              props.navigation.navigate('Products', {
+                refresh: true,
               });
             }
           }}
@@ -211,9 +205,11 @@ const EditProductScreen = (props) => {
   );
 };
 
-EditProductScreen.navigationOptions = (navData) => {
+export const screenOptions = (navData) => {
+  const routeParams = navData.route.params ? navData.route.params : {};
+
   return {
-    headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
+    headerTitle: routeParams.productId ? 'Edit Product' : 'Add Product',
   };
 };
 

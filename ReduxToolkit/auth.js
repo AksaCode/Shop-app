@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AsyncStorage } from 'react-native';
 
+let timer;
+
 export const authenticate = (userId, token, runOutTime) => {
   return (dispatch) => {
     dispatch(logoutTimer(runOutTime));
@@ -9,7 +11,11 @@ export const authenticate = (userId, token, runOutTime) => {
   };
 };
 
-let timer;
+export const setDidTry = () => {
+  return (dispatch) => {
+    dispatch(tryLog());
+  };
+};
 
 const clearTimer = () => {
   if (timer) clearTimeout(timer);
@@ -110,7 +116,7 @@ export const signup = (data) => {
   };
 };
 
-const initialState = { token: null, userId: null };
+const initialState = { token: null, userId: null, didTryAutoLogin: false };
 
 const authSlice = createSlice({
   name: 'auth',
@@ -123,10 +129,14 @@ const authSlice = createSlice({
     verifyAuth: (state, action) => {
       state.token = action.payload.token;
       state.userId = action.payload.userId;
+      state.didTryAutoLogin = true;
+    },
+    tryLog: (state) => {
+      state.didTryAutoLogin = true;
     },
   },
 });
 
-export const { resetAuth, verifyAuth } = authSlice.actions;
+export const { resetAuth, verifyAuth, tryLog } = authSlice.actions;
 
 export default authSlice.reducer;

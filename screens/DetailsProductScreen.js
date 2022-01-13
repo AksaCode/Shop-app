@@ -11,9 +11,8 @@ import { addProduct } from '../ReduxToolkit/cartReducer';
 import Colors from '../constants/Colors';
 
 const DetailsProductScreen = (props) => {
-  const availableProducts = useSelector((state) => state.products.products);
-  const productId = props.navigation.getParam('productId');
-  let selectedProduct = availableProducts.find((product) => product.id === productId);
+  const productId = props.route.params ? props.route.params.productId : null;
+  const selectedProduct = useSelector((state) => state.products.products.find((prod) => prod.id === productId));
   if (selectedProduct === undefined) selectedProduct = {};
   const dispatch = useDispatch();
   const onAddToCart = (selectedProduct) => {
@@ -45,10 +44,8 @@ const DetailsProductScreen = (props) => {
   );
 };
 
-DetailsProductScreen.navigationOptions = (navigationData) => {
-  const productId = navigationData.navigation.getParam('productId');
-  const productTitle = navigationData.navigation.getParam('productTitle');
-
+export const screenOptions = (navigationData) => {
+  const productTitle = navigationData.route.params ? navigationData.route.params.productTitle : null;
   return {
     headerTitle: productTitle,
     headerLeft: () => (
@@ -57,7 +54,7 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
           title="Menu"
           iconName="md-arrow-back"
           onPress={() => {
-            navigationData.navigation.navigate({ routeName: 'Products' });
+            navigationData.navigation.navigate('Products');
           }}
         />
       </HeaderButtons>
@@ -68,7 +65,7 @@ DetailsProductScreen.navigationOptions = (navigationData) => {
           title="Cart"
           iconName="md-cart"
           onPress={() => {
-            navigationData.navigation.navigate({ routeName: 'Cart' });
+            navigationData.navigation.navigate('Cart');
           }}
         />
       </HeaderButtons>

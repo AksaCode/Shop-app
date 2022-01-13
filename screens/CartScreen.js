@@ -27,9 +27,7 @@ const CartScreen = (props) => {
       {
         text: 'Go back',
         onPress: () => {
-          props.navigation.navigate({
-            routeName: 'Products',
-          });
+          props.navigation.navigate('Products');
         },
       },
     ]);
@@ -64,7 +62,7 @@ const CartScreen = (props) => {
   );
 };
 
-CartScreen.navigationOptions = (navData) => {
+export const screenOptions = (navData) => {
   return {
     headerTitle: 'Orders',
     headerLeft: () => (
