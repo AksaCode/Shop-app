@@ -7,7 +7,6 @@ import CardWrapper from '../../components/CardWrapper';
 import HeaderButton from '../../components/HeaderButton';
 import RowButtons from '../../components/RowButtons';
 import EmptyOrder from '../../components/EmptyOrder';
-// import { deleteOnClick } from '../../store/action/product';
 import { deleteOnClick, getProducts } from '../../ReduxToolkit/products';
 
 const UserProductsScreen = (props) => {
@@ -42,11 +41,8 @@ const UserProductsScreen = (props) => {
       title={itemData.item.title}
       price={itemData.item.price}
       cardAction={() => {
-        props.navigation.navigate({
-          routeName: 'Edit',
-          params: {
-            productId: itemData.item.id,
-          },
+        props.navigation.navigate('Edit', {
+          productId: itemData.item.id,
         });
       }}
     >
@@ -55,11 +51,8 @@ const UserProductsScreen = (props) => {
           deleteAlert(itemData.item.id);
         }}
         leftAction={() => {
-          props.navigation.navigate({
-            routeName: 'Edit',
-            params: {
-              productId: itemData.item.id,
-            },
+          props.navigation.navigate('Edit', {
+            productId: itemData.item.id,
           });
         }}
         leftTitle="edit"
@@ -82,7 +75,7 @@ const UserProductsScreen = (props) => {
   );
 };
 
-UserProductsScreen.navigationOptions = (navData) => {
+export const screenOptions = (navData) => {
   return {
     headerTitle: 'YOUR PRODUCTS',
     headerLeft: () => (
@@ -102,7 +95,7 @@ UserProductsScreen.navigationOptions = (navData) => {
           title="Create"
           iconName="md-create"
           onPress={() => {
-            navData.navigation.navigate({ routeName: 'Edit' });
+            navData.navigation.navigate('Edit');
           }}
         />
       </HeaderButtons>

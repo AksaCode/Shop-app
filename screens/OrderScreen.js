@@ -32,7 +32,7 @@ const OrderScreen = (props) => {
 
   return <View>{orders.length === 0 ? <EmptyOrder output="There are no orders." /> : <OrderList />}</View>;
 };
-OrderScreen.navigationOptions = (navData) => {
+export const screenOptions = (navData) => {
   return {
     headerTitle: 'YOUR ORDERS',
     headerLeft: () => (

@@ -15,7 +15,7 @@ import { getProducts } from '../ReduxToolkit/products';
 import { addProduct } from '../ReduxToolkit/cartReducer';
 
 const ProductsList = (props) => {
-  const refresh = props.navigation.getParam('refresh');
+  const refresh = props.route.params ? props.route.params.refresh : null;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -36,9 +36,9 @@ const ProductsList = (props) => {
   }, [dispatch, setError, setLoading, setIsRefreshing]);
 
   useEffect(() => {
-    const willFocus = props.navigation.addListener('willFocus', loadingOfProducts);
+    const unsub = props.navigation.addListener('focus', loadingOfProducts);
     return () => {
-      willFocus.remove();
+      unsub();
     };
   }, [loadingOfProducts]);
 
@@ -58,23 +58,13 @@ const ProductsList = (props) => {
       title={itemData.item.title}
       price={itemData.item.price}
       cardAction={() => {
-        props.navigation.navigate({
-          routeName: 'Details',
-          params: {
-            productId: itemData.item.id,
-          },
-        });
+        props.navigation.navigate('Details', { productId: itemData.item.id });
       }}
     >
       <RowButtons
         rightAction={() => onAddToCart(itemData.item)}
         leftAction={() => {
-          props.navigation.navigate({
-            routeName: 'Details',
-            params: {
-              productId: itemData.item.id,
-            },
-          });
+          props.navigation.navigate('Details', { productId: itemData.item.id });
         }}
         leftTitle="details"
         rightTitle="cart"
@@ -113,7 +103,7 @@ const ProductsList = (props) => {
   );
 };
 
-ProductsList.navigationOptions = (navData) => {
+export const screenOptions = (navData) => {
   return {
     headerTitle: 'PRODUCTS',
     headerLeft: () => (
@@ -133,7 +123,7 @@ ProductsList.navigationOptions = (navData) => {
           title="Cart"
           iconName="md-cart"
           onPress={() => {
-            navData.navigation.navigate({ routeName: 'Cart' });
+            navData.navigation.navigate('Cart');
           }}
         />
       </HeaderButtons>

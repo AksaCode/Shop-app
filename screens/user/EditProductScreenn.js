@@ -38,7 +38,7 @@ const reactReducer = (state, action) => {
 const EditProductScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const productId = props.navigation.getParam('productId');
+  const productId = props.route.params ? props.route.params.productId : null;
   const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === productId));
   const dispatch = useDispatch();
 
@@ -185,9 +185,9 @@ const EditProductScreen = (props) => {
 };
 
 EditProductScreen.navigationOptions = (navData) => {
-  const addNewProduct = navData.navigation.getParam('addProduct');
-  const editSelectedProduct = navData.navigation.getParam('editProduct');
-  const editedProduct = navData.navigation.getParam('editedProduct');
+  const addNewProduct = navData.route.params.addProduct;
+  const editSelectedProduct = navData.route.params.editProduct;
+  const editedProduct = navData.route.params.editedProduct;
   return {
     headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
     headerRight: () => (

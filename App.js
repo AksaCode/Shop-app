@@ -9,8 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReduxThunk from 'redux-thunk';
 
-
-import NavigationContainer from './navigation/NavigationContainer';
+import AppNavigator from './navigation/AppNavigator';
 import { configureStore } from '@reduxjs/toolkit';
 import productsReducer from './ReduxToolkit/products';
 import cartReducer from './ReduxToolkit/cartReducer';
@@ -46,7 +45,7 @@ export default function App(props) {
   return (
     <Provider store={storeToolkit}>
       <SafeAreaView style={styles.container}>
-        <NavigationContainer />
+        <AppNavigator />
       </SafeAreaView>
     </Provider>
   );
