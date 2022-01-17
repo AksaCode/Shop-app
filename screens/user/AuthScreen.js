@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     marginHorizontal: 15,
+    color: 'red',
   },
 });
 export default AuthScreen;
