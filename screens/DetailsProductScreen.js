@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -19,11 +19,11 @@ const DetailsProductScreen = (props) => {
     dispatch(addProduct(selectedProduct));
   };
 
-  useEffect(() => {
-    props.navigation.setParams({
-      productTitle: selectedProduct.title,
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerTitle: selectedProduct.title,
     });
-  }, [selectedProduct]);
+  }, [props.navigation, selectedProduct]);
 
   return (
     <ScrollView>
@@ -45,9 +45,7 @@ const DetailsProductScreen = (props) => {
 };
 
 export const screenOptions = (navigationData) => {
-  const productTitle = navigationData.route.params ? navigationData.route.params.productTitle : null;
   return {
-    headerTitle: productTitle,
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import { StyleSheet, View, TextInput, Text, Alert, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
 
 import Colors from '../../constants/Colors';
-import HeaderButton from '../../components/HeaderButton';
-import Input from '../../components/Input';
 import LoadingComponent from '../../components/LoadingComponent';
 import { addNewProduct, editProduct } from '../../ReduxToolkit/products';
 import { Formik } from 'formik';
@@ -81,14 +79,6 @@ const EditProductScreen = (props) => {
     },
     [dispatch, productId],
   );
-
-  useEffect(() => {
-    props.navigation.setParams({
-      addProduct: addProductHandler,
-      editProduct: editProductHandler,
-      editedProduct: editedProduct,
-    });
-  }, [addProductHandler, editProductHandler, editedProduct]);
 
   useEffect(() => {
     if (error) {
@@ -241,6 +231,8 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 10,
     color: 'red',
+    marginHorizontal: 15,
+    marginTop: 5,
   },
   listParam: {
     alignItems: 'center',

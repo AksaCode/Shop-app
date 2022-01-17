@@ -64,7 +64,6 @@ const orderSlice = createSlice({
   initialState: initialState,
   reducers: {
     fetchOrderReducer(state, action) {
-      console.log(action.payload);
       state.orders = action.payload.orders;
     },
     addOrderReducer(state, action) {
