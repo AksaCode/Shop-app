@@ -156,8 +156,8 @@ export const MainNavigator = () => {
                 title="logout"
                 color={Colors.primaryColor}
                 onPress={() => {
+                  props.navigation.closeDrawer();
                   dispatch(logout());
-                  // props.navigation.navigate('Auth');
                 }}
               />
             </SafeAreaView>

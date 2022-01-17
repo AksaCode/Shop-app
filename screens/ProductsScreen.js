@@ -16,6 +16,8 @@ import { addProduct } from '../ReduxToolkit/cartReducer';
 
 const ProductsList = (props) => {
   const refresh = props.route.params ? props.route.params.refresh : null;
+  const editedProduct = props.route.params ? props.route.params.editedProduct : null;
+  const productTitle = props.route.params ? props.route.params.productTitle : null;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
