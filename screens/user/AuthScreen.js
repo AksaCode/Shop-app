@@ -9,13 +9,11 @@ import {
   ActivityIndicator,
   ImageBackground,
   Alert,
-  TextInput,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Ionicons } from '@expo/vector-icons';
 
 import Card from '../../components/Card';
 import Colors from '../../constants/Colors';
@@ -43,11 +41,6 @@ const AuthScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => !!state.auth.token);
-  const [icon, setIcon] = useState('ios-eye-off');
-  const [hidePassword, setHidePassword] = useState(true);
-  _changeIcon = () => {
-    icon !== 'ios-eye-off' ? (setIcon('ios-eye-off'), setHidePassword(false)) : (setIcon('eye'), setHidePassword(true));
-  };
 
   useEffect(() => {
     if (error) {
