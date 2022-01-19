@@ -21,7 +21,6 @@ const StartupScreen = () => {
       const expirationDate = new Date(expiryDate);
       if (expirationDate <= new Date() || !token || !userId) {
         dispatch(setDidTry());
-
         return;
       }
       const runOutTime = expirationDate.getTime() - new Date().getTime();

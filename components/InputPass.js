@@ -3,23 +3,23 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const InputPass = (props) => {
-  const [icon, setIcon] = useState('ios-eye-off');
+  const [icon, setIcon] = useState('eye-off');
   const [hidePassword, setHidePassword] = useState(true);
   _changeIcon = () => {
-    icon !== 'ios-eye-off' ? (setIcon('ios-eye-off'), setHidePassword(false)) : (setIcon('eye'), setHidePassword(true));
+    icon !== 'eye-off' ? (setIcon('eye-off'), setHidePassword(true)) : (setIcon('eye'), setHidePassword(false));
   };
 
   return (
     <View>
       <Text style={styles.label}>{props.label}</Text>
       <View style={styles.passV}>
-        <TextInput {...props} style={styles.input} secureTextEntry={hidePassword} />
+        <TextInput {...props} style={styles.input} secureTextEntry={hidePassword}/>
         <Ionicons
           name={icon}
           size={23}
           onPress={() => {
             _changeIcon();
-            require;
+            
           }}
           style={styles.iconEdit}
           color="black"
