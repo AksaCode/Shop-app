@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
-import { StyleSheet, View, TextInput, Text, Alert, Button } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
@@ -92,7 +92,7 @@ const EditProductScreen = (props) => {
 
   return (
     <View removeClippedSubviews={false}>
-      <View>
+      <ScrollView>
         <Formik
           validationSchema={editedProduct ? editingProductSchema : addingProductSchema}
           initialValues={{
@@ -190,7 +190,7 @@ const EditProductScreen = (props) => {
             </>
           )}
         </Formik>
-      </View>
+      </ScrollView>
     </View>
   );
 };

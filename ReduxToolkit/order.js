@@ -59,6 +59,22 @@ export const addOrder = (data) => {
   };
 };
 
+export const deleteOrderFirebase = (order) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://shop-application-comtrade-default-rtdb.firebaseio.com/orders/${order.cartItems[0].ownerId}/${order.id}.json?auth=${token}`,
+      {
+        method: 'DELETE',
+      },
+    );
+    if (!response.ok) {
+      throw new Error('Response is not 200');
+    }
+    dispatch(deleteOrderDispatch(order));
+  };
+};
+
 const orderSlice = createSlice({
   name: 'orders',
   initialState: initialState,
@@ -75,9 +91,34 @@ const orderSlice = createSlice({
       };
       state.orders = [...state.orders, order];
     },
+    deleteOrderDispatch(state, action) {
+      let newList = [];
+      newList = state.orders.filter((item) => item.id !== action.payload.id);
+      state.orders = [...newList];
+    },
+    deleteOrder(state, action) {
+      let newItems = [];
+      state.items.map((item, index) => {
+        if (item.id === action.payload) {
+          if (item.count === 1) {
+            state.total = state.total - item.price;
+            newItems = state.items.filter((item) => item.id !== action.payload);
+          } else if (item.count > 1) {
+            item.count = item.count - 1;
+            state.total = state.total - item.price;
+            newItems = [...state.items];
+          }
+        }
+      });
+
+      state.items = newItems.sort(function (a, b) {
+        return ('' + a.title).localeCompare(b.title);
+      });
+      state.total = parseFloat(state.total.toFixed(2));
+    },
   },
 });
 
-export const { fetchOrderReducer, addOrderReducer } = orderSlice.actions;
+export const { fetchOrderReducer, addOrderReducer, deleteOrder, deleteOrderDispatch } = orderSlice.actions;
 
 export default orderSlice.reducer;
