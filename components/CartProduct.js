@@ -27,7 +27,7 @@ const CartProduct = ({ productName, productPrice, id, count, active }) => {
             <Ionicons
               name="md-trash"
               size={20}
-              color={Colors.primaryColor}
+              color={Colors.cancelColor}
               onPress={() => {
                 deleteItem(id);
               }}

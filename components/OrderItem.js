@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+
 import moment from 'moment';
 import CustomButton from './CustomButton';
 import CartList from './CartList';
 import Colors from '../constants/Colors';
+import { deleteOrderFirebase } from '../ReduxToolkit/order';
 
 const OrderItem = ({ order }) => {
   const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
   return (
     <View style={styles.primaryCon}>
       <View style={styles.container}>
         <Text style={styles.price}>${order.totalAmount}</Text>
-        <Text style={styles.date}>{moment(order.date).format('MMMM Do YYYY, h:mm')}</Text>
+        <View style={styles.rightSide}>
+          <Text style={styles.date}>{moment(order.date).format('MMMM Do YYYY, h:mm')}</Text>
+          <Ionicons
+            name="md-trash"
+            size={20}
+            color={Colors.cancelColor}
+            onPress={() => {
+              dispatch(deleteOrderFirebase(order));
+            }}
+          />
+        </View>
       </View>
       <View style={styles.button}>
         <CustomButton
@@ -56,8 +71,12 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 15,
     color: Colors.primaryColor,
+    marginRight: 10,
   },
   cartList: {
     paddingHorizontal: 20,
+  },
+  rightSide: {
+    flexDirection: 'row',
   },
 });

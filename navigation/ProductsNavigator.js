@@ -99,7 +99,7 @@ export const MainNavigator = () => {
         component={ProductsNavigatorFunc}
         options={{
           drawerLabel: 'Products',
-          drawerIcon: (props) => <Ionicons name="cart-sharp" iconSize={30} color={props.color} />,
+          drawerIcon: (props) => <Ionicons name="cart-sharp" size={20} color={props.color} />,
         }}
       />
       <ShopDrawerNavigator.Screen

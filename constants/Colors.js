@@ -1,6 +1,6 @@
 export default {
   primaryColor: '#708090',
   accentColor: '#191970',
-  cancelColor: 'red',
+  cancelColor: '#EE7674',
   backgroundDefaultColor: 'white',
 };
