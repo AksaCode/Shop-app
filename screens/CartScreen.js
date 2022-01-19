@@ -45,6 +45,7 @@ const CartScreen = (props) => {
           />
           <View style={styles.container}>
             <Text style={{ fontWeight: '400', fontSize: 20 }}>Total: {total} $</Text>
+
             <View>
               <CustomButton
                 title="Order now"
